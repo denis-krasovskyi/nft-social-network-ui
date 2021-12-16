@@ -14,9 +14,7 @@ import styles from './Vacancies.module.scss';
 
 const Vacancies: FC = () => {
   const [hasVacancies] = useToggle(true);
-  const handleFilterClick = () => {
-    console.info('handle click');
-  };
+  const handleFilterClick = () => null;
 
   return (
     <>

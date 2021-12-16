@@ -1,6 +1,8 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { useToggle } from 'react-use';
 import classNames from 'classnames';
+
+import NearService from 'services/near';
 
 import AccountTabs from 'containers/blocks/AccountTabs';
 
@@ -12,6 +14,13 @@ import styles from './Account.module.scss';
 
 const Account: FC = () => {
   const [expanded, toggleExpanded] = useToggle(false);
+
+  useEffect(() => {
+    const init = async () => {
+      console.log(NearService.getWallet().getAccountId());
+    };
+    init();
+  }, []);
 
   const handleManageVenuesClick = useCallback(() => {
     toggleExpanded();

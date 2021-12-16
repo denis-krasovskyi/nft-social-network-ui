@@ -66,7 +66,7 @@ const getRequestStatusContent = (status): ReactElement => {
 
 const LeadingActionsWrapper: React.FC = () => (
   <LeadingActions>
-    <SwipeAction onClick={() => console.info('swipe action triggered')}>
+    <SwipeAction onClick={() => null}>
       <div className={styles.leadingAction}>
         <EmailIcon fill="white" />
         <Typography
@@ -84,7 +84,7 @@ const LeadingActionsWrapper: React.FC = () => (
 
 const TrailingActionsWrapper: React.FC = () => (
   <TrailingActions>
-    <SwipeAction onClick={() => console.info('swipe action triggered')}>
+    <SwipeAction onClick={() => null}>
       <div className={styles.trailingAction}>
         <DeleteIcon fill="white" />
         <Typography

@@ -23,7 +23,7 @@ const Routes: React.FC = () => {
             <Route path="/cabinet/managers-feed/candidate/:id">
               <CandidateScreen />
             </Route>
-            <Route path="/cabinet/managers-feed">
+            <Route path="/cabinet/feed">
               <ManagersFeedScreen />
             </Route>
             <Route path="/cabinet/account">
@@ -33,7 +33,7 @@ const Routes: React.FC = () => {
               <EditProfileScreen />
             </Route>
 
-            <Route path="/cabinet/manage-saved">
+            <Route path="/cabinet/notifications">
               <ManageSavedScreen />
             </Route>
           </Switch>

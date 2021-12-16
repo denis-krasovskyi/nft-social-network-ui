@@ -2,11 +2,9 @@ import React from 'react';
 
 import { NavBar } from 'components/NavBar';
 
-import { ReactComponent as IconFeed } from 'assets/icons/icon-logo.svg';
-import { ReactComponent as IconSaved } from 'assets/icons/icon-heart_outline.svg';
-import { ReactComponent as IconSavedActive } from 'assets/icons/icon-heart_filled.svg';
-import { ReactComponent as IconAccount } from 'assets/icons/icon-user_outline.svg';
-import { ReactComponent as IconAccountActive } from 'assets/icons/icon-user_filled.svg';
+import { ReactComponent as IconFeed } from 'assets/icons/icon-feed.svg';
+import { ReactComponent as IconNotifications } from 'assets/icons/icon-notifications.svg';
+import { ReactComponent as IconProfile } from 'assets/icons/icon-profile.svg';
 
 import styles from './UIAppLayout.module.scss';
 
@@ -16,20 +14,20 @@ const NAVBAR_LINKS = [
     text: 'Feed',
     icon: <IconFeed />,
     iconActive: <IconFeed />,
-    link: '/cabinet/managers-feed',
+    link: '/cabinet/feed',
   },
   {
-    name: 'saved',
-    text: 'Saved',
-    icon: <IconSaved />,
-    iconActive: <IconSavedActive />,
-    link: '/cabinet/manage-saved',
+    name: 'notification',
+    text: 'Notifications',
+    icon: <IconNotifications />,
+    iconActive: <IconNotifications />,
+    link: '/cabinet/notifications',
   },
   {
     name: 'account',
-    text: 'Account',
-    icon: <IconAccount />,
-    iconActive: <IconAccountActive />,
+    text: 'Profile',
+    icon: <IconProfile />,
+    iconActive: <IconProfile />,
     link: '/cabinet/account',
   },
 ];

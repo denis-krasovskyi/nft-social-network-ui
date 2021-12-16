@@ -26,7 +26,7 @@ const SignInScreen: React.FC = () => {
           Welcome back
         </Typography>
 
-        <SignInForm onSuccess={() => history.push('/cabinet/managers-feed')} />
+        <SignInForm onSuccess={() => history.push('/cabinet/account')} />
 
         <Typography variant="body2" align="center" className={styles.link}>
           Forgot your password?{' '}
