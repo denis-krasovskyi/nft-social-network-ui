@@ -1,57 +1,21 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 import Typography from 'components/ui-kit/Typography';
 import NFTCard from 'components/NFTCard';
 
-import EmptyAvatar from 'assets/images/empty-avatar.svg';
-import MockAsset from 'assets/images/account-bg.svg';
-
 import styles from './SearchPage.module.scss';
 
-type SavedItem = {
-  userName?: string;
-  userAvatar?: string;
-  likesCount: number;
-  commentsCount: number;
-  isLiked: boolean;
-  nftName: string;
-  nftLink: string;
-  assetLink: string;
-  id: number;
-};
-
-const mockItems: SavedItem[] = [
-  {
-    id: 1,
-    userName: 'Test1',
-    userAvatar: EmptyAvatar,
-    likesCount: 200,
-    commentsCount: 100,
-    isLiked: true,
-    nftName: 'My NFT',
-    nftLink: 'https://google.com',
-    assetLink: MockAsset,
-  },
-  {
-    id: 2,
-    userName: 'Test2',
-    userAvatar: EmptyAvatar,
-    likesCount: 200,
-    commentsCount: 100,
-    isLiked: false,
-    nftName: 'My NFT 2',
-    nftLink: 'https://google.com',
-    assetLink: MockAsset,
-  },
-];
-
 const ManageSavedScreen: React.FC = () => {
+  const { nfts } = useSelector((state: RootState) => state.user);
+
   return (
     <>
-      {mockItems.length > 0 ? (
+      {nfts.length > 0 ? (
         <div className={styles.wrapper}>
           <div className={styles.listRoot}>
-            {mockItems.map((item) => (
+            {nfts.map((item) => (
               <NFTCard
                 showOwnerInfo
                 key={item.id.toString()}

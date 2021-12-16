@@ -22,12 +22,11 @@ const NFTCard: React.FC<NFTCardProps> = ({
   nftName,
   nftLink,
   assetLink,
-  id,
   showOwnerInfo = false,
+  id,
 }) => {
-  console.log(id);
   return (
-    <div className={classNames(styles.card, className)}>
+    <div className={classNames(styles.card, className)} key={id.toString()}>
       <div className={styles.content}>
         {showOwnerInfo && (
           <div className={styles.cardHeader}>
