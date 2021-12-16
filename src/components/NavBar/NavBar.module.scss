@@ -22,6 +22,10 @@
     color: var(--color-grey-400);
     transition: 0.2s linear;
   }
+
+  svg {
+    color: var(--color-coal-black);
+  }
 }
 
 .link:hover {
@@ -37,5 +41,9 @@
 
   .text {
     color: var(--color-white);
+  }
+
+  svg {
+    color: unset;
   }
 }

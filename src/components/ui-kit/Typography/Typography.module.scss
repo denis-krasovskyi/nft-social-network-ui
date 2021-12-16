@@ -92,8 +92,17 @@
 .title6 {
   font-family: var(--fontPrimary);
   font-style: normal;
-  font-weight: 500;
+  font-weight: bold;
   font-size: 18px;
+  line-height: 24px;
+  color: var(--color-coal-black);
+}
+
+.title7 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
   line-height: 24px;
   color: var(--color-coal-black);
 }
@@ -177,42 +186,25 @@
   color: var(--color-coal-black);
 }
 
+.label1 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 16px;
+  color: var(--color-coal-black);
+}
+
+.label2 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 16px;
+  color: var(--color-coal-black);
+}
+
 ///// old one
-.title1 {
-  font-family: var(--fontSecondary);
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 28px;
-  color: var(--color-coal-black);
-}
-
-.title2 {
-  font-family: var(--fontSecondary);
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--color-coal-black);
-}
-
-.title3 {
-  font-family: var(--fontSecondary);
-  font-style: normal;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 24px;
-  color: var(--color-coal-black);
-}
-
-.title4 {
-  font-family: var(--fontSecondary);
-  font-style: normal;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 20px;
-  color: var(--color-coal-black);
-}
 
 .subtitle3 {
   font-family: var(--fontSecondary);
@@ -241,24 +233,6 @@
   color: var(--color-coal-black);
 }
 
-.body3 {
-  font-family: var(--fontPrimary);
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 24px;
-  color: var(--color-coal-black);
-}
-
-.caption2 {
-  font-family: var(--fontPrimary);
-  font-style: normal;
-  font-weight: normal;
-  font-size: 11px;
-  line-height: 16px;
-  color: var(--color-coal-black);
-}
-
 .button2 {
   font-family: var(--fontPrimary);
   font-style: normal;
@@ -272,15 +246,6 @@
   font-family: var(--fontPrimary);
   font-style: normal;
   font-weight: 600;
-  font-size: 11px;
-  line-height: 16px;
-  color: var(--color-coal-black);
-}
-
-.label1 {
-  font-family: var(--fontPrimary);
-  font-style: normal;
-  font-weight: bold;
   font-size: 11px;
   line-height: 16px;
   color: var(--color-coal-black);

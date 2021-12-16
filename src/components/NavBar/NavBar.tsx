@@ -33,7 +33,7 @@ export const NavBar: FC<NavBarProps> = ({ NavBarLinks }) => {
           onKeyPress={() => openLink(link, name)}
         >
           {name === activeLink ? <>{iconActive}</> : <>{icon}</>}
-          <Typography variant="label1" className={styles.text}>
+          <Typography variant="caption3" className={styles.text}>
             {text}
           </Typography>
         </div>

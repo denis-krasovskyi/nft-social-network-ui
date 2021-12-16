@@ -4,3 +4,34 @@
   align-items: stretch;
   flex-grow: 1;
 }
+
+.header {
+  width: 100%;
+  padding: 12px 4px;
+  height: 44px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.viewControl {
+  width: 100%;
+  padding: 0 8px;
+  margin-top: 24px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.control {
+  width: 34px;
+  height: 34px;
+}
+
+.controlActive {
+  background: var(--color-yellow-50);
+}
+
+

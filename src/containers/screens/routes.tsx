@@ -13,6 +13,7 @@ import EditProfileScreen from './EditProfile';
 import AccountScreen from './Account';
 import ManageSavedScreen from './ManageSaved';
 import CandidateScreen from './Candidate';
+import SearchScreen from './Search';
 
 const Routes: React.FC = () => {
   return (
@@ -28,6 +29,9 @@ const Routes: React.FC = () => {
             </Route>
             <Route path="/cabinet/account">
               <AccountScreen />
+            </Route>
+            <Route path="/cabinet/search">
+              <SearchScreen />
             </Route>
             <Route path="/cabinet/account-edit">
               <EditProfileScreen />

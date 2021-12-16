@@ -1,0 +1,41 @@
+.followersBlock {
+  position: relative;
+  width: calc(100% - 16px);
+  margin: 0 8px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  border: 1px solid var(--color-grey-20);
+
+  &:before {
+    content: ' ';
+    position: absolute;
+    left: 50%;
+    top: 9px;
+    width: 1px;
+    height: 21px;
+    background: var(--color-grey-30);
+  }
+}
+
+.followersLink {
+  width: 50%;
+  height: 38px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.followersLinkTitle {
+  display: inline;
+  font-weight: 400;
+}
+
+.followersLinkCaption {
+  display: inline-block;
+  font-weight: 700;
+  margin-left: 8px;
+}

@@ -19,6 +19,7 @@ export const EXTENDED_VARIANTS_MAPPING = {
   title4: 'h5',
   title5: 'h5',
   title6: 'h5',
+  title7: 'span',
 
   body1: 'p',
   body2: 'p',
@@ -30,6 +31,9 @@ export const EXTENDED_VARIANTS_MAPPING = {
   caption1: 'span',
   caption2: 'span',
   caption3: 'span',
+
+  label1: 'span',
+  label2: 'span',
   /// // old one
 
   subtitle3: 'h6',
@@ -39,8 +43,6 @@ export const EXTENDED_VARIANTS_MAPPING = {
 
   button2: 'p',
   button3: 'p',
-
-  label1: 'span',
 
   link1: 'span',
   link2: 'span',
@@ -62,6 +64,7 @@ const EXTENDED_VARIANTS_CLASSES_MAP = {
   title4: styles.title4,
   title5: styles.title5,
   title6: styles.title6,
+  title7: styles.title7,
 
   tagline1: styles.tagline1,
   tagline2: styles.tagline2,
@@ -73,6 +76,9 @@ const EXTENDED_VARIANTS_CLASSES_MAP = {
   caption1: styles.caption1,
   caption2: styles.caption2,
   caption3: styles.caption3,
+
+  label1: styles.label1,
+  label2: styles.label2,
   /// // old one
 
   subtitle3: styles.subtitle3,
@@ -82,8 +88,6 @@ const EXTENDED_VARIANTS_CLASSES_MAP = {
 
   button2: styles.button2,
   button3: styles.button3,
-
-  label1: styles.label1,
 
   link1: styles.link1,
   link2: styles.link2,
