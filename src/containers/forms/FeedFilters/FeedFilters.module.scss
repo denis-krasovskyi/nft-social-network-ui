@@ -1,0 +1,119 @@
+.divider {
+  border-color: var(--color-grey-200);
+}
+
+.mgBottom {
+  margin-bottom: 20px;
+}
+
+.mgBottomSm {
+  margin-bottom: 12px;
+}
+
+.mgBottomM {
+  margin-bottom: 16px;
+}
+
+.mgBottomXs {
+  margin-bottom: 8px;
+}
+
+.mgBottomL {
+  margin-bottom: 28px;
+}
+
+.fontBold {
+  font-weight: bold;
+}
+
+.chip {
+  margin-right: 8px;
+}
+
+.chipDisabled {
+  &:global(.Mui-disabled) {
+    opacity: 1;
+  }
+}
+
+.workRightsChipIcon {
+  &:global(.MuiChip-icon) {
+    margin-left: 10px;
+    margin-right: -8px;
+    width: 20px;
+  }
+}
+
+.paddingSide {
+  padding: 0 24px;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.fontWeight {
+  font-weight: 300;
+}
+
+.colorGray {
+  color: var(--color-grey-500);
+}
+
+.typicalListRoot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.typicalListResetBtn {
+  color: var(--color-coal-black);
+  margin-left: 6px;
+}
+
+.typicalListMain {
+  width: calc(100% - 46px);
+}
+
+.typicalListList {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.customExpRange {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24px;
+  align-items: center;
+}
+
+.customExpRangeFields {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.customRangeField {
+  max-width: 104px;
+}
+
+.resetCustomExpRangeFieldsBtn {
+  color: var(--color-orange-peel);
+  width: 80px;
+  margin-left: 12px;
+}
+
+.submitBtn {
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+  margin: 0 24px 24px;
+  max-width: calc(100% - 48px);
+}
+
+.submitBtnPlaceholder {
+  height: 40px;
+  margin: 0 24px 24px;
+  max-width: calc(100% - 48px);
+}

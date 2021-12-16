@@ -1,0 +1,32 @@
+.root {
+  padding: 16px 12px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  align-self: stretch;
+}
+
+.saveBtn {
+  margin-top: auto;
+}
+
+.resetBtn {
+  color: var(--color-orange-peel);
+}
+
+.infoField {
+  margin: 10px 0;
+}
+
+.helperText {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.colorGrey {
+  color: var(--color-grey-500);
+}
+
+.textAlignRight {
+  text-align: right;
+}

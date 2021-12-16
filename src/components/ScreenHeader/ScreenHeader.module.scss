@@ -1,0 +1,31 @@
+.header {
+  background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  padding: 0 13px;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  height: 56px;
+  width: 100%;
+}
+
+.headerLeft,
+.headerRight {
+  flex-basis: 15%;
+}
+
+.headerRight {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.headerCenter {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  flex-basis: 70%;
+
+  &_align_left {
+    align-items: flex-start;
+  }
+}

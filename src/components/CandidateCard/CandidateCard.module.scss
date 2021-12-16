@@ -1,0 +1,179 @@
+.videoWrap {
+  margin-bottom: 17px;
+  height: 224px;
+}
+
+.infoWrap {
+  padding: 0 12px;
+}
+
+.basicInfo {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.personalInfoWrap {
+  max-height: 40px;
+  display: flex;
+}
+
+.avatarWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-orange-peel);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  display: inline-block;
+}
+
+.personalWrap {
+  margin-left: 12px;
+  display: inline-block;
+}
+
+.menuOpenBtn {
+  background: var(--color-grey-200);
+}
+
+.menuItemIcon {
+  color: var(--color-coal-black);
+  width: 18px;
+}
+
+.colorIconRed {
+  color: var(--color-error-300);
+}
+
+.colorSuccess {
+  color: var(--color-success-300);
+}
+
+.colorOrangePeel {
+  color: var(--color-orange-peel);
+}
+
+.menuItemBtn {
+  padding-left: 22px;
+  padding-right: 24px;
+  justify-content: flex-start;
+}
+
+.mgTop {
+  margin-top: 20px;
+}
+
+.mgTopM {
+  margin-top: 28px;
+}
+
+.mgTopLg {
+  margin-top: 36px;
+}
+
+.jobInfoWrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.jobInfoHalf {
+  flex: 1;
+  max-width: 50%;
+}
+
+.iconStatus {
+  margin-right: 6px;
+}
+
+.locationMarkIcon {
+  margin-right: 4px;
+}
+
+.specialityList {
+  margin-top: -4px;
+  display: flex;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.specialityListWrap {
+  flex-wrap: wrap;
+}
+
+.specialityChip {
+  margin-top: 4px;
+  margin-bottom: 4px;
+
+  &:not(:first-of-type),
+  &:not(:last-of-type) {
+    margin-right: 8px;
+  }
+}
+
+.mainActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.requestOfferBtn {
+  margin-left: 12px;
+}
+
+.mgBottom {
+  margin-bottom: 12px;
+}
+
+.experianceListItem {
+  padding: 0 22px;
+  margin-bottom: 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 4px;
+    transform: translateX(-50%);
+    width: 1px;
+    height: calc(100% + 24px);
+    background-color: var(--color-grey-200);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-orange-peel);
+  }
+
+  &:last-of-type::before {
+    content: none;
+  }
+}
+
+.experianceListItemTitle {
+  margin-bottom: 2px;
+}
+
+.experianceListItemSubTitle {
+  margin-bottom: 8px;
+}
+
+.colorGrey {
+  color: var(--color-grey-400);
+}

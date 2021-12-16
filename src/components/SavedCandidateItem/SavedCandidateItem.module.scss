@@ -1,0 +1,126 @@
+.card {
+  width: 100%;
+  padding: 8px 0;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.videoWrap {
+  height: 96px;
+  width: 160px;
+}
+
+.infoWrap {
+  margin-left: 12px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.statusMg {
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.menuTrigger {
+  margin-left: auto;
+}
+
+.menuOpenBtn {
+  background: var(--color-grey-200);
+}
+
+.menuItemIcon {
+  color: var(--color-coal-black);
+  width: 18px;
+}
+
+.colorIconRed {
+  color: var(--color-error-300);
+}
+
+.colorSuccess {
+  color: var(--color-success-300);
+}
+
+.colorOrangePeel {
+  color: var(--color-orange-peel);
+}
+
+.menuItemBtn {
+  padding-left: 22px;
+  padding-right: 24px;
+  justify-content: flex-start;
+}
+
+.iconStatus {
+  margin-right: 6px;
+}
+
+.leadingAction {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  box-sizing: border-box;
+  color: #eee;
+  user-select: none;
+  background: var(--color-success-300);
+  flex-flow: column nowrap;
+  justify-content: center !important;
+  min-width: 120px;
+}
+
+.swipeActionText {
+  text-align: center;
+  margin: 4px 0 0;
+  color: white;
+}
+
+.trailingAction {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  box-sizing: border-box;
+  color: #eee;
+  user-select: none;
+  background: var(--color-error-300);
+  flex-flow: column nowrap;
+  justify-content: center !important;
+  min-width: 120px;
+}
+
+.request {
+  width: 100%;
+  margin: 18px 0 20px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  border-radius: 29px;
+  height: 24px;
+
+  svg {
+    margin-right: 6px;
+  }
+}
+
+.requestSent {
+  background: var(--color-grey-100);
+}
+
+.requestAccepted {
+  border: 1px solid var(--color-grey-300);
+}

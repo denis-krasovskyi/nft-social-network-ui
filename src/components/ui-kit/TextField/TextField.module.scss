@@ -1,0 +1,39 @@
+.smallRoot {
+  min-height: 40px;
+}
+
+.smallInput {
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.smallLabel:not(:global(.MuiFormLabel-filled), :global(.Mui-focused), :global(.MuiInputLabel-shrink)) {
+  transform: translate(14px, 8px) scale(1);
+}
+
+.mediumRoot {
+  min-height: 48px;
+}
+
+.mediumInput {
+  padding: 12px;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.mediumLabel:not(:global(.MuiFormLabel-filled), :global(.Mui-focused), :global(.MuiInputLabel-shrink)) {
+  transform: translate(14px, 12px) scale(0.9);
+}
+
+.largeRoot {
+  min-height: 64px;
+}
+
+.infoText {
+  margin-left: 14px;
+}
+
+.withError {
+  margin-top: 12px;
+}

@@ -1,0 +1,104 @@
+{
+  "name": "com.example.hello",
+  "displayName": "Hackatone FE",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "private": true,
+  "homepage": "./",
+  "scripts": {
+    "prepare": "husky install",
+    "lint-staged": "lint-staged",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "cordova": "npm run build && cordova run",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.6.0",
+    "@emotion/styled": "^11.6.0",
+    "@mui/material": "^5.1.1",
+    "classnames": "^2.2.6",
+    "cordova": "^10.0.0",
+    "formik": "^2.2.9",
+    "notistack": "^2.0.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.6",
+    "react-router": "^6.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-spring-bottom-sheet": "^3.4.0",
+    "react-swipeable": "^6.2.0",
+    "react-swipeable-list": "^1.4.0",
+    "react-use": "^17.3.1",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.0",
+    "yup": "^0.32.11"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {}
+    },
+    "platforms": [
+      "browser",
+      "android",
+      "ios"
+    ]
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^6.3.12",
+    "@storybook/addon-essentials": "^6.3.12",
+    "@storybook/addon-links": "^6.3.12",
+    "@storybook/node-logger": "^6.3.12",
+    "@storybook/preset-create-react-app": "^3.2.0",
+    "@storybook/react": "^6.3.12",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-router-dom": "^5.3.2",
+    "@typescript-eslint/eslint-plugin": "4.0.1",
+    "@typescript-eslint/parser": "4.0.1",
+    "cordova-android": "^9.1.0",
+    "cordova-browser": "^6.0.0",
+    "cordova-ios": "^6.2.0",
+    "cordova-plugin-whitelist": "^1.3.4",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-import-resolver-typescript": "^2.2.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.0.2",
+    "node-sass": "^6.0.1",
+    "prettier": "^2.0.5",
+    "react-scripts": "4.0.3",
+    "redux-devtools-extension": "^2.13.9",
+    "typescript": "^4.1.2",
+    "typescript-plugin-css-modules": "^2.4.0",
+    "web-vitals": "^1.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

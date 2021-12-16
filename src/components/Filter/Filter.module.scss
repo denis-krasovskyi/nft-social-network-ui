@@ -1,0 +1,18 @@
+.root {
+  display: flex;
+  align-items: center;
+}
+
+.flexColumn {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+}
+
+.fontSecondary {
+  font-family: var(--fontSecondary);
+}
+
+.icon {
+  margin-right: 10px;
+}

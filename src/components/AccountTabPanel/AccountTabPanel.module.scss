@@ -1,0 +1,13 @@
+.tabContent {
+  height: 0px;
+  display: flex;
+  flex-flow: column nowrap;
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 100%;
+  padding: 18px 12px;
+
+  &_display_none {
+    display: none;
+  }
+}

@@ -1,0 +1,41 @@
+.addVacancyBtn {
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+}
+
+.contentSpaceBetween {
+  display: flex;
+  justify-content: space-between;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.filterPreferences {
+  flex-grow: 1;
+}
+
+.vacanciesTotal {
+  margin: 20px 0;
+  color: var(--color-grey-500);
+}
+
+.noVacancies {
+  flex-grow: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconBtn {
+  color: var(--color-grey-400);
+  padding: 0;
+
+  circle {
+    color: var(--color-orange-peel);
+  }
+}

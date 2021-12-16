@@ -1,0 +1,75 @@
+.filledRoot {
+  background: transparent;
+  border: 0;
+  border-radius: 2px;
+  min-height: 24px;
+
+  &:hover {
+    background: transparent;
+  }
+
+  &:focus {
+    background: transparent;
+  }
+
+  &:active {
+    box-shadow: none;
+  }
+}
+
+.filledRootSelected {
+  background: var(--color-amber);
+
+  &:hover,
+  &:focus {
+    background: var(--color-amber);
+  }
+}
+
+.filledLabel {
+  font-family: var(--fontSecondary);
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--color-coal-black);
+}
+
+.outlinedRoot {
+  border-color: var(--color-grey-300);
+  min-height: 32px;
+
+  &:global(.MuiChip-clickable):hover {
+    background: var(--color-yellow-100);
+  }
+}
+
+.outlinedLabel {
+  font-family: var(--fontSecondary);
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--color-coal-black);
+}
+
+.selectedOutlinedRoot {
+  background: var(--color-yellow-150);
+  border-color: var(--color-orange-peel);
+
+  &:global(.MuiChip-clickable):hover {
+    background: var(--color-yellow-150);
+  }
+}
+
+.selectedOutlinedLabel {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--color-orange-peel);
+}
+
+.filledSecondaryRoot {
+  background: var(--color-grey-100);
+  border-radius: 16px;
+
+  &:hover {
+    background: var(--color-grey-100);
+  }
+}

@@ -1,0 +1,314 @@
+.display {
+  color: var(--color-coal-black);
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 144px;
+  line-height: 188px;
+}
+
+.heading1 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 90px;
+  line-height: 72px;
+  color: var(--color-coal-black);
+}
+
+.heading2 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 72px;
+  color: var(--color-coal-black);
+}
+
+.heading3 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 42px;
+  line-height: 56px;
+  color: var(--color-coal-black);
+}
+
+.heading4 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 54px;
+  color: var(--color-coal-black);
+}
+
+.title1 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 48px;
+  letter-spacing: 0.04em;
+  color: var(--color-coal-black);
+}
+
+.title2 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 44px;
+  color: var(--color-coal-black);
+}
+
+.title3 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 44px;
+  color: var(--color-coal-black);
+}
+
+.title4 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 40px;
+  color: var(--color-coal-black);
+}
+
+.title5 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 24px;
+  color: var(--color-coal-black);
+}
+
+.title6 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--color-coal-black);
+}
+
+.body1 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--color-coal-black);
+}
+
+.body2 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-coal-black);
+}
+
+.body3 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--color-coal-black);
+}
+
+.tagline1 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  text-transform: uppercase;
+  color: var(--color-coal-black);
+}
+
+.tagline2 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 20px;
+  text-transform: uppercase;
+  color: var(--color-coal-black);
+}
+
+
+.caption1 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 20px;
+  text-transform: capitalize;
+  color: var(--color-coal-black);
+}
+
+.caption2 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 18px;
+  text-transform: capitalize;
+  color: var(--color-coal-black);
+}
+
+.caption3 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 8px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+  color: var(--color-coal-black);
+}
+
+///// old one
+.title1 {
+  font-family: var(--fontSecondary);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--color-coal-black);
+}
+
+.title2 {
+  font-family: var(--fontSecondary);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-coal-black);
+}
+
+.title3 {
+  font-family: var(--fontSecondary);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--color-coal-black);
+}
+
+.title4 {
+  font-family: var(--fontSecondary);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--color-coal-black);
+}
+
+.subtitle3 {
+  font-family: var(--fontSecondary);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--color-coal-black);
+}
+
+.subtitle4 {
+  font-family: var(--fontSecondary);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--color-coal-black);
+}
+
+.paragraph1 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  color: var(--color-coal-black);
+}
+
+.body3 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--color-coal-black);
+}
+
+.caption2 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--color-coal-black);
+}
+
+.button2 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--color-coal-black);
+}
+
+.button3 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--color-coal-black);
+}
+
+.label1 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--color-coal-black);
+}
+
+.link1 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--color-coal-black);
+}
+
+.link2 {
+  font-family: var(--fontPrimary);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--color-coal-black);
+}
+
+.additional1 {
+  font-family: var(--fontPrimary);
+  font-style: italic;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--color-coal-black);
+}

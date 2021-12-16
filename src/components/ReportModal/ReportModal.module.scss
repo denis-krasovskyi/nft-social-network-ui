@@ -1,0 +1,59 @@
+.header {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 12px 64px 12px 24px;
+}
+
+.headerBack {
+  transform: rotate(-90deg);
+}
+
+.headerTitle {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.body {
+  margin-top: 18px;
+  width: 100%;
+  padding: 0 24px 24px;
+  max-width: 375px;
+}
+
+.bodyTitle {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.textarea {
+  width: 100%;
+}
+
+.submit {
+  margin-top: 46px;
+}
+
+.lengthHelpText {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.colorGrey {
+  color: var(--color-grey-500);
+}
+
+.textAlightRight {
+  text-align: right;
+}
+
+.successBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 300px;
+  margin: 0 auto 24px;
+}

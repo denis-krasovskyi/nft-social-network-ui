@@ -1,0 +1,18 @@
+.head {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  background: var(--color-white);
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.candidateRoot {
+  margin-bottom: 28px;
+}
+
+.menuOpenBtn {
+  background: var(--color-grey-200);
+}

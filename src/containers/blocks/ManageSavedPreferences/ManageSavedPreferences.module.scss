@@ -1,0 +1,48 @@
+.root {
+  padding: 14px 15px 6px;
+  min-height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.half {
+  flex-grow: 1;
+  max-width: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.iconBtn {
+  margin-right: 10px;
+  color: var(--color-grey-400);
+  padding: 0;
+
+  circle {
+    color: var(--color-orange-peel);
+  }
+}
+
+.colorBlack {
+  color: var(--color-coal-black);
+}
+
+.verticalFlex {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.fontSecondary {
+  font-family: var(--fontSecondary);
+}
+
+.sortMenuItem {
+  min-height: 40px;
+  min-width: 200px;
+}
+
+.sortMenuItemBtn {
+  justify-content: flex-start;
+  padding-left: 24px;
+  padding-right: 24px;
+}

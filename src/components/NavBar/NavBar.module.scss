@@ -1,0 +1,41 @@
+.root {
+  background-color: var(--color-coal-black);
+  display: flex;
+  height: 72px;
+  justify-content: space-around;
+  padding: 8px 0;
+}
+
+.link {
+  align-items: center;
+  color: var(--color-grey-400);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  text-decoration: none;
+  transition: 0.2s linear;
+  width: 90px;
+
+  .text {
+    color: var(--color-grey-400);
+    transition: 0.2s linear;
+  }
+}
+
+.link:hover {
+  color: var(--color-white);
+
+  .text {
+    color: var(--color-white);
+  }
+}
+
+.link.active {
+  color: var(--color-white);
+
+  .text {
+    color: var(--color-white);
+  }
+}

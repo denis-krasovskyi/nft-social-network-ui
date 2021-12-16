@@ -1,0 +1,50 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+### ApacheCordova ###
+# Apache Cordova generated files and directories
+bin/*
+!/plugins
+!/plugins/android.json
+!/plugins/fetch.json
+plugins/*
+platforms/*
+www/static
+node_modules
+www/index.js
+js/**/*.js
+js/**/*.js.map
+# ide
+.vscode
+.idea
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+/www
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Intellij
+.idea/
+
+# Storybook
+storybook-static
+
+# tsc-files
+tsconfig.*.json
+
+www/*
