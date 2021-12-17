@@ -18,13 +18,13 @@
   top: -1px;
   left: 0;
   margin-bottom: 4px;
+  z-index: 3;
 }
 
 .headerShadow {
   background: var(--color-white);
   box-shadow: 0 6px 16px rgba(8, 5, 0, 0.1);
   transition: all 0.1s linear;
-  z-index: 1;
 }
 
 .viewControl {

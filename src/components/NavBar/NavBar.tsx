@@ -9,9 +9,29 @@ export interface NavBarProps {
   NavBarLinks: NavBarLink[];
 }
 
+const getDefaultActiveLink = (location: string) => {
+  switch (location) {
+    case '/cabinet/notifications':
+      return 'notification';
+    case '/cabinet/search':
+      return 'search';
+    case '/cabinet/account':
+      return 'account';
+    case '/cabinet/edit':
+      return 'account';
+    case '/cabinet/feed':
+      return 'feed';
+    default:
+      return 'feed';
+  }
+};
+
 export const NavBar: FC<NavBarProps> = ({ NavBarLinks }) => {
   const history = useHistory();
-  const [activeLink, setActiveLink] = useState('feed');
+
+  const [activeLink, setActiveLink] = useState(
+    getDefaultActiveLink(history.location.pathname),
+  );
 
   const openLink = (link: string, name: string) => {
     setActiveLink(name);
@@ -33,7 +53,7 @@ export const NavBar: FC<NavBarProps> = ({ NavBarLinks }) => {
           onKeyPress={() => openLink(link, name)}
         >
           {name === activeLink ? <>{iconActive}</> : <>{icon}</>}
-          <Typography variant="caption3" className={styles.text}>
+          <Typography variant="caption2" className={styles.text}>
             {text}
           </Typography>
         </div>

@@ -73,3 +73,15 @@ button {
   border: 0;
   background: transparent;
 }
+
+input, textarea {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+
+  &:focus-visible {
+    border: 0;
+    outline: none;
+  }
+}

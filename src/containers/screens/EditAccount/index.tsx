@@ -20,6 +20,7 @@ import { ReactComponent as IconCheckActive } from 'assets/icons/icon-check-activ
 import { ReactComponent as IconArrowLeft } from 'assets/icons/icon-arrow-left.svg';
 import { ReactComponent as IconRemove } from 'assets/icons/icon-remove.svg';
 import { ReactComponent as IconWalletNear } from 'assets/icons/icon-wallet-near.svg';
+import { ReactComponent as IconCross } from 'assets/icons/icon-cross.svg';
 
 import styles from './EditAccount.module.scss';
 
@@ -207,37 +208,47 @@ const EditAccount: FC = () => {
         />
 
         <Modal open={openWalletModal} onClose={handlePopoverClose}>
-          <div className={styles.modalContent}>
-            <Typography variant="title7">Disconnect Wallet</Typography>
-
-            <Typography variant="body3" className={styles.modalText}>
-              Are you sure you want to disconnect this wallet? NFTs from this
-              wallet will be disabled until next wallet reconnection.
-            </Typography>
-
-            <div className={styles.modalWallet}>
-              <IconWalletNear />
-              <Typography variant="body2" className={styles.modalWalletName}>
-                {selectedWallet?.walletName}
-              </Typography>
-            </div>
-
-            <div className={styles.modalFooter}>
+          <div className={styles.modalContentWrapper}>
+            <div className={styles.modalContent}>
               <Button
-                className={styles.modalButton}
                 variant="ghost"
+                className={styles.modalButtonClose}
                 onClick={() => setOpenWalletModal(false)}
               >
-                Cancel
+                <IconCross />
               </Button>
 
-              <Button
-                className={styles.modalButton}
-                variant="tertiaryError"
-                onClick={() => setOpenWalletModal(false)}
-              >
-                Disconnect
-              </Button>
+              <Typography variant="title7">Disconnect Wallet</Typography>
+
+              <Typography variant="body3" className={styles.modalText}>
+                Are you sure you want to disconnect this wallet? NFTs from this
+                wallet will be disabled until next wallet reconnection.
+              </Typography>
+
+              <div className={styles.modalWallet}>
+                <IconWalletNear />
+                <Typography variant="body2" className={styles.modalWalletName}>
+                  {selectedWallet?.walletName}
+                </Typography>
+              </div>
+
+              <div className={styles.modalFooter}>
+                <Button
+                  className={styles.modalButton}
+                  variant="ghost"
+                  onClick={() => setOpenWalletModal(false)}
+                >
+                  Cancel
+                </Button>
+
+                <Button
+                  className={styles.modalButton}
+                  variant="tertiaryError"
+                  onClick={() => setOpenWalletModal(false)}
+                >
+                  Disconnect
+                </Button>
+              </div>
             </div>
           </div>
         </Modal>

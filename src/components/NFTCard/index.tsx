@@ -10,12 +10,14 @@ import CustomSwitch from 'components/CustomSwitch';
 
 import { ReactComponent as IconExternal } from 'assets/icons/icon-external.svg';
 import { ReactComponent as IconChat } from 'assets/icons/icon-chat.svg';
+import { ReactComponent as IconChatActive } from 'assets/icons/icon-chat-active.svg';
 import { ReactComponent as IconLike } from 'assets/icons/icon-like.svg';
 import { ReactComponent as IconLikeActive } from 'assets/icons/icon-like-active.svg';
 import { ReactComponent as IconBox } from 'assets/icons/icon-box.svg';
 import { ReactComponent as IconBoxActive } from 'assets/icons/icon-box-active.svg';
 import { ReactComponent as IconDots } from 'assets/icons/icon-dots.svg';
 import { ReactComponent as IconDotsActive } from 'assets/icons/icon-dots-active.svg';
+import HiddenIcon from 'assets/images/hidden-object.png';
 
 import styles from './NFTCard.module.scss';
 
@@ -25,7 +27,8 @@ const NFTCard: React.FC<NFTCardProps> = ({
   userAvatar,
   likesCount,
   commentsCount,
-  isLiked,
+  isLiked = false,
+  isCommented = false,
   nftName,
   nftLink,
   assetLink,
@@ -36,8 +39,9 @@ const NFTCard: React.FC<NFTCardProps> = ({
   const [showControlModalSheet, setShowControlModalSheet] = useToggle(false);
   const [showReportModalSheet, setShowReportModalSheet] = useToggle(false);
   const [hideCard, setHideCard] = useToggle(false);
+
   return (
-    <div className={classNames(styles.card, className)} key={id.toString()}>
+    <div className={classNames(styles.card, className)}>
       <div className={styles.content}>
         {showOwnerInfo && (
           <div className={styles.cardHeader}>
@@ -58,6 +62,7 @@ const NFTCard: React.FC<NFTCardProps> = ({
 
         <div className={styles.cardContent}>
           <img src={assetLink} alt={nftName} className={styles.asset} />
+
           {showExtraControls && (
             <Button
               className={styles.controlButton}
@@ -66,6 +71,12 @@ const NFTCard: React.FC<NFTCardProps> = ({
               {showControlModalSheet ? <IconBoxActive /> : <IconBox />}
             </Button>
           )}
+
+          {hideCard && (
+            <div className={styles.hideOverlay}>
+              <img src={HiddenIcon} alt="hide icon" />
+            </div>
+          )}
         </div>
 
         <div className={styles.footer}>
@@ -73,18 +84,25 @@ const NFTCard: React.FC<NFTCardProps> = ({
             href={nftLink}
             variant="ghost"
             className={styles.footerExternal}
-            endIcon={<IconExternal height={14} />}
           >
-            {nftName}
+            <Typography variant="heading5">{nftName}</Typography>
+
+            <IconExternal height={14} className={styles.footerExternalIcon} />
           </Button>
 
           <Button
-            href={nftLink}
+            href={`#/cabinet/nft/${id}`}
             variant="ghost"
             className={styles.footerComment}
-            startIcon={<IconChat height={20} />}
+            startIcon={
+              isCommented ? (
+                <IconChatActive height={20} />
+              ) : (
+                <IconChat height={20} />
+              )
+            }
           >
-            {commentsCount}
+            <Typography variant="body3">{commentsCount}</Typography>
           </Button>
 
           <Button variant="ghost">
@@ -233,7 +251,8 @@ type NFTCardProps = {
   showOwnerInfo: boolean;
   likesCount: number;
   commentsCount: number;
-  isLiked: boolean;
+  isLiked?: boolean;
+  isCommented?: boolean;
   nftName: string;
   nftLink: string;
   assetLink: string;

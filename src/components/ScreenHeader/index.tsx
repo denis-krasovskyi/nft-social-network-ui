@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Button from 'components/ui-kit/Button';
 import Typography from 'components/ui-kit/Typography';
 
-import { ReactComponent as KeyboardArrowIcon } from 'assets/icons/icon-arrow_upward.svg';
+import { ReactComponent as KeyboardArrowIcon } from 'assets/icons/icon-arrow-left.svg';
 
 import styles from './ScreenHeader.module.scss';
 
@@ -23,7 +23,7 @@ const ScreenHeader: FC<ScreenHeaderProps> = ({
             <KeyboardArrowIcon
               width={18}
               height={18}
-              style={{ transform: 'rotate(-90deg)' }}
+              style={{ color: 'transparent' }}
             />
           </Button>
         </div>

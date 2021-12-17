@@ -11,7 +11,7 @@ import MockAsset6 from 'assets/images/mock-asset-6.png';
 import * as actionTypes from './actionTypes';
 import { UserState } from '../types';
 
-const mockNfts = [
+export const mockNfts = [
   {
     id: 1,
     userName: 'Test1',
@@ -23,6 +23,20 @@ const mockNfts = [
     nftLink: 'https://google.com',
     assetLink: MockAsset1,
     walletId: 1,
+    comments: [
+      {
+        authorName: 'Test 1',
+        authorAvatar: EmptyAvatar,
+        text: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium',
+        timestamp: 1639756863395,
+      },
+      {
+        authorName: 'Test 2',
+        authorAvatar: EmptyAvatar,
+        text: 'Short comment',
+        timestamp: 1639556663395,
+      },
+    ],
   },
   {
     id: 2,
@@ -35,6 +49,7 @@ const mockNfts = [
     nftLink: 'https://google.com',
     assetLink: MockAsset2,
     walletId: 1,
+    comments: [],
   },
   {
     id: 3,
@@ -47,6 +62,7 @@ const mockNfts = [
     nftLink: 'https://google.com',
     assetLink: MockAsset3,
     walletId: 1,
+    comments: [],
   },
   {
     id: 4,
@@ -59,6 +75,7 @@ const mockNfts = [
     nftLink: 'https://google.com',
     assetLink: MockAsset4,
     walletId: 1,
+    comments: [],
   },
   {
     id: 5,
@@ -71,6 +88,7 @@ const mockNfts = [
     nftLink: 'https://google.com',
     assetLink: MockAsset5,
     walletId: 1,
+    comments: [],
   },
   {
     id: 6,
@@ -83,6 +101,7 @@ const mockNfts = [
     nftLink: 'https://google.com',
     assetLink: MockAsset6,
     walletId: 1,
+    comments: [],
   },
 ];
 

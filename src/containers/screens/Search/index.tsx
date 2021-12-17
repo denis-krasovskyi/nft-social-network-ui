@@ -23,7 +23,7 @@ const ManageSavedScreen: React.FC = () => {
                 userName={item.userName}
                 userAvatar={item.userAvatar}
                 likesCount={item.likesCount}
-                commentsCount={item.commentsCount}
+                commentsCount={item.comments.length}
                 isLiked={item.isLiked}
                 nftName={item.nftName}
                 nftLink={item.nftLink}

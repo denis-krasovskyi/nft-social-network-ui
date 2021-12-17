@@ -28,4 +28,12 @@ export type NFT = {
   assetLink: string;
   id: number;
   walletId: number;
+  comments: Comment[];
+};
+
+export type Comment = {
+  authorName: string;
+  authorAvatar: string;
+  text: string;
+  timestamp: number;
 };

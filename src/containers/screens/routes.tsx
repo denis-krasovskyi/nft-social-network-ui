@@ -8,11 +8,11 @@ import SignUpScreen from './SignUp';
 import ChangePasswordScreen from './ChangePassword';
 import AskQuestionScreen from './AskQuestion';
 import ForgotPasswordScreen from './ForgotPassword';
-import ManagersFeedScreen from './ManagersFeed';
+import NotificationsScreen from './Notifications';
 import AccountScreen from './Account';
 import EditAccountScreen from './EditAccount';
-import ManageSavedScreen from './Notifications';
-import CandidateScreen from './Candidate';
+import FeedScreen from './Feed';
+import CandidateScreen from './NFT';
 import SearchScreen from './Search';
 
 const Routes: React.FC = () => {
@@ -21,12 +21,12 @@ const Routes: React.FC = () => {
       <Route path="/cabinet">
         <UIAppLayout>
           <Switch>
-            <Route path="/cabinet/managers-feed/candidate/:id">
+            <Route path="/cabinet/nft/:id">
               <CandidateScreen />
             </Route>
 
             <Route path="/cabinet/feed">
-              <ManagersFeedScreen />
+              <FeedScreen />
             </Route>
 
             <Route path="/cabinet/edit">
@@ -42,7 +42,7 @@ const Routes: React.FC = () => {
             </Route>
 
             <Route path="/cabinet/notifications">
-              <ManageSavedScreen />
+              <NotificationsScreen />
             </Route>
           </Switch>
         </UIAppLayout>

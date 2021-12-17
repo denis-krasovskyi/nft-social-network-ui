@@ -1,0 +1,57 @@
+.addCommentWrapper {
+  height: 76px;
+  width: 100%;
+  padding: 0 8px;
+  background: var(--color-white);
+  box-shadow: 0 6px 16px rgba(8, 5, 0, 0.1);
+}
+
+.addComment {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.addCommentAvatar {
+  width: 32px;
+  height: 32px;
+  margin-right: 12px;
+}
+
+.addCommentInput {
+  width: calc(100% - 44px);
+  height: 44px;
+  background: var(--color-grey-10);
+  border: 1px solid var(--color-grey-20);
+  border-radius: 4px;
+  padding: 10px 44px 10px 12px;
+  color: var(--color-coal-black);
+
+  &::placeholder {
+    font-family: var(--fontPrimary);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--color-grey-40);
+  }
+}
+
+.addCommentButton {
+  width: 44px;
+  height: 44px;
+  padding: 12px;
+  min-width: unset;
+  position: absolute;
+  right: 0;
+  top: 16px;
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}

@@ -44,9 +44,28 @@
 
 .controlButton {
   position: absolute;
+  z-index: 2;
   padding: 0;
   top: 13px;
   right: 13px;
+}
+
+.hideOverlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.64);
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 128px;
+  }
 }
 
 .asset {
@@ -62,10 +81,10 @@
   justify-content: space-between;
 }
 
-.footerExternal {
-  svg {
-    color: transparent;
-  }
+
+.footerExternalIcon {
+  color: transparent;
+  margin-left: 4px;
 }
 
 .footerText {
@@ -79,10 +98,6 @@
 
 .footerCommentText {
   margin-left: 8px;
-}
-
-.footerCommentText {
-  margin-left: 7px;
 }
 
 .sheetContent {
