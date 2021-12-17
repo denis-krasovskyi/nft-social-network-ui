@@ -9,9 +9,9 @@ import ChangePasswordScreen from './ChangePassword';
 import AskQuestionScreen from './AskQuestion';
 import ForgotPasswordScreen from './ForgotPassword';
 import ManagersFeedScreen from './ManagersFeed';
-import EditProfileScreen from './EditProfile';
 import AccountScreen from './Account';
-import ManageSavedScreen from './ManageSaved';
+import EditAccountScreen from './EditAccount';
+import ManageSavedScreen from './Notifications';
 import CandidateScreen from './Candidate';
 import SearchScreen from './Search';
 
@@ -24,17 +24,21 @@ const Routes: React.FC = () => {
             <Route path="/cabinet/managers-feed/candidate/:id">
               <CandidateScreen />
             </Route>
+
             <Route path="/cabinet/feed">
               <ManagersFeedScreen />
             </Route>
+
+            <Route path="/cabinet/edit">
+              <EditAccountScreen />
+            </Route>
+
             <Route path="/cabinet/account">
               <AccountScreen />
             </Route>
+
             <Route path="/cabinet/search">
               <SearchScreen />
-            </Route>
-            <Route path="/cabinet/account-edit">
-              <EditProfileScreen />
             </Route>
 
             <Route path="/cabinet/notifications">

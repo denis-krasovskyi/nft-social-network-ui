@@ -1,17 +1,18 @@
 .editImageRoot {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 34px;
 }
 
 .imagePlaceholder {
   position: relative;
-  width: 112px;
-  height: 112px;
-  padding: 8px;
+  width: 128px;
+  height: 128px;
   border-radius: 50%;
-  border: 1px dashed var(--color-grey-300);
+  outline: none;
+  border: 0;
+  padding: 0;
 }
 
 .imageInput {
@@ -25,16 +26,11 @@
   object-fit: center;
 }
 
-.editImageBtn {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  border-radius: 50%;
-  background-color: var(--color-white);
-}
-
 .editIcon {
   color: var(--color-orange-peel);
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 .labels {
@@ -55,4 +51,10 @@
 .sheetContent {
   display: flex;
   flex-flow: column nowrap;
+  margin-top: 14px;
+  padding: 0 12px 24px;
+}
+
+.sheetButton {
+  margin: 16px 0;
 }

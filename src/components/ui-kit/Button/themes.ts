@@ -26,7 +26,7 @@ export const MUI_BUTTON_COMPONENTS_OVERRIDES: Components['MuiButton'] = {
       lineHeight: '20px',
     },
     sizeMedium: {
-      minHeight: '40px',
+      minHeight: '42px',
       minWidth: '40px',
     },
     textSizeLarge: {

@@ -1,6 +1,8 @@
 .card {
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-grey-10);
 }
 
 .content {
@@ -18,30 +20,52 @@
   align-items: center;
   justify-content: flex-start;
   height: 32px;
-  margin-bottom: 8px;
+  margin-bottom: 14px;
+}
+
+.moreButton {
+  margin-left: auto;
 }
 
 .avatar {
   height: 32px;
   width: 32px;
   border-radius: 100%;
-  margin-right: 8px;
+  margin: 0 8px;
 }
 
 .cardHeaderText {
 }
 
+.cardContent {
+  width: 100%;
+  position: relative;
+}
+
+.controlButton {
+  position: absolute;
+  padding: 0;
+  top: 13px;
+  right: 13px;
+}
+
 .asset {
   width: 100%;
-  margin-bottom: 8px;
 }
 
 .footer {
+  margin-top: 8px;
   width: 100%;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
+}
+
+.footerExternal {
+  svg {
+    color: transparent;
+  }
 }
 
 .footerText {
@@ -59,4 +83,46 @@
 
 .footerCommentText {
   margin-left: 7px;
+}
+
+.sheetContent {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 0 12px 24px;
+}
+
+.reportSheetContent {
+  padding-bottom: 6px;
+}
+
+.sheetContentButton {
+  margin: 0 0 16px;
+}
+
+.sheetContentButtonText {
+  text-align: left;
+  width: 100%;
+  color: inherit;
+}
+
+.sheetContentSeparator {
+  margin: 16px 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-grey-30);
+}
+
+.hideControl {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hideControlColumn {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
 }

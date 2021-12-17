@@ -13,6 +13,17 @@ export function getUserDataAction() {
   };
 }
 
+export function updateUserDataAction(user) {
+  return async (dispatch: AppDispatch): Promise<void> => {
+    await simulateHttpRequest();
+
+    dispatch({
+      type: actionTypes.UPDATE_USER_DATA,
+      payload: user,
+    });
+  };
+}
+
 export function logoutAction() {
   return async (dispatch: AppDispatch): Promise<void> => {
     await simulateHttpRequest();

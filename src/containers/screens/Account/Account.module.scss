@@ -45,6 +45,7 @@
 .control {
   width: 34px;
   height: 34px;
+  padding: 0;
 
   &:nth-child(1) {
     margin: 0 8px 0 15px;
@@ -74,4 +75,26 @@
   visibility: visible;
   z-index: 1;
   transform: translateY(0);
+}
+
+.errorBlock {
+  width: calc(100% - 16px);
+  height: 68px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  background: var(--color-yellow-40);
+  padding: 10px 12px;
+  margin: 0 8px 18px;
+  border-radius: 4px;
+
+  svg {
+    min-width: 20px;
+  }
+}
+
+.errorBlockText {
+  margin-left: 13px;
+  line-height: 24px;
 }

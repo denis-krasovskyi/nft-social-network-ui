@@ -9,6 +9,7 @@ import FollowersBlock from 'components/FollowersBlock';
 import UserBio from 'components/UserBio';
 import NFTListView from 'components/NFTListView';
 import NFTGridView from 'components/NFTGridView';
+import Typography from 'components/ui-kit/Typography';
 
 import { ReactComponent as IconSettings } from 'assets/icons/icon-settings.svg';
 import { ReactComponent as IconList } from 'assets/icons/icon-list.svg';
@@ -16,6 +17,7 @@ import { ReactComponent as IconListActive } from 'assets/icons/icon-list-active.
 import { ReactComponent as IconGrid } from 'assets/icons/icon-grid.svg';
 import { ReactComponent as IconGridActive } from 'assets/icons/icon-grid-active.svg';
 import { ReactComponent as IconLogo } from 'assets/icons/icon-logo.svg';
+import { ReactComponent as IconWarning } from 'assets/icons/icon-warning.svg';
 
 import styles from './Account.module.scss';
 
@@ -24,6 +26,8 @@ const Account: FC = () => {
   const { y: windowYScroll } = useWindowScroll();
 
   const { user } = useSelector((state: RootState) => state);
+
+  const showError = true;
 
   return (
     <div className={styles.root}>
@@ -34,15 +38,30 @@ const Account: FC = () => {
       >
         <IconLogo />
 
-        <Button className={styles.headerButton} variant="ghost">
+        <Button
+          className={styles.headerButton}
+          variant="ghost"
+          href="#/cabinet/edit"
+        >
           <IconSettings />
         </Button>
       </div>
 
+      {showError && (
+        <div className={styles.errorBlock}>
+          <IconWarning />
+
+          <Typography variant="body3" className={styles.errorBlockText}>
+            Your wallet is disabled. All NFTs from this wallet cannot be seen by
+            other users.
+          </Typography>
+        </div>
+      )}
+
       <UserBio
         showSubscribe={false}
-        walletUrl={user.walletUrl}
-        walletName={user.walletName}
+        walletUrl={user.wallets[0].walletUrl}
+        walletName={user.wallets[0].walletName}
         username={user.username}
         bio={user.bio}
         avatar={user.avatar}
@@ -78,7 +97,7 @@ const Account: FC = () => {
         </Button>
       </div>
       {isListView ? (
-        <NFTListView nfts={user.nfts} />
+        <NFTListView nfts={user.nfts} showExtraControls showOwnerInfo />
       ) : (
         <NFTGridView nfts={user.nfts} />
       )}

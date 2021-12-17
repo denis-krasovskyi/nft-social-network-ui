@@ -1,12 +1,11 @@
 import React, { FC, useRef, useState, useCallback, useEffect } from 'react';
 
 import Button from 'components/ui-kit/Button';
-import Typography from 'components/ui-kit/Typography';
 import ScreenHeader from 'components/ScreenHeader';
 import { BottomSheet } from 'components/ui-kit/ModalSheet';
 
 import EmptyAvatar from 'assets/images/empty-avatar.svg';
-import { ReactComponent as EditIcon } from 'assets/icons/icon-edit.svg';
+import { ReactComponent as EditIcon } from 'assets/icons/icon-edit-alternative.svg';
 
 import styles from './AvatarUpload.module.scss';
 
@@ -54,7 +53,11 @@ const AvatarUpload: FC<AvatarUploadProps> = ({
   return (
     <>
       <div className={styles.editImageRoot}>
-        <div className={styles.imagePlaceholder}>
+        <button
+          type="button"
+          className={styles.imagePlaceholder}
+          onClick={openSheet}
+        >
           <input
             type="file"
             className={styles.imageInput}
@@ -63,47 +66,40 @@ const AvatarUpload: FC<AvatarUploadProps> = ({
             name={fieldName}
             onChange={handleImageInputChange}
           />
+
           <img
             src={value || EmptyAvatar}
             alt="User avatar"
             className={styles.imagePreview}
           />
-          <Button
-            variant="ghost"
-            className={styles.editImageBtn}
-            onClick={openSheet}
-          >
-            <EditIcon className={styles.editIcon} />
-          </Button>
-        </div>
-        <div className={styles.labels}>
-          <div className={styles.labelWrapper}>
-            <Typography variant="label1" className={styles.label}>
-              File format
-            </Typography>
-            <Typography variant="caption">JPEG, PNG, GIF</Typography>
-          </div>
-          <div className={styles.labelWrapper}>
-            <Typography variant="label1" className={styles.label}>
-              Max size
-            </Typography>
-            <Typography variant="caption">256x256, max 10MB</Typography>
-          </div>
-        </div>
+
+          <EditIcon className={styles.editIcon} />
+        </button>
       </div>
+
       <BottomSheet
         open={isOpen}
         snapPoints={({ minHeight }) => minHeight}
         onDismiss={closeSheet}
         initialFocusRef={false}
       >
-        <ScreenHeader
-          title="Change profile photo"
-          onBackButtonClick={closeSheet}
-        />
+        <ScreenHeader title="Edit Avatar" onBackButtonClick={closeSheet} />
         <div className={styles.sheetContent}>
-          <Button variant="ghost" onClick={openFileDialog}>
-            New profile photo
+          <Button variant="outlined" onClick={openFileDialog} fullWidth>
+            Take photo
+          </Button>
+
+          <Button
+            variant="outlined"
+            onClick={openFileDialog}
+            fullWidth
+            className={styles.sheetButton}
+          >
+            Choose from library
+          </Button>
+
+          <Button variant="ghostError" onClick={openFileDialog} fullWidth>
+            Delete
           </Button>
         </div>
       </BottomSheet>

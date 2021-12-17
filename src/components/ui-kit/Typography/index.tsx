@@ -12,6 +12,8 @@ export const EXTENDED_VARIANTS_MAPPING = {
   heading2: 'h5',
   heading3: 'h5',
   heading4: 'h5',
+  heading5: 'h5',
+  heading6: 'h5',
 
   title1: 'h5',
   title2: 'h5',
@@ -57,6 +59,8 @@ const EXTENDED_VARIANTS_CLASSES_MAP = {
   heading2: styles.heading2,
   heading3: styles.heading3,
   heading4: styles.heading4,
+  heading5: styles.heading5,
+  heading6: styles.heading6,
 
   title1: styles.title1,
   title2: styles.title2,

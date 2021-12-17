@@ -7,14 +7,19 @@ import NFTCard from 'components/NFTCard';
 
 import styles from './NFTListView.module.scss';
 
-const NFTListView: React.FC<NFTListViewProps> = ({ nfts, className }) => {
+const NFTListView: React.FC<NFTListViewProps> = ({
+  nfts,
+  className,
+  showOwnerInfo = false,
+  showExtraControls = false,
+}) => {
   return (
     <div className={classNames(styles.listRoot, className)}>
       {nfts.map((item) => (
         <NFTCard
           key={item.id.toString()}
           id={item.id}
-          showOwnerInfo={false}
+          showOwnerInfo={showOwnerInfo}
           userName={item.userName}
           userAvatar={item.userAvatar}
           likesCount={item.likesCount}
@@ -24,6 +29,7 @@ const NFTListView: React.FC<NFTListViewProps> = ({ nfts, className }) => {
           nftLink={item.nftLink}
           assetLink={item.assetLink}
           className={styles.candidateCardRoot}
+          showExtraControls={showExtraControls}
         />
       ))}
     </div>
@@ -32,6 +38,8 @@ const NFTListView: React.FC<NFTListViewProps> = ({ nfts, className }) => {
 
 type NFTListViewProps = {
   className?: string;
+  showOwnerInfo?: boolean;
+  showExtraControls?: boolean;
   nfts: NFT[];
 };
 

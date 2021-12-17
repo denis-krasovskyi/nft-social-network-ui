@@ -25,7 +25,7 @@ const NAVBAR_LINKS = [
     name: 'search',
     text: 'Search',
     icon: <IconSearch />,
-    iconActive: <IconSearchActive />,
+    iconActive: <IconSearchActive style={{ color: 'transparent' }} />,
     link: '/cabinet/search',
   },
   {

@@ -19,12 +19,11 @@ const ScreenHeader: FC<ScreenHeaderProps> = ({
     <header className={classNames(styles.header, className)}>
       {onBackButtonClick && (
         <div className={styles.headerLeft}>
-          <Button variant="text" type="button">
+          <Button variant="text" type="button" onClick={onBackButtonClick}>
             <KeyboardArrowIcon
               width={18}
               height={18}
               style={{ transform: 'rotate(-90deg)' }}
-              onClick={onBackButtonClick}
             />
           </Button>
         </div>
@@ -34,7 +33,7 @@ const ScreenHeader: FC<ScreenHeaderProps> = ({
           [styles.headerCenter_align_left]: !onBackButtonClick,
         })}
       >
-        {title && <Typography variant="title2">{title}</Typography>}
+        {title && <Typography variant="title7">{title}</Typography>}
         {subtitle && <Typography variant="subtitle4">{subtitle}</Typography>}
       </div>
       <div className={styles.headerRight}>{right}</div>

@@ -67,3 +67,9 @@ select:-webkit-autofill:focus {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+button {
+  outline: 0;
+  border: 0;
+  background: transparent;
+}

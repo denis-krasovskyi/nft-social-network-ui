@@ -22,6 +22,7 @@ const mockNfts = [
     nftName: 'My NFT',
     nftLink: 'https://google.com',
     assetLink: MockAsset1,
+    walletId: 1,
   },
   {
     id: 2,
@@ -33,6 +34,7 @@ const mockNfts = [
     nftName: 'My NFT 2',
     nftLink: 'https://google.com',
     assetLink: MockAsset2,
+    walletId: 1,
   },
   {
     id: 3,
@@ -44,6 +46,7 @@ const mockNfts = [
     nftName: 'My NFT 3',
     nftLink: 'https://google.com',
     assetLink: MockAsset3,
+    walletId: 1,
   },
   {
     id: 4,
@@ -55,6 +58,7 @@ const mockNfts = [
     nftName: 'My NFT 3',
     nftLink: 'https://google.com',
     assetLink: MockAsset4,
+    walletId: 1,
   },
   {
     id: 5,
@@ -66,6 +70,7 @@ const mockNfts = [
     nftName: 'My NFT 3',
     nftLink: 'https://google.com',
     assetLink: MockAsset5,
+    walletId: 1,
   },
   {
     id: 6,
@@ -77,14 +82,23 @@ const mockNfts = [
     nftName: 'My NFT 3',
     nftLink: 'https://google.com',
     assetLink: MockAsset6,
+    walletId: 1,
   },
 ];
 
 const initialState: UserState = {
   avatar: MockAvatar,
+  socials: '',
   username: 'Username',
-  walletName: 'wallet.near',
-  walletUrl: 'https://google.com',
+  wallets: [
+    {
+      walletName: 'wallet.near',
+      walletUrl: 'https://google.com',
+      walletType: 'near',
+      id: 1,
+    },
+  ],
+
   bio: '256 or 128 symbols description of user’s status or important thoughts escription of user’s status or important',
   following: 123,
   followers: 321,
@@ -98,6 +112,12 @@ const reducer = (
 ): UserState => {
   switch (action.type) {
     case actionTypes.GET_USER_DATA:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
+    case actionTypes.UPDATE_USER_DATA:
       return {
         ...state,
         ...action.payload,

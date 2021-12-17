@@ -1,13 +1,20 @@
 export type UserState = {
   id: string;
   username: string;
+  socials: string;
   nfts: NFT[];
   avatar: string;
-  walletName: string;
-  walletUrl: string;
   bio: string;
   following: number;
   followers: number;
+  wallets: Wallet[];
+};
+
+export type Wallet = {
+  walletName: string;
+  walletUrl: string;
+  walletType: string;
+  id: number;
 };
 
 export type NFT = {
@@ -20,4 +27,5 @@ export type NFT = {
   nftLink: string;
   assetLink: string;
   id: number;
+  walletId: number;
 };
