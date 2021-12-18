@@ -29,23 +29,27 @@ const SignInScreen: React.FC = () => {
 
   useEffect(() => {
     const tryToLogin = async () => {
-      if (NearService.checkIsLoggedIn()) {
+      const token = localStorage.getItem('singularity-token');
+      if (token) {
+        dispatch(setJWTToken(token));
+
+        history.push('/cabinet/account');
+      } else if (NearService.checkIsLoggedIn()) {
         const signature: NearSignature | null =
           await NearService.getSignature();
 
         if (signature) {
-          const token = localStorage.getItem('singularity-token');
           if (token) {
             dispatch(setJWTToken(token));
 
-            // history.push('/cabinet/edit');
+            history.push('/cabinet/account');
           } else {
             const response = await processSignatureRequest(signature);
             localStorage.setItem('singularity-token', response.data);
 
             dispatch(setJWTToken(response.data));
 
-            // history.push('/cabinet/edit');
+            history.push('/cabinet/edit');
           }
         }
       }
@@ -69,7 +73,7 @@ const SignInScreen: React.FC = () => {
 
         <Button
           variant="primary"
-          onClick={() => NearService.login()}
+          onClick={() => NearService.login(history)}
           className={styles.signIn}
         >
           Sign up with

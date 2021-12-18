@@ -65,6 +65,8 @@
 .addCommentWrapper {
   position: fixed;
   bottom: 72px;
-  left: 0;
+  max-width: 375px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 

@@ -27,7 +27,7 @@ const Account: FC = () => {
 
   const { user } = useSelector((state: RootState) => state);
 
-  const showError = true;
+  const showError = false;
 
   return (
     <div className={styles.root}>

@@ -21,65 +21,67 @@ import FollowersPage from './Followers';
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/cabinet">
-        <UIAppLayout>
-          <Switch>
-            <Route path="/cabinet/nft/:id">
-              <NFTScreen />
-            </Route>
+      <div style={{ maxWidth: '375px', width: '100%', margin: 'auto' }}>
+        <Route path="/cabinet">
+          <UIAppLayout>
+            <Switch>
+              <Route path="/cabinet/nft/:id">
+                <NFTScreen />
+              </Route>
 
-            <Route path="/cabinet/profile/:id">
-              <UserPageScreen />
-            </Route>
+              <Route path="/cabinet/profile/:id">
+                <UserPageScreen />
+              </Route>
 
-            <Route path="/cabinet/followers/:id">
-              <FollowersPage />
-            </Route>
+              <Route path="/cabinet/followers/:id">
+                <FollowersPage />
+              </Route>
 
-            <Route path="/cabinet/feed">
-              <FeedScreen />
-            </Route>
+              <Route path="/cabinet/feed">
+                <FeedScreen />
+              </Route>
 
-            <Route path="/cabinet/edit">
-              <EditAccountScreen />
-            </Route>
+              <Route path="/cabinet/edit">
+                <EditAccountScreen />
+              </Route>
 
-            <Route path="/cabinet/account">
-              <AccountScreen />
-            </Route>
+              <Route path="/cabinet/account">
+                <AccountScreen />
+              </Route>
 
-            <Route path="/cabinet/search">
-              <SearchScreen />
-            </Route>
+              <Route path="/cabinet/search">
+                <SearchScreen />
+              </Route>
 
-            <Route path="/cabinet/notifications">
-              <NotificationsScreen />
-            </Route>
-          </Switch>
-        </UIAppLayout>
-      </Route>
+              <Route path="/cabinet/notifications">
+                <NotificationsScreen />
+              </Route>
+            </Switch>
+          </UIAppLayout>
+        </Route>
 
-      <Route path="/sign-up">
-        <SignUpScreen />
-      </Route>
+        <Route path="/sign-up">
+          <SignUpScreen />
+        </Route>
 
-      <Route path="/change-password">
-        <ChangePasswordScreen />
-      </Route>
+        <Route path="/change-password">
+          <ChangePasswordScreen />
+        </Route>
 
-      <Route path="/forgot-password">
-        <ForgotPasswordScreen />
-      </Route>
+        <Route path="/forgot-password">
+          <ForgotPasswordScreen />
+        </Route>
 
-      <Route path="/ask">
-        <AskQuestionScreen />
-      </Route>
+        <Route path="/ask">
+          <AskQuestionScreen />
+        </Route>
 
-      <Route path="/sign-in">
-        <SignInScreen />
-      </Route>
+        <Route path="/sign-in">
+          <SignInScreen />
+        </Route>
 
-      <Redirect to="/sign-in" />
+        <Redirect to="/sign-in" />
+      </div>
     </Switch>
   );
 };

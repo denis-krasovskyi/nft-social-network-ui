@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import NearService from 'services/near';
+
 import { RootState } from 'store';
 import { initRedux } from 'store/user/actionCreators';
 
@@ -57,6 +59,10 @@ const UIAppLayout: React.FC = ({ children }) => {
   useEffect(() => {
     dispatch(initRedux(history));
   }, [dispatch, history, token]);
+
+  useEffect(() => {
+    NearService.init();
+  }, []);
 
   return (
     <div className={styles.root}>

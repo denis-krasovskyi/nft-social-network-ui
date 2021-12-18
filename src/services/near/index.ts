@@ -1,5 +1,7 @@
 import * as nearAPI from 'near-api-js';
 import buffer from 'buffer';
+import type { History } from 'history';
+
 import {
   Near,
   keyStores,
@@ -29,15 +31,23 @@ export type NearSignature = {
 
 class NearService {
   constructor(nearConfig: NearConfig) {
-    connect(nearConfig).then((nearInstance) => {
-      this.near = nearInstance;
-      this.wallet = new WalletConnection(nearInstance, 'my-app');
-    });
+    this.nearConfig = nearConfig;
+
+    this.init();
   }
 
   near: Near;
 
   wallet: WalletConnection;
+
+  nearConfig: NearConfig;
+
+  init() {
+    connect(this.nearConfig).then((nearInstance) => {
+      this.near = nearInstance;
+      this.wallet = new WalletConnection(nearInstance, 'my-app');
+    });
+  }
 
   getWallet = (): WalletConnection => this.wallet;
 
@@ -45,7 +55,7 @@ class NearService {
 
   getUserAccountId = (): string => this.wallet.getAccountId();
 
-  checkIsLoggedIn = () => this.wallet.isSignedIn();
+  checkIsLoggedIn = () => this.wallet && this.wallet.isSignedIn();
 
   getSignature = async (): Promise<NearSignature | null> => {
     if (this.wallet.isSignedIn()) {
@@ -59,16 +69,18 @@ class NearService {
     return null;
   };
 
-  login = async (): Promise<null> => {
+  login = (history: History): Promise<null> => {
     if (!this.wallet.isSignedIn()) {
-      await this.wallet.requestSignIn(
+      this.wallet.requestSignIn(
         'example-contract.testnet', // contract requesting access
         'Example App',
-        'http://localhost:3000/#/deep-link',
-        'http://localhost:3000',
+        'http://10.1.1.63:3000/#/sign-in',
+        'http://10.1.1.63:3000',
       );
       return null;
     }
+    history.push('/cabinet/account');
+
     return null;
   };
 

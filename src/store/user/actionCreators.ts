@@ -91,10 +91,12 @@ export function initRedux(history: History) {
     }
 
     const token = localStorage.getItem('singularity-token');
-
+    console.log(token);
+    console.log(history);
     if (token) {
       setJWTToken(token)(dispatch);
     } else {
+      console.log('rejected');
       history.replace('/sign-in');
     }
   };

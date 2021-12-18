@@ -99,7 +99,7 @@ const NotificationScreen: React.FC = () => {
 
       <div className={styles.notifications}>
         {mockedNotifications.map((notification) => (
-          <NotificationItem notification={notification} />
+          <NotificationItem notification={notification} key={notification.id} />
         ))}
       </div>
 
@@ -107,7 +107,7 @@ const NotificationScreen: React.FC = () => {
 
       <div className={styles.notifications}>
         {mockedNotificationsOld.map((notification) => (
-          <NotificationItem notification={notification} />
+          <NotificationItem notification={notification} key={notification.id} />
         ))}
       </div>
     </>

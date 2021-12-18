@@ -246,6 +246,8 @@ const EditAccount: FC = () => {
           onClick={() => {
             NearService.logOut();
 
+            localStorage.removeItem('singularity-token');
+
             history.replace('/sign-in');
           }}
         >

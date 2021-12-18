@@ -7,6 +7,7 @@ import Button from 'components/ui-kit/Button';
 
 import { ReactComponent as IconExternal } from 'assets/icons/icon-external.svg';
 import { ReactComponent as IconInstagram } from 'assets/icons/icon-instagram.svg';
+import MockAsset2 from 'assets/images/mock-asset-2.png';
 
 import styles from './UserBio.module.scss';
 
@@ -24,7 +25,11 @@ const UserBio: React.FC<UserBioProps> = ({
 }) => {
   return (
     <div className={classNames(styles.profile, className)}>
-      <Avatar alt={username} src={avatar} className={styles.avatar} />
+      <Avatar
+        alt={username}
+        src={avatar || MockAsset2}
+        className={styles.avatar}
+      />
       {showSubscribe && (
         <Button
           to={instagramLink}
