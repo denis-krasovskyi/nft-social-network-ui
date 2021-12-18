@@ -1,3 +1,5 @@
+import MockAsset1 from "../assets/images/mock-asset-1.png";
+
 export type UserState = {
   id: string;
   username: string;
@@ -18,6 +20,16 @@ export type MockUser = {
   username: string;
   isFollowing: boolean;
   id: number;
+};
+
+export type Notification = {
+  id: number;
+  sourceItemId: number;
+  eventType: string;
+  proceedAvatar: string;
+  sourceItemAvatar?: string;
+  proceedUsername: string;
+  proceedId: number;
 };
 
 export type Wallet = {

@@ -28,3 +28,12 @@
 .listWrapper {
   margin-top: 14px;
 }
+
+.spinnerWrapper {
+  margin-top: 50px;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}

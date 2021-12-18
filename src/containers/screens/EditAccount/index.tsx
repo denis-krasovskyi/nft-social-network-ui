@@ -102,7 +102,9 @@ const EditAccount: FC = () => {
     },
     validationSchema,
     onSubmit: () => {
+      console.log(values);
       dispatch(updateUserDataAction(values));
+
       history.push('/cabinet/account');
     },
   });

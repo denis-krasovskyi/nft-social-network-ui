@@ -1,0 +1,39 @@
+.userBlock {
+  width: 100%;
+  margin-bottom: 23px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 8px;
+}
+
+.userBlockAvatar {
+  width: 58px;
+  height: 58px;
+  margin-right: 10px;
+}
+
+.userBlockTitle {
+  text-decoration: none;
+  margin-right: auto;
+  display: inline-block;
+  max-width: calc(100% - 68px - 76px);
+}
+
+.userBlockTitleLink {
+  margin-right: 5px;
+  max-width: 215px;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 13px;
+}
+
+.sourceImage {
+  display: inline-block;
+  margin-left: 12px;
+  height: 64px;
+  width: 64px;
+}

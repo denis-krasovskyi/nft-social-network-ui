@@ -6,7 +6,7 @@ import { Avatar } from '@mui/material';
 import { calculateTimeDiff, simulateHttpRequest } from 'utils';
 
 import { NFT } from 'store/types';
-import { mockNfts } from 'store/user';
+import { mockNfts } from 'store/user/mocks';
 
 import ScreenHeader from 'components/ScreenHeader';
 import NFTCard from 'components/NFTCard';
