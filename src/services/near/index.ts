@@ -43,8 +43,9 @@ class NearService {
   nearConfig: NearConfig;
 
   init() {
-    connect(this.nearConfig).then((nearInstance) => {
+    return connect(this.nearConfig).then((nearInstance) => {
       this.near = nearInstance;
+
       this.wallet = new WalletConnection(nearInstance, 'my-app');
     });
   }
@@ -70,6 +71,7 @@ class NearService {
   };
 
   login = (history: History): Promise<null> => {
+    console.log(!this.wallet.isSignedIn());
     if (!this.wallet.isSignedIn()) {
       this.wallet.requestSignIn(
         'example-contract.testnet', // contract requesting access
