@@ -3,81 +3,63 @@
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 32px 12px;
 }
 
 .logo {
-  width: 104px;
-  height: 32px;
-}
-
-.mgBottom {
-  margin-bottom: 32px;
+  width: 230px;
+  height: 230px;
 }
 
 .formRoot {
   width: 100%;
   max-width: 375px;
-}
-
-.width {
-  width: 100%;
-  max-width: 375px;
-}
-
-.separatorWrapper {
-  max-width: 375px;
-  width: 100%;
-  margin-top: 40px;
   display: flex;
-  flex-flow: row nowrap;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  justify-content: space-between;
+  height: 100vh;
 }
 
-.separatorLine {
-  flex: 1;
-  border: 1px solid var(--color-grey-200);
-}
-
-.separatorText {
-  margin: 0 16px;
-}
-
-.alterLogin {
-  max-width: 375px;
-  width: 100%;
-  margin-top: 40px;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.alterLoginButton {
-  flex: 1;
-  border-color: var(--color-warning-600);
-}
-
-.appleButton {
-  margin: 0 12px;
-  border-color: var(--color-coal-black);
-}
-
-.link {
-  margin-top: 32px;
-
-  a {
-    text-decoration: none;
-  }
-}
-
-.linkText {
-  color: var(--color-amber);
-  text-decoration: none;
-  display: inline;
+.title {
+  font-style: normal;
   font-weight: 600;
+  font-size: 30px;
+  line-height: 39px;
+  margin-top: 35px;
+}
+
+.subtitle {
+  margin-top: 11px;
+  margin-bottom: 66px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 29px;
+}
+
+.signIn {
+  margin-top: 66px;
+  width: 300px;
+}
+
+.row {
+  width: 300px;
+  margin-top: 35px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.caption {
+  color: var(--color-grey-70);
+}
+
+.copyright {
+  margin-top: auto;
+  margin-bottom: 20px;
+  color: var(--color-grey-70);
+
 }

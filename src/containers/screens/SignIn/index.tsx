@@ -1,82 +1,97 @@
-import React from 'react';
-import classNames from 'classnames';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-import SignInForm from 'containers/forms/SignIn';
+import api from 'api';
+
+import { setJWTToken } from 'store/user/actionCreators';
+
+import NearService, { NearSignature } from 'services/near';
 
 import Typography from 'components/ui-kit/Typography';
-import Logo from 'components/ui-kit/Logo';
 import Button from 'components/ui-kit/Button';
 
-import { ReactComponent as FacebookIcon } from 'assets/icons/icon-Facebook.svg';
-import { ReactComponent as GoogleIcon } from 'assets/icons/icon-Google.svg';
-import { ReactComponent as AppleIcon } from 'assets/icons/icon-Apple.svg';
+import OnboardingLogo from 'assets/images/onboarding-logo.png';
+import { ReactComponent as IconNear } from 'assets/icons/icon-near.svg';
 
 import styles from './SignIn.module.scss';
 
+const processSignatureRequest = (data: NearSignature) =>
+  api.post('https://develop.nft-social-network.net/auth/near/login', {
+    accountId: NearService.getUserAccountId(),
+    publicKey: data.publicKey,
+    signature: data.signature,
+  });
+
 const SignInScreen: React.FC = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const tryToLogin = async () => {
+      if (NearService.checkIsLoggedIn()) {
+        const signature: NearSignature | null =
+          await NearService.getSignature();
+
+        if (signature) {
+          const token = localStorage.getItem('singularity-token');
+          if (token) {
+            dispatch(setJWTToken(token));
+
+            // history.push('/cabinet/edit');
+          } else {
+            const response = await processSignatureRequest(signature);
+            localStorage.setItem('singularity-token', response.data);
+
+            dispatch(setJWTToken(response.data));
+
+            // history.push('/cabinet/edit');
+          }
+        }
+      }
+    };
+
+    tryToLogin();
+  }, [dispatch, history]);
 
   return (
     <div className={styles.root}>
-      <Logo className={styles.logo} />
-
       <div className={styles.formRoot}>
-        <Typography variant="h1" align="center" className={styles.mgBottom}>
-          Welcome back
+        <Typography variant="h1" align="center" className={styles.title}>
+          Singularity
         </Typography>
 
-        <SignInForm onSuccess={() => history.push('/cabinet/account')} />
-
-        <Typography variant="body2" align="center" className={styles.link}>
-          Forgot your password?{' '}
-          <Link to="/forgot-password">
-            <Typography variant="button" className={styles.linkText}>
-              Get help signing in
-            </Typography>
-          </Link>
+        <Typography variant="h2" align="center" className={styles.subtitle}>
+          Social interactions layer for NFTs
         </Typography>
-      </div>
 
-      <div className={styles.width}>
-        <div className={styles.separatorWrapper}>
-          <hr className={styles.separatorLine} />
+        <img src={OnboardingLogo} alt="logo" className={styles.logo} />
 
-          <Typography
-            variant="body2"
-            align="center"
-            className={styles.separatorText}
-          >
-            or sign in with
+        <Button
+          variant="primary"
+          onClick={() => NearService.login()}
+          className={styles.signIn}
+        >
+          Sign up with
+          <IconNear style={{ marginLeft: 9 }} />
+        </Button>
+
+        <div className={styles.row}>
+          <Typography variant="caption1" className={styles.caption}>
+            Terms and Conditions
           </Typography>
 
-          <hr className={styles.separatorLine} />
+          <Typography variant="caption1" className={styles.caption}>
+            Privacy Policy
+          </Typography>
         </div>
 
-        <div className={styles.alterLogin}>
-          <Button variant="tertiary" className={styles.alterLoginButton}>
-            <GoogleIcon />
-          </Button>
-
-          <Button
-            variant="tertiary"
-            className={classNames(styles.alterLoginButton, styles.appleButton)}
-          >
-            <AppleIcon />
-          </Button>
-
-          <Button variant="tertiary" className={styles.alterLoginButton}>
-            <FacebookIcon />
-          </Button>
-        </div>
-
-        <Typography variant="body2" align="center" className={styles.link}>
-          Don’t have an account?{' '}
-          <Link to="/sign-up">
-            <Typography variant="button" className={styles.linkText}>
-              Sign up
-            </Typography>
-          </Link>
+        <Typography
+          variant="caption1"
+          align="center"
+          className={styles.copyright}
+        >
+          © Singularity. All rights reserved.
         </Typography>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useToggle } from 'react-use';
+import { Link } from 'react-router-dom';
 
 import Avatar from 'components/ui-kit/Avatar';
 import Typography from 'components/ui-kit/Typography';
@@ -34,6 +35,7 @@ const NFTCard: React.FC<NFTCardProps> = ({
   assetLink,
   showOwnerInfo = false,
   id,
+  userId,
   showExtraControls = false,
 }) => {
   const [showControlModalSheet, setShowControlModalSheet] = useToggle(false);
@@ -47,10 +49,11 @@ const NFTCard: React.FC<NFTCardProps> = ({
           <div className={styles.cardHeader}>
             <Avatar alt={userName} src={userAvatar} className={styles.avatar} />
 
-            <Typography variant="heading5" className={styles.cardHeaderText}>
-              {userName}
-            </Typography>
-
+            <Link to={`/cabinet/profile/${userId}`}>
+              <Typography variant="heading5" className={styles.cardHeaderText}>
+                {userName}
+              </Typography>
+            </Link>
             <Button
               className={styles.moreButton}
               onClick={() => setShowReportModalSheet(true)}
@@ -257,6 +260,7 @@ type NFTCardProps = {
   nftLink: string;
   assetLink: string;
   id: number;
+  userId: number;
   showExtraControls?: boolean;
 };
 

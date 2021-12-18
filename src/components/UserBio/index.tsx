@@ -25,6 +25,15 @@ const UserBio: React.FC<UserBioProps> = ({
   return (
     <div className={classNames(styles.profile, className)}>
       <Avatar alt={username} src={avatar} className={styles.avatar} />
+      {showSubscribe && (
+        <Button
+          to={instagramLink}
+          variant="primary"
+          className={styles.instagramButton}
+        >
+          <IconInstagram />
+        </Button>
+      )}
 
       <div className={styles.profileColumn}>
         <Typography variant="title6" className={styles.profileName}>
@@ -49,19 +58,11 @@ const UserBio: React.FC<UserBioProps> = ({
         {showSubscribe && (
           <div className={styles.subscribeRow}>
             <Button
-              variant="tertiary"
+              variant="primary"
               className={styles.subscribeButton}
               onClick={onSubscribeClick}
             >
               {isSubscribed ? 'Unfollow' : 'Follow'}
-            </Button>
-
-            <Button
-              to={instagramLink}
-              variant="tertiary"
-              className={styles.instagramButton}
-            >
-              <IconInstagram />
             </Button>
           </div>
         )}

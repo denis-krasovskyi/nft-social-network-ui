@@ -1,45 +1,100 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useToggle, useWindowScroll } from 'react-use';
+
+import { simulateHttpRequest } from 'utils';
+
 import { RootState } from 'store';
 
+import NFTGridView from 'components/NFTGridView';
+import OptionsBlock from 'components/OptionsBlock';
+import Search from 'components/Search';
 import Typography from 'components/ui-kit/Typography';
-import NFTCard from 'components/NFTCard';
+import UserListItem from 'components/UserListItem';
 
 import styles from './SearchPage.module.scss';
 
-const ManageSavedScreen: React.FC = () => {
-  const { nfts } = useSelector((state: RootState) => state.user);
+const SearchScreen: React.FC = () => {
+  const { nfts, users } = useSelector((state: RootState) => state.user);
+  const { y: windowYScroll } = useWindowScroll();
+
+  // const [ntfsList, setNftsList] = useState<NFT[]>(nfts);
+
+  const [showTopNFTList, setShowTopNFTList] = useToggle(true);
+  const [searchValue, setSearchValue] = useState('');
+  const [lastSearchValue, setLastSearchValue] = useState('');
+  const [isLoading, setIsLoading] = useToggle(false);
+
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      if (searchValue) {
+        setIsLoading(true);
+
+        setLastSearchValue(searchValue);
+
+        await simulateHttpRequest();
+
+        setIsLoading(false);
+      }
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchValue, setIsLoading]);
 
   return (
-    <>
-      {nfts.length > 0 ? (
-        <div className={styles.wrapper}>
-          <div className={styles.listRoot}>
-            {nfts.map((item) => (
-              <NFTCard
-                showOwnerInfo
-                key={item.id.toString()}
-                id={item.id}
-                userName={item.userName}
-                userAvatar={item.userAvatar}
-                likesCount={item.likesCount}
-                commentsCount={item.comments.length}
-                isLiked={item.isLiked}
-                nftName={item.nftName}
-                nftLink={item.nftLink}
-                assetLink={item.assetLink}
-                className={styles.candidateCardRoot}
-              />
-            ))}
-          </div>
-        </div>
+    <div className={styles.root}>
+      <Search
+        onChange={(val) => setSearchValue(val)}
+        className={styles.searchWrapper}
+      />
+
+      <OptionsBlock
+        className={windowYScroll > 1 ? styles.controlShadow : ''}
+        firstOptionName="NFT's"
+        secondOptionName="People"
+        firstOptionCallback={() => setShowTopNFTList(true)}
+        secondOptionCallback={() => setShowTopNFTList(false)}
+      />
+
+      {isLoading ? (
+        <Typography variant="body3" className={styles.textWrapper}>
+          Searching for “
+          <Typography variant="heading6" component="span">
+            {lastSearchValue}
+          </Typography>
+          ”...
+        </Typography>
       ) : (
-        <div className={styles.emptyList}>
-          <Typography variant="h2">No saved candidates</Typography>
-        </div>
+        <>
+          {showTopNFTList ? (
+            <div className={styles.listWrapper}>
+              <NFTGridView nfts={nfts} />
+            </div>
+          ) : (
+            <div className={styles.listWrapper}>
+              {users.map((user) => (
+                <UserListItem
+                  key={user.id}
+                  id={user.id}
+                  username={user.username}
+                  isFollowing={user.isFollowing}
+                  avatar={user.avatar}
+                />
+              ))}
+            </div>
+          )}
+        </>
       )}
-    </>
+      {/* <Typography variant="body3" className={styles.textWrapper}>
+            Nothing found for “
+            <Typography variant="heading6" component="span">
+              {lastSearchValue}
+            </Typography>
+            ”...
+          </Typography> */}
+    </div>
   );
 };
 
-export default ManageSavedScreen;
+export default SearchScreen;

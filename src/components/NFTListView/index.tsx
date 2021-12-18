@@ -28,6 +28,7 @@ const NFTListView: React.FC<NFTListViewProps> = ({
           nftName={item.nftName}
           nftLink={item.nftLink}
           assetLink={item.assetLink}
+          userId={item.userId}
           className={styles.candidateCardRoot}
           showExtraControls={showExtraControls}
         />

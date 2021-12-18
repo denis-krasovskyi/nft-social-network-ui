@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  flex-grow: 1;
+  position: relative;
+}
+
+.listWrapper {
+  margin-top: 30px;
+  width: 100%;
+}

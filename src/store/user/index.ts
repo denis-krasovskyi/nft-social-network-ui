@@ -9,11 +9,57 @@ import MockAsset5 from 'assets/images/mock-asset-5.png';
 import MockAsset6 from 'assets/images/mock-asset-6.png';
 
 import * as actionTypes from './actionTypes';
-import { UserState } from '../types';
+import { UserState, MockUser } from '../types';
+
+export const mockedUsers: MockUser[] = [
+  {
+    id: 1,
+    avatar: MockAsset1,
+    followers: 201,
+    username: 'Jaydon.near',
+    isFollowing: true,
+  },
+  {
+    id: 2,
+    avatar: MockAsset2,
+    followers: 103,
+    username: 'emery.near',
+    isFollowing: false,
+  },
+  {
+    id: 3,
+    avatar: MockAsset3,
+    followers: 2,
+    username: 'k.near',
+    isFollowing: true,
+  },
+  {
+    id: 4,
+    avatar: MockAsset4,
+    followers: 2004,
+    username: 'kevin.near',
+    isFollowing: false,
+  },
+  {
+    id: 5,
+    avatar: MockAsset5,
+    followers: 14,
+    username: 'boristheblade.near',
+    isFollowing: true,
+  },
+  {
+    id: 6,
+    avatar: MockAsset6,
+    followers: 155,
+    username: 'floccinoxinihilipificati',
+    isFollowing: false,
+  },
+];
 
 export const mockNfts = [
   {
     id: 1,
+    userId: 1,
     userName: 'Test1',
     userAvatar: MockAvatar,
     likesCount: 200,
@@ -27,11 +73,13 @@ export const mockNfts = [
       {
         authorName: 'Test 1',
         authorAvatar: EmptyAvatar,
+        authorId: 1,
         text: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium',
         timestamp: 1639756863395,
       },
       {
         authorName: 'Test 2',
+        authorId: 2,
         authorAvatar: EmptyAvatar,
         text: 'Short comment',
         timestamp: 1639556663395,
@@ -40,6 +88,7 @@ export const mockNfts = [
   },
   {
     id: 2,
+    userId: 2,
     userName: 'Test2',
     userAvatar: EmptyAvatar,
     likesCount: 2233,
@@ -53,6 +102,7 @@ export const mockNfts = [
   },
   {
     id: 3,
+    userId: 3,
     userName: 'Test23',
     userAvatar: EmptyAvatar,
     likesCount: 20,
@@ -66,6 +116,7 @@ export const mockNfts = [
   },
   {
     id: 4,
+    userId: 4,
     userName: 'Test23',
     userAvatar: EmptyAvatar,
     likesCount: 20,
@@ -79,6 +130,7 @@ export const mockNfts = [
   },
   {
     id: 5,
+    userId: 5,
     userName: 'Test23',
     userAvatar: EmptyAvatar,
     likesCount: 20,
@@ -92,6 +144,7 @@ export const mockNfts = [
   },
   {
     id: 6,
+    userId: 6,
     userName: 'Test23',
     userAvatar: EmptyAvatar,
     likesCount: 20,
@@ -109,6 +162,7 @@ const initialState: UserState = {
   avatar: MockAvatar,
   socials: '',
   username: 'Username',
+  users: mockedUsers,
   wallets: [
     {
       walletName: 'wallet.near',
@@ -117,12 +171,12 @@ const initialState: UserState = {
       id: 1,
     },
   ],
-
   bio: '256 or 128 symbols description of user’s status or important thoughts escription of user’s status or important',
   following: 123,
   followers: 321,
   id: '12',
   nfts: mockNfts,
+  token: null,
 };
 
 const reducer = (
@@ -134,6 +188,12 @@ const reducer = (
       return {
         ...state,
         ...action.payload,
+      };
+
+    case actionTypes.SET_JWT_TOKEN:
+      return {
+        ...state,
+        token: action.payload,
       };
 
     case actionTypes.UPDATE_USER_DATA:

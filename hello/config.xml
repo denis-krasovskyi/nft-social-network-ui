@@ -15,6 +15,10 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <allow-navigation href="https://wallet.testnet.near.org" />
+    <allow-navigation href="https://rpc.testnet.near.org" />
+    <allow-navigation href="https://helper.testnet.near.org" />
+    <allow-navigation href="https://explorer.testnet.near.org" />
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>

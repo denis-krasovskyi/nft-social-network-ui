@@ -1,14 +1,16 @@
 import React, { FC, useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { mixed, object, string } from 'yup';
 import { useFormik } from 'formik';
 import { Modal } from '@mui/material';
 import { useToggle } from 'react-use';
 import { useHistory } from 'react-router-dom';
 
-import { RootState } from 'store';
 import { Wallet } from 'store/types';
 import { updateUserDataAction } from 'store/user/actionCreators';
+import User from 'store/user';
+
+import NearService from 'services/near';
 
 import Button from 'components/ui-kit/Button';
 import Typography from 'components/ui-kit/Typography';
@@ -46,8 +48,30 @@ const validationSchema = object().shape({
   bio: string(),
 });
 
+type User = {
+  avatar: string | null;
+  username: string;
+  socials: string;
+  bio: string;
+  wallets: Wallet[];
+};
+
 const EditAccount: FC = () => {
-  const { user } = useSelector((state: RootState) => state);
+  const [initialData, setInitialData] = useState<User>({
+    avatar: null,
+    username: '',
+    socials: '',
+    bio: '',
+    wallets: [
+      {
+        walletName: 'wallet.near',
+        walletUrl: 'https://google.com',
+        walletType: 'near',
+        id: 1,
+      },
+    ],
+  });
+  console.log(setInitialData);
 
   const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
 
@@ -56,6 +80,8 @@ const EditAccount: FC = () => {
   const dispatch = useDispatch();
 
   const history = useHistory();
+
+  console.log('render');
 
   const {
     handleSubmit,
@@ -69,14 +95,13 @@ const EditAccount: FC = () => {
   } = useFormik({
     validateOnMount: true,
     initialValues: {
-      avatar: user.avatar,
-      username: user.username,
-      socials: user.socials,
-      bio: user.bio,
+      avatar: initialData?.avatar,
+      username: initialData?.username || '',
+      socials: initialData?.socials || '',
+      bio: initialData?.bio || '',
     },
     validationSchema,
     onSubmit: () => {
-      // @ts-ignore
       dispatch(updateUserDataAction(values));
       history.push('/cabinet/account');
     },
@@ -149,7 +174,7 @@ const EditAccount: FC = () => {
 
         <Typography variant="label2">Wallet</Typography>
 
-        {user.wallets.map((wallet) => (
+        {initialData.wallets.map((wallet) => (
           <div className={styles.walletWrapper} key={wallet.id}>
             <IconWalletNear />
 
@@ -206,6 +231,24 @@ const EditAccount: FC = () => {
           onBlur={handleBlur}
           value={values.bio}
         />
+
+        <div className={styles.separator} />
+
+        <Typography variant="tagline2" component="p" className={styles.tagline}>
+          Account
+        </Typography>
+
+        <Button
+          variant="ghostError"
+          className={styles.logout}
+          onClick={() => {
+            NearService.logOut();
+
+            history.replace('/sign-in');
+          }}
+        >
+          Log out
+        </Button>
 
         <Modal open={openWalletModal} onClose={handlePopoverClose}>
           <div className={styles.modalContentWrapper}>

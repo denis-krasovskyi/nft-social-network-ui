@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useToggle } from 'react-use';
 import { Avatar } from '@mui/material';
 
@@ -67,6 +67,7 @@ const NFTScreen: React.FC = () => {
             nftName={nft.nftName}
             nftLink={nft.nftLink}
             assetLink={nft.assetLink}
+            userId={nft.userId}
             className={styles.candidateCardRoot}
             showExtraControls={false}
           />
@@ -81,12 +82,14 @@ const NFTScreen: React.FC = () => {
                   />
 
                   <div className={styles.commentContent}>
-                    <Typography
-                      variant="heading5"
-                      className={styles.commentAuthor}
-                    >
-                      {comment.authorName}
-                    </Typography>
+                    <Link to={`/cabinet/profile/${comment.authorId}`}>
+                      <Typography
+                        variant="heading5"
+                        className={styles.commentAuthor}
+                      >
+                        {comment.authorName}
+                      </Typography>
+                    </Link>
 
                     <Typography variant="body3">{comment.text}</Typography>
 

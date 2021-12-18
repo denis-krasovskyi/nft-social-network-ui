@@ -12,8 +12,11 @@ import NotificationsScreen from './Notifications';
 import AccountScreen from './Account';
 import EditAccountScreen from './EditAccount';
 import FeedScreen from './Feed';
-import CandidateScreen from './NFT';
+import NFTScreen from './NFT';
+import UserPageScreen from './UserPage';
 import SearchScreen from './Search';
+import FollowersPage from './Followers';
+// import DeepLink from './DeepLink';
 
 const Routes: React.FC = () => {
   return (
@@ -22,7 +25,15 @@ const Routes: React.FC = () => {
         <UIAppLayout>
           <Switch>
             <Route path="/cabinet/nft/:id">
-              <CandidateScreen />
+              <NFTScreen />
+            </Route>
+
+            <Route path="/cabinet/profile/:id">
+              <UserPageScreen />
+            </Route>
+
+            <Route path="/cabinet/followers/:id">
+              <FollowersPage />
             </Route>
 
             <Route path="/cabinet/feed">

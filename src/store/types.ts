@@ -8,6 +8,16 @@ export type UserState = {
   following: number;
   followers: number;
   wallets: Wallet[];
+  users: MockUser[];
+  token: null | string;
+};
+
+export type MockUser = {
+  avatar: string;
+  followers: number;
+  username: string;
+  isFollowing: boolean;
+  id: number;
 };
 
 export type Wallet = {
@@ -27,6 +37,7 @@ export type NFT = {
   nftLink: string;
   assetLink: string;
   id: number;
+  userId: number;
   walletId: number;
   comments: Comment[];
 };
@@ -34,6 +45,7 @@ export type NFT = {
 export type Comment = {
   authorName: string;
   authorAvatar: string;
+  authorId: number;
   text: string;
   timestamp: number;
 };

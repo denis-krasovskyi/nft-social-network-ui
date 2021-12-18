@@ -5,6 +5,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   padding: 0 8px;
+  position: relative;
 }
 
 .avatar {
@@ -22,11 +23,11 @@
 }
 
 .profileName {
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 
 .profileWallet {
-  margin-bottom: 10px;
+  margin-bottom: 7px;
   padding: 0;
   line-height: 1;
   min-height: unset;
@@ -44,7 +45,7 @@
 }
 
 .subscribeRow {
-  margin-top: 16px;
+  margin-top: 9px;
   width: 100%;
   display: flex;
   flex-flow: row nowrap;
@@ -53,12 +54,18 @@
 }
 
 .subscribeButton {
+  width: 176px;
   height: 34px;
-  width: calc(100% - 51px);
+  min-height: 34px;
 }
 
 .instagramButton {
   height: 34px;
-  margin-left: 17px;
+  min-height: 34px;
+  min-width: 34px;
   width: 34px;
+  padding: 4.5px;
+  position: absolute;
+  left: 55px;
+  top: 114px;
 }

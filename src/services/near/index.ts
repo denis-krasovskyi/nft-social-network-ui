@@ -12,8 +12,6 @@ const { connect } = nearAPI;
 
 const keyStore = new keyStores.BrowserLocalStorageKeyStore();
 
-const { ACCOUNT_ID } = process.env;
-
 const config = {
   networkId: 'testnet',
   keyStore, // optional if not signing transactions
@@ -22,6 +20,11 @@ const config = {
   helperUrl: 'https://helper.testnet.near.org',
   explorerUrl: 'https://explorer.testnet.near.org',
   headers: {},
+};
+
+export type NearSignature = {
+  signature: string;
+  publicKey: string;
 };
 
 class NearService {
@@ -36,44 +39,48 @@ class NearService {
 
   wallet: WalletConnection;
 
-  getWallet = (): WalletConnection => {
-    return this.wallet;
-  };
+  getWallet = (): WalletConnection => this.wallet;
 
-  getUserAccount = (): ConnectedWalletAccount => {
-    return this.wallet.account();
-  };
+  getUserAccount = (): ConnectedWalletAccount => this.wallet.account();
 
-  login = () => {
+  getUserAccountId = (): string => this.wallet.getAccountId();
+
+  checkIsLoggedIn = () => this.wallet.isSignedIn();
+
+  getSignature = async (): Promise<NearSignature | null> => {
     if (this.wallet.isSignedIn()) {
+      const keyPair = await keyStore.getKey(
+        'testnet',
+        this.wallet.getAccountId(),
+      );
+      const signature = await this.sign(keyPair);
+      return { signature, publicKey: keyPair.getPublicKey().toString() };
+    }
+    return null;
+  };
+
+  login = async (): Promise<null> => {
+    if (!this.wallet.isSignedIn()) {
+      await this.wallet.requestSignIn(
+        'example-contract.testnet', // contract requesting access
+        'Example App',
+        'http://localhost:3000/#/deep-link',
+        'http://localhost:3000',
+      );
       return null;
     }
-
-    return this.wallet.requestSignIn(
-      'example-contract.testnet', // contract requesting access
-      'Example App',
-    );
+    return null;
   };
 
-  logOut = () => {
-    return this.wallet.signOut();
-  };
+  logOut = () => this.wallet.signOut();
 
-  getNear = (): Near => {
-    return this.near;
-  };
+  getNear = (): Near => this.near;
 
-  verifySignature = async (): Promise<boolean> => {
-    const keyPair = await keyStore.getKey(config.networkId, ACCOUNT_ID);
-    const msg = buffer.Buffer.from(Date.now().toString());
+  sign = async (keyPair): Promise<string> => {
+    const msg = buffer.Buffer.from(keyPair.getPublicKey().toString());
 
     const { signature } = keyPair.sign(msg);
-
-    const isValid = keyPair.verify(msg, signature);
-
-    console.log('Signature Valid?:', isValid);
-
-    return isValid;
+    return buffer.Buffer.from(signature).toString('base64');
   };
 }
 

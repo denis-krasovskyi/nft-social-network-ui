@@ -72,8 +72,8 @@ const Account: FC = () => {
           className={styles.followers}
           followers={user.followers}
           following={user.following}
-          followersLink="/"
-          followingLink="/"
+          followersLink={`#/cabinet/followers/${user.id}`}
+          followingLink={`#/cabinet/followers/${user.id}`}
         />
 
         <Button
