@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { Link } from '@mui/material';
 
-import { NFT } from 'store/types';
+import { NFT } from 'api/nfts';
 
 import styles from './NFTGridView.module.scss';
 

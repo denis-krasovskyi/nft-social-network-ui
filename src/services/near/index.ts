@@ -71,13 +71,12 @@ class NearService {
   };
 
   login = (history: History): Promise<null> => {
-    console.log(!this.wallet.isSignedIn());
     if (!this.wallet.isSignedIn()) {
       this.wallet.requestSignIn(
         'example-contract.testnet', // contract requesting access
         'Example App',
-        'http://10.1.1.63:3000/#/sign-in',
-        'http://10.1.1.63:3000',
+        // 'http://10.1.1.63:3000/#/sign-in',
+        // 'http://10.1.1.63:3000',
       );
       return null;
     }

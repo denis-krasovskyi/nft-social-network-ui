@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from '@mui/material';
 import classNames from 'classnames';
 
-import { Notification } from 'store/types';
+import { Notification } from 'api/notifications';
 
 import Typography from 'components/ui-kit/Typography';
 import Avatar from 'components/ui-kit/Avatar';

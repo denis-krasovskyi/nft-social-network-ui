@@ -1,62 +1,43 @@
-import { AnyAction } from 'redux';
-import MockAvatar from 'assets/images/avatar-mock.png';
-import { mockedUsers, mockNfts } from './mocks';
+/* eslint-disable no-param-reassign */
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import * as actionTypes from './actionTypes';
-import { UserState } from '../types';
+import { Wallet } from 'api/types';
+import { NFT } from 'api/nfts';
+import { User } from 'api/users';
 
-const initialState: UserState = {
-  avatar: MockAvatar,
-  socials: '',
-  username: 'Username',
-  users: mockedUsers,
-  wallets: [
-    {
-      walletName: 'wallet.near',
-      walletUrl: 'https://google.com',
-      walletType: 'near',
-      id: 1,
+type UserState = {
+  id: string;
+  username: string;
+  socials: string;
+  nfts: NFT[];
+  avatar: string;
+  bio: string;
+  following: number;
+  followers: number;
+  wallets: Wallet[];
+  users: User[];
+  token: null | string;
+};
+
+const initialState: Partial<UserState> = {};
+
+const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {
+    setUserData: (state, action: PayloadAction<UserState>) => {
+      return action.payload;
     },
-  ],
-  bio: '256 or 128 symbols description of user’s status or important thoughts escription of user’s status or important',
-  following: 123,
-  followers: 321,
-  id: '12',
-  nfts: mockNfts,
-  token: null,
-};
+    setUserNftsData: (state, action: PayloadAction<NFT[]>) => {
+      state.nfts = [...state.nfts, ...action.payload];
+    },
+    updateUserData: (state, action: PayloadAction<UserState>) => {
+      state = { ...state, ...action.payload };
+    },
+  },
+});
 
-const reducer = (
-  state: UserState = initialState,
-  action: AnyAction,
-): UserState => {
-  switch (action.type) {
-    case actionTypes.GET_USER_DATA:
-      return {
-        ...state,
-        ...action.payload,
-      };
+export const { setUserData, setUserNftsData, updateUserData } =
+  userSlice.actions;
 
-    case actionTypes.GET_USER_NFTS_DATA:
-      return {
-        ...state,
-        nfts: [...state.nfts, ...action.payload],
-      };
-
-    case actionTypes.SET_JWT_TOKEN:
-      return {
-        ...state,
-        token: action.payload,
-      };
-
-    case actionTypes.UPDATE_USER_DATA:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export default reducer;
+export default userSlice.reducer;

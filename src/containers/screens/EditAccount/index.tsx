@@ -6,7 +6,7 @@ import { Modal } from '@mui/material';
 import { useToggle } from 'react-use';
 import { useHistory } from 'react-router-dom';
 
-import { Wallet } from 'store/types';
+import { Wallet } from 'api/types';
 import { updateUserDataAction } from 'store/user/actionCreators';
 import User from 'store/user';
 
@@ -57,7 +57,7 @@ type User = {
 };
 
 const EditAccount: FC = () => {
-  const [initialData, setInitialData] = useState<User>({
+  const [initialData] = useState<User>({
     avatar: null,
     username: '',
     socials: '',
@@ -71,7 +71,6 @@ const EditAccount: FC = () => {
       },
     ],
   });
-  console.log(setInitialData);
 
   const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
 
@@ -80,8 +79,6 @@ const EditAccount: FC = () => {
   const dispatch = useDispatch();
 
   const history = useHistory();
-
-  console.log('render');
 
   const {
     handleSubmit,
@@ -102,7 +99,6 @@ const EditAccount: FC = () => {
     },
     validationSchema,
     onSubmit: () => {
-      console.log(values);
       dispatch(updateUserDataAction(values));
 
       history.push('/cabinet/account');

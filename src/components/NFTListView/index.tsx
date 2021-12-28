@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { NFT } from 'store/types';
+import { NFT } from 'api/nfts';
 
 import NFTCard from 'components/NFTCard';
 

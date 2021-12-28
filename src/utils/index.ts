@@ -47,3 +47,5 @@ export const calculateTimeDiff = (timestamp: number): string => {
   }
   return `${diffInMinutes} min ago`;
 };
+
+export const TOKEN_STORAGE_KEY = 'singularity-token';

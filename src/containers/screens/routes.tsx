@@ -20,8 +20,8 @@ import FollowersPage from './Followers';
 
 const Routes: React.FC = () => {
   return (
-    <Switch>
-      <div style={{ maxWidth: '375px', width: '100%', margin: 'auto' }}>
+    <div style={{ maxWidth: '450px', width: '100%', margin: 'auto' }}>
+      <Switch>
         <Route path="/cabinet">
           <UIAppLayout>
             <Switch>
@@ -81,8 +81,8 @@ const Routes: React.FC = () => {
         </Route>
 
         <Redirect to="/sign-in" />
-      </div>
-    </Switch>
+      </Switch>
+    </div>
   );
 };
 

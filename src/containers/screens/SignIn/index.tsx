@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useToggle } from 'react-use';
+import { useAsync } from 'react-use';
 
-import api from 'api';
-
-import { setJWTToken } from 'store/user/actionCreators';
-
-import NearService, { NearSignature } from 'services/near';
-
+import { processSignatureRequest } from 'api/near';
+import { setJWTToken } from 'store/auth';
+import { TOKEN_STORAGE_KEY } from 'utils';
+import NearService from 'services/near';
 import Typography from 'components/ui-kit/Typography';
 import Button from 'components/ui-kit/Button';
 import Spinner from 'components/Spinner';
@@ -18,46 +16,40 @@ import { ReactComponent as IconNear } from 'assets/icons/icon-near.svg';
 
 import styles from './SignIn.module.scss';
 
-const processSignatureRequest = (data: NearSignature) =>
-  api.post('https://develop.nft-social-network.net/auth/near/login', {
-    accountId: NearService.getUserAccountId(),
-    publicKey: data.publicKey,
-    signature: data.signature,
-  });
-
 const SignInScreen: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useToggle(true);
+  const tryToLogin = async () => {
+    const token = localStorage.getItem(TOKEN_STORAGE_KEY);
 
-  useEffect(() => {
-    const tryToLogin = async () => {
-      const token = localStorage.getItem('singularity-token');
-      await NearService.init();
+    await NearService.init();
 
-      if (token) {
-        dispatch(setJWTToken(token));
+    if (token) {
+      dispatch(setJWTToken(token));
 
-        history.push('/cabinet/account');
-      } else if (NearService.checkIsLoggedIn()) {
-        const signature: NearSignature | null =
-          await NearService.getSignature();
+      history.push('/cabinet/account');
+      return;
+    }
 
-        if (signature) {
-          const response = await processSignatureRequest(signature);
-          localStorage.setItem('singularity-token', response.data);
+    if (NearService.checkIsLoggedIn()) {
+      const signature = await NearService.getSignature();
 
-          dispatch(setJWTToken(response.data));
+      if (!signature) return;
 
-          history.push('/cabinet/edit');
-        }
-      }
-      setIsLoading(false);
-    };
+      const response = await processSignatureRequest({
+        sign: signature,
+        accId: NearService.getUserAccountId(),
+      });
+      localStorage.setItem(TOKEN_STORAGE_KEY, response.data);
 
-    tryToLogin();
-  }, [dispatch, history, setIsLoading]);
+      dispatch(setJWTToken(response.data));
+
+      history.push('/cabinet/edit');
+    }
+  };
+
+  const { loading: isLoading } = useAsync(tryToLogin, []);
 
   return (
     <div className={styles.root}>

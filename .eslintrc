@@ -44,6 +44,7 @@
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     // React
+    "react-hooks/exhaustive-deps": "off",
     "react/jsx-props-no-spreading": "off",
     "react/require-default-props": "off",
     "react/jsx-one-expression-per-line": "off",
