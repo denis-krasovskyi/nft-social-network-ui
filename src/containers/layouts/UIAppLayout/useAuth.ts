@@ -1,20 +1,19 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import api from 'api';
 import { getUserData } from 'api/users';
-import { AppDispatch, RootState, useAppSelector } from 'store';
+import { AppDispatch } from 'store';
 import { setUserData } from 'store/user';
+import { authJWTTokenSelector } from 'store/auth';
 
 export const useAuth = (): { authorize(): Promise<void> } => {
   const history = useHistory();
   const dispatch = useDispatch<AppDispatch>();
-  const auth = useAppSelector<RootState['auth']>((store) => store.auth);
+
+  const token = useSelector(authJWTTokenSelector);
 
   const authorize = async () => {
-    if (auth?.token) {
-      api.defaults.headers.common.Authorization = `Bearer ${auth?.token}`;
-
+    if (token) {
       const { data: userData } = await getUserData();
 
       dispatch(setUserData(userData));

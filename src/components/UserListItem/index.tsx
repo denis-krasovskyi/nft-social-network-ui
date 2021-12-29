@@ -39,7 +39,7 @@ type UserListItemProps = {
   username: string;
   avatar: string;
   isFollowing: boolean;
-  id: number;
+  id: number | string;
 };
 
 export default UserListItem;

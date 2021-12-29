@@ -41,14 +41,14 @@ const AvatarUpload: FC<AvatarUploadProps> = ({
 
   const handleImageInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (!e.currentTarget.files[0]) return;
+      if (!e.currentTarget.files?.[0]) return;
       closeSheet();
       setImageFile(e.currentTarget.files[0]);
     },
     [closeSheet],
   );
 
-  const openFileDialog = useCallback(() => inputRef.current.click(), []);
+  const openFileDialog = useCallback(() => inputRef.current?.click(), []);
 
   return (
     <>

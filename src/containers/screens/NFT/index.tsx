@@ -55,56 +55,59 @@ const NFTScreen: React.FC = () => {
           <Spinner className={styles.spinner} />
         </div>
       ) : (
-        <>
-          <NFTCard
-            id={nft.id}
-            showOwnerInfo
-            userName={nft.userName}
-            userAvatar={nft.userAvatar}
-            likesCount={nft.likesCount}
-            commentsCount={nft.comments.length}
-            isLiked={nft.isLiked}
-            nftName={nft.nftName}
-            nftLink={nft.nftLink}
-            assetLink={nft.assetLink}
-            userId={nft.userId}
-            className={styles.candidateCardRoot}
-            showExtraControls={false}
-          />
-          {nft.comments.length > 0 && (
-            <div className={styles.commentsList}>
-              {nft.comments.map((comment) => (
-                <div className={styles.comment} key={comment.timestamp}>
-                  <Avatar
-                    alt={comment.authorName}
-                    src={comment.authorAvatar}
-                    className={styles.commentAvatar}
-                  />
+        nft && (
+          <>
+            <NFTCard
+              id={nft.id}
+              showOwnerInfo
+              userName={nft.userName}
+              userAvatar={nft.userAvatar}
+              likesCount={nft.likesCount}
+              commentsCount={nft.comments.length}
+              isLiked={nft.isLiked}
+              nftName={nft.nftName}
+              nftLink={nft.nftLink}
+              assetLink={nft.assetLink}
+              userId={nft.userId}
+              className={styles.candidateCardRoot}
+              showExtraControls={false}
+            />
 
-                  <div className={styles.commentContent}>
-                    <Link to={`/cabinet/profile/${comment.authorId}`}>
+            {nft.comments.length > 0 && (
+              <div className={styles.commentsList}>
+                {nft.comments.map((comment) => (
+                  <div className={styles.comment} key={comment.timestamp}>
+                    <Avatar
+                      alt={comment.authorName}
+                      src={comment.authorAvatar}
+                      className={styles.commentAvatar}
+                    />
+
+                    <div className={styles.commentContent}>
+                      <Link to={`/cabinet/profile/${comment.authorId}`}>
+                        <Typography
+                          variant="heading5"
+                          className={styles.commentAuthor}
+                        >
+                          {comment.authorName}
+                        </Typography>
+                      </Link>
+
+                      <Typography variant="body3">{comment.text}</Typography>
+
                       <Typography
-                        variant="heading5"
-                        className={styles.commentAuthor}
+                        variant="label2"
+                        className={styles.commentLabel}
                       >
-                        {comment.authorName}
+                        {calculateTimeDiff(comment.timestamp)}
                       </Typography>
-                    </Link>
-
-                    <Typography variant="body3">{comment.text}</Typography>
-
-                    <Typography
-                      variant="label2"
-                      className={styles.commentLabel}
-                    >
-                      {calculateTimeDiff(comment.timestamp)}
-                    </Typography>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </>
+                ))}
+              </div>
+            )}
+          </>
+        )
       )}
 
       <AddNewComment

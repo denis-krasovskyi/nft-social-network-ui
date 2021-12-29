@@ -60,18 +60,18 @@ const Account: FC = () => {
 
       <UserBio
         showSubscribe={false}
-        walletUrl={user.wallets[0].walletUrl}
-        walletName={user.wallets[0].walletName}
-        username={user.username}
-        bio={user.bio}
-        avatar={user.avatar}
+        walletUrl={user.wallets?.[0].walletUrl || ''}
+        walletName={user.wallets?.[0].walletName || ''}
+        username={user.username || ''}
+        bio={user.bio || ''}
+        avatar={user.avatar || ''}
       />
 
       <div className={styles.viewControl}>
         <FollowersBlock
           className={styles.followers}
-          followers={user.followers}
-          following={user.following}
+          followers={user.followers || 0}
+          following={user.following || 0}
           followersLink={`#/cabinet/followers/${user.id}`}
           followingLink={`#/cabinet/followers/${user.id}`}
         />
@@ -96,11 +96,11 @@ const Account: FC = () => {
           {isListView ? <IconGrid /> : <IconGridActive />}
         </Button>
       </div>
-      {isListView ? (
-        <NFTListView nfts={user.nfts} showExtraControls showOwnerInfo />
-      ) : (
-        <NFTGridView nfts={user.nfts} />
-      )}
+      {isListView
+        ? user.nfts && (
+            <NFTListView nfts={user.nfts} showExtraControls showOwnerInfo />
+          )
+        : user.nfts && <NFTGridView nfts={user.nfts} />}
     </div>
   );
 };

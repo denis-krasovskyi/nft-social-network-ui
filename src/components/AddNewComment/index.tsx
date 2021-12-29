@@ -28,7 +28,7 @@ const AddNewComment: React.FC<AddNewCommentProps> = ({
     <div className={classNames(styles.addCommentWrapper, className)}>
       <div className={styles.addComment}>
         <Avatar
-          alt={user.username}
+          alt={user.username || ''}
           src={user.avatar}
           className={styles.addCommentAvatar}
         />

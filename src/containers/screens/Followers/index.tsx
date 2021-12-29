@@ -22,39 +22,43 @@ const FollowersPage: FC = () => {
     <div className={styles.root}>
       <ScreenHeader
         onBackButtonClick={() => history.goBack()}
-        title={user.username}
+        title={user.username || ''}
       />
 
       <OptionsBlock
         firstOptionName="Following"
-        firstOptionCaption={user.following.toString()}
+        firstOptionCaption={user.following?.toString()}
         firstOptionCallback={() => setShowFollowerList(false)}
         secondOptionName="Followers"
-        secondOptionCaption={user.followers.toString()}
+        secondOptionCaption={user.followers?.toString()}
         secondOptionCallback={() => setShowFollowerList(true)}
       />
 
       {showFollowerList ? (
         <div className={styles.listWrapper}>
-          {user.users.slice(0, 3).map((item) => (
+          {user.users?.slice(0, 3).map((item) => (
             <UserListItem
               key={item.id}
               id={item.id}
-              username={item.username}
-              isFollowing={item.isFollowing}
-              avatar={item.avatar}
+              username={item.username || ''}
+              // isFollowing={item.isFollowing}
+              isFollowing={false}
+              // avatar={item.avatar}
+              avatar=""
             />
           ))}
         </div>
       ) : (
         <div className={styles.listWrapper}>
-          {user.users.slice(3, 6).map((item) => (
+          {user.users?.slice(3, 6).map((item) => (
             <UserListItem
               key={item.id}
               id={item.id}
-              username={item.username}
-              isFollowing={item.isFollowing}
-              avatar={item.avatar}
+              username={item.username || ''}
+              // isFollowing={item.isFollowing}
+              isFollowing={false}
+              // avatar={item.avatar}
+              avatar=""
             />
           ))}
         </div>

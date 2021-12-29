@@ -36,7 +36,7 @@ const ManageSavedPreferences: React.FC<ManageSavedPreferencesProps> = ({
     setMenuAnchorEl(null);
   };
 
-  const currentSortLabel = sortMenuList.find(
+  const currentSortLabel = sortMenuList?.find(
     (item) => item.value === currentSortValue,
   )?.label;
 
@@ -58,7 +58,7 @@ const ManageSavedPreferences: React.FC<ManageSavedPreferencesProps> = ({
           <SortIcon />
         </div>
 
-        {sortMenuList?.length > 0 && (
+        {(sortMenuList?.length || 0) > 0 && (
           <Menu
             anchorEl={menuAnchorEl}
             open={menuIsOpen}
@@ -74,13 +74,13 @@ const ManageSavedPreferences: React.FC<ManageSavedPreferencesProps> = ({
               horizontal: 'right',
             }}
           >
-            {sortMenuList.map((item) => (
+            {sortMenuList?.map((item) => (
               <MenuItem key={item.value} className={styles.sortMenuItem}>
                 <Button
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    item.onClick(e, handleMenuClose);
+                    item.onClick?.(e, handleMenuClose);
                   }}
                   fullWidth
                   className={styles.sortMenuItemBtn}

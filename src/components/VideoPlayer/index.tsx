@@ -13,11 +13,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoLink, className }) => {
 
   const onPlayClickHandler = async () => {
     if (!playing) {
-      await video$.current.play();
+      await video$.current?.play();
       return;
     }
 
-    video$.current.pause();
+    video$.current?.pause();
   };
 
   return (

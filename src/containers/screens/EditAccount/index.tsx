@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { mixed, object, string } from 'yup';
 import { useFormik } from 'formik';
@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { Wallet } from 'api/types';
 import { updateUserDataAction } from 'store/user/actionCreators';
 import User from 'store/user';
+import { setJWTTokenThunk } from 'store/auth';
 
 import NearService from 'services/near';
 
@@ -56,7 +57,15 @@ type User = {
   wallets: Wallet[];
 };
 
-const EditAccount: FC = () => {
+const EditAccount: React.FC = () => {
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
+  const [openWalletModal, setOpenWalletModal] = useToggle(false);
   const [initialData] = useState<User>({
     avatar: null,
     username: '',
@@ -71,14 +80,6 @@ const EditAccount: FC = () => {
       },
     ],
   });
-
-  const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
-
-  const [openWalletModal, setOpenWalletModal] = useToggle(false);
-
-  const dispatch = useDispatch();
-
-  const history = useHistory();
 
   const {
     handleSubmit,
@@ -105,11 +106,9 @@ const EditAccount: FC = () => {
     },
   });
 
-  const handlePopoverClose = useCallback(() => {
+  const handlePopoverClose = () => {
     setOpenWalletModal(false);
-  }, [setOpenWalletModal]);
-
-  const { enqueueSnackbar } = useSnackbar();
+  };
 
   const shouldSave = isValid && dirty;
 
@@ -117,24 +116,22 @@ const EditAccount: FC = () => {
     setFieldValue('avatar', img, true);
   };
 
-  const handleAvatarUploadError = useCallback(() => {
+  const handleAvatarUploadError = () => {
     enqueueSnackbar(errors.avatar, { variant: 'error' });
     setFieldValue('avatar', null, true);
-  }, [errors.avatar, setFieldValue, enqueueSnackbar]);
+  };
 
-  const handleBioFieldChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const { value } = e.target;
-      setFieldValue('bio', value.slice(0, BIO_FIELD_MAX_LENGTH));
-    },
-    [setFieldValue],
-  );
+  const handleBioFieldChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+    setFieldValue('bio', value.slice(0, BIO_FIELD_MAX_LENGTH));
+  };
 
   const handleOnSubmitClick = () => {
     if (shouldSave) {
       handleSubmit();
     }
   };
+
   return (
     <div className={styles.root}>
       <div className={styles.header}>
@@ -159,7 +156,7 @@ const EditAccount: FC = () => {
 
       <form className={styles.form} onSubmit={handleSubmit}>
         <AvatarUpload
-          value={values.avatar}
+          value={values.avatar || ''}
           onChange={handleAvatarChange}
           onError={handleAvatarUploadError}
           error={Boolean(errors.avatar)}
@@ -241,10 +238,7 @@ const EditAccount: FC = () => {
           className={styles.logout}
           onClick={() => {
             NearService.logOut();
-
-            localStorage.removeItem('singularity-token');
-
-            history.replace('/sign-in');
+            dispatch(setJWTTokenThunk(null));
           }}
         >
           Log out

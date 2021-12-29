@@ -60,7 +60,7 @@ const getRequestStatusContent = (status): ReactElement => {
         </div>
       );
     default:
-      return null;
+      return <>{null}</>;
   }
 };
 

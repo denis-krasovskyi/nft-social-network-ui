@@ -1,10 +1,10 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAsync } from 'react-use';
 
 import { processSignatureRequest } from 'api/near';
-import { setJWTToken } from 'store/auth';
+import { setJWTTokenThunk, authJWTTokenSelector } from 'store/auth';
 import { TOKEN_STORAGE_KEY } from 'utils';
 import NearService from 'services/near';
 import Typography from 'components/ui-kit/Typography';
@@ -20,14 +20,12 @@ const SignInScreen: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const tryToLogin = async () => {
-    const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+  const token = useSelector(authJWTTokenSelector);
 
+  const tryToLogin = async () => {
     await NearService.init();
 
     if (token) {
-      dispatch(setJWTToken(token));
-
       history.push('/cabinet/account');
       return;
     }
@@ -43,7 +41,7 @@ const SignInScreen: React.FC = () => {
       });
       localStorage.setItem(TOKEN_STORAGE_KEY, response.data);
 
-      dispatch(setJWTToken(response.data));
+      dispatch(setJWTTokenThunk(response.data));
 
       history.push('/cabinet/edit');
     }

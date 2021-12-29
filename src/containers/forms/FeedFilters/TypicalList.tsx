@@ -42,9 +42,9 @@ const TypicalList: React.FC<TypicalListProps> = ({
         </Typography>
       )}
 
-      {list?.length > 0 && (
+      {(list?.length || 0) > 0 && (
         <div className={styles.typicalListList}>
-          {list.map((item, i) => (
+          {list?.map((item, i) => (
             <Typography
               key={item.id}
               variant="title4"
@@ -52,7 +52,7 @@ const TypicalList: React.FC<TypicalListProps> = ({
               className={styles.fontWeight}
             >
               {item.label}
-              {i !== list.length - 1 ? '; ' : ''}
+              {i !== list?.length - 1 ? '; ' : ''}
             </Typography>
           ))}
         </div>

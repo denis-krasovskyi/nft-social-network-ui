@@ -1,5 +1,5 @@
 import React from 'react';
-import { ComponentStory } from '@storybook/react';
+import { Story } from '@storybook/react';
 
 import Typography from 'components/ui-kit/Typography';
 import Button from 'components/ui-kit/Button';
@@ -10,7 +10,7 @@ export default {
   component: null,
 };
 
-const Template: ComponentStory<null> = () => {
+const Template = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   return (
@@ -94,9 +94,9 @@ const Template: ComponentStory<null> = () => {
 
 export const Basic = Template.bind({});
 Basic.decorators = [
-  (Story) => (
+  (StoryComponent: Story) => (
     <SnackbarProvider>
-      <Story />
+      <StoryComponent />
     </SnackbarProvider>
   ),
 ];
