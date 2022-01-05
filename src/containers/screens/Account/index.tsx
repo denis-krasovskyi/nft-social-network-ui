@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { useToggle, useWindowScroll } from 'react-use';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
-import { RootState } from 'store';
 
 import Button from 'components/ui-kit/Button';
 import FollowersBlock from 'components/FollowersBlock';
@@ -10,6 +9,7 @@ import UserBio from 'components/UserBio';
 import NFTListView from 'components/NFTListView';
 import NFTGridView from 'components/NFTGridView';
 import Typography from 'components/ui-kit/Typography';
+import { userSelector, defaultUserNearAccSelector } from 'store/user';
 
 import { ReactComponent as IconSettings } from 'assets/icons/icon-settings.svg';
 import { ReactComponent as IconList } from 'assets/icons/icon-list.svg';
@@ -25,9 +25,8 @@ const Account: FC = () => {
   const [isListView, setIsListView] = useToggle(true);
   const { y: windowYScroll } = useWindowScroll();
 
-  const { user } = useSelector((state: RootState) => state);
-
-  const showError = false;
+  const user = useSelector(userSelector);
+  const userNearAcc = useSelector(defaultUserNearAccSelector);
 
   return (
     <div className={styles.root}>
@@ -47,7 +46,7 @@ const Account: FC = () => {
         </Button>
       </div>
 
-      {showError && (
+      {userNearAcc?.enabled === false && (
         <div className={styles.errorBlock}>
           <IconWarning />
 
@@ -62,7 +61,7 @@ const Account: FC = () => {
         showSubscribe={false}
         walletUrl={user.wallets?.[0].walletUrl || ''}
         walletName={user.wallets?.[0].walletName || ''}
-        username={user.username || ''}
+        username={user.username || userNearAcc?.accountId || ''}
         bio={user.bio || ''}
         avatar={user.avatar || ''}
       />

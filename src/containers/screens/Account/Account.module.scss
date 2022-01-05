@@ -84,13 +84,14 @@
   flex-flow: row nowrap;
   align-items: center;
   justify-content: flex-start;
-  background: var(--color-yellow-40);
   padding: 10px 12px;
-  margin: 0 8px 18px;
+  margin: 14px 8px 18px;
   border-radius: 4px;
+  border: 1px solid var(--color-brand-orange);
 
   svg {
     min-width: 20px;
+    color: var(--color-brand-orange);
   }
 }
 

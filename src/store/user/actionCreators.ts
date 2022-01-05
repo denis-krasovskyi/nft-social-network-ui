@@ -36,7 +36,7 @@ type User = {
 
 export function updateUserDataAction(user: User) {
   return async (): Promise<void> => {
-    await api.patch('https://develop.nft-social-network.net/users/my/profile', {
+    await api.patch('/users/my/profile', {
       ...user,
       avatar: null,
     });

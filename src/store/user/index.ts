@@ -28,9 +28,13 @@ const userSlice = createSlice({
     },
     setUserNftsData: (state, action: PayloadAction<NFT[]>) => {
       state.nfts = [...(state.nfts || []), ...action.payload];
+
+      return state;
     },
     updateUserData: (state, action: PayloadAction<Partial<UserState>>) => {
       state = { ...state, ...action.payload };
+
+      return state;
     },
   },
 });
@@ -38,6 +42,11 @@ const userSlice = createSlice({
 export const userSelector = createSelector(
   (state: RootState) => state.user,
   (user) => user,
+);
+
+export const defaultUserNearAccSelector = createSelector(
+  (state: RootState) => state.user,
+  (user) => user.nearAccounts?.[0],
 );
 
 export const { setUserData, setUserNftsData, updateUserData } =

@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { mixed, object, string } from 'yup';
 import { useFormik } from 'formik';
 import { Modal } from '@mui/material';
 import { useToggle } from 'react-use';
 import { useHistory } from 'react-router-dom';
 
-import { Wallet } from 'api/types';
-import { updateUserDataAction } from 'store/user/actionCreators';
-import User from 'store/user';
-import { setJWTTokenThunk } from 'store/auth';
-
-import NearService from 'services/near';
-
 import Button from 'components/ui-kit/Button';
 import Typography from 'components/ui-kit/Typography';
 import { useSnackbar } from 'components/ui-kit/Snackbar';
 import AvatarUpload from 'components/AvatarUpload';
+import NearService from 'services/near';
+import { Wallet } from 'api/types';
+import { updateUserData as updateUserDataRequest } from 'api/users';
+import { updateUserData, userSelector } from 'store/user';
+import { setJWTTokenThunk } from 'store/auth';
 
 import { ReactComponent as IconCheck } from 'assets/icons/icon-check.svg';
 import { ReactComponent as IconCheckActive } from 'assets/icons/icon-check-active.svg';
@@ -35,27 +33,27 @@ const SUPPORTED_FILE_TYPES = [
   'image/png',
 ];
 
-const validationSchema = object().shape({
-  avatar: mixed().test('fileType', 'Unsupported format', (value) => {
-    // null (no photo) can be as initial value, so it's valid
-    if (value === null) return true;
+type AvatarFieldValue = {
+  preview?: string;
+  file?: File | null;
+};
 
-    // get data type from base64
-    const fileType = value.split(';')[0].split(':')[1];
-    return SUPPORTED_FILE_TYPES.includes(fileType);
-  }),
+const validationSchema = object().shape({
+  avatar: mixed().test(
+    'fileType',
+    'Unsupported format',
+    (value: AvatarFieldValue) => {
+      if (value.file?.type) {
+        return SUPPORTED_FILE_TYPES.includes(value.file.type);
+      }
+
+      return true;
+    },
+  ),
   username: string().required('This field is required'),
   socials: string(),
   bio: string(),
 });
-
-type User = {
-  avatar: string | null;
-  username: string;
-  socials: string;
-  bio: string;
-  wallets: Wallet[];
-};
 
 const EditAccount: React.FC = () => {
   const dispatch = useDispatch();
@@ -64,22 +62,10 @@ const EditAccount: React.FC = () => {
 
   const { enqueueSnackbar } = useSnackbar();
 
+  const user = useSelector(userSelector);
+
   const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
   const [openWalletModal, setOpenWalletModal] = useToggle(false);
-  const [initialData] = useState<User>({
-    avatar: null,
-    username: '',
-    socials: '',
-    bio: '',
-    wallets: [
-      {
-        walletName: 'wallet.near',
-        walletUrl: 'https://google.com',
-        walletType: 'near',
-        id: 1,
-      },
-    ],
-  });
 
   const {
     handleSubmit,
@@ -93,14 +79,26 @@ const EditAccount: React.FC = () => {
   } = useFormik({
     validateOnMount: true,
     initialValues: {
-      avatar: initialData?.avatar,
-      username: initialData?.username || '',
-      socials: initialData?.socials || '',
-      bio: initialData?.bio || '',
+      avatar: {
+        preview: user.avatar,
+        file: null as File | null,
+      },
+      username: user?.username || '',
+      socials: user?.socials || '',
+      bio: user?.bio || '',
     },
     validationSchema,
-    onSubmit: () => {
-      dispatch(updateUserDataAction(values));
+    onSubmit: async (submitValues) => {
+      const payload = {
+        username: submitValues.username,
+        bio: submitValues.bio,
+        instagram: submitValues.socials,
+        profilePicture: await submitValues.avatar.file?.text(),
+      };
+
+      await updateUserDataRequest({ ...payload, profilePicture: undefined });
+
+      dispatch(updateUserData(payload));
 
       history.push('/cabinet/account');
     },
@@ -112,8 +110,12 @@ const EditAccount: React.FC = () => {
 
   const shouldSave = isValid && dirty;
 
-  const handleAvatarChange = (img: string) => {
-    setFieldValue('avatar', img, true);
+  const handleAvatarChange = (img: File) => {
+    setFieldValue(
+      'avatar',
+      { file: img, preview: URL.createObjectURL(img) },
+      true,
+    );
   };
 
   const handleAvatarUploadError = () => {
@@ -156,11 +158,12 @@ const EditAccount: React.FC = () => {
 
       <form className={styles.form} onSubmit={handleSubmit}>
         <AvatarUpload
-          value={values.avatar || ''}
+          preview={values.avatar.preview}
           onChange={handleAvatarChange}
           onError={handleAvatarUploadError}
           error={Boolean(errors.avatar)}
           fieldName="avatar"
+          accept={SUPPORTED_FILE_TYPES.toString()}
         />
 
         {/*  <Button className={styles.addWallet} variant="outlined" fullWidth>
@@ -169,7 +172,7 @@ const EditAccount: React.FC = () => {
 
         <Typography variant="label2">Wallet</Typography>
 
-        {initialData.wallets.map((wallet) => (
+        {user.wallets?.map((wallet) => (
           <div className={styles.walletWrapper} key={wallet.id}>
             <IconWalletNear />
 
