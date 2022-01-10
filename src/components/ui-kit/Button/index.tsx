@@ -16,8 +16,8 @@ const EXTENDED_VARIANTS_CLASSES_MAP = {
 
 const Button: React.FC<Props> = ({ variant, ...otherProps }) => {
   const extendedVariantClassName = EXTENDED_VARIANTS_CLASSES_MAP[
-    variant || 'primary'
-  ] as string;
+    variant as keyof typeof EXTENDED_VARIANTS_CLASSES_MAP
+  ] as string | undefined;
 
   const isExtendedVariant = Boolean(extendedVariantClassName);
 

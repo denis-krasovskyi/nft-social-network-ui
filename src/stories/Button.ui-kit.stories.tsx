@@ -32,7 +32,7 @@ Secondary.args = {
 
 export const Tertiary = Template.bind({});
 Tertiary.decorators = [
-  (Story) => (
+  (Story: React.ElementType) => (
     <div
       style={{
         minWidth: '200px',

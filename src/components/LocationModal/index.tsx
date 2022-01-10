@@ -30,7 +30,7 @@ const LocationModal: React.FC<LocationModalProps> = ({
   const [modalTitle, setModalTitle] = useState('Location');
   const [locationsState, setLocationsState] = useState(locations);
 
-  const handleLocationClick = (locationId) => {
+  const handleLocationClick = (locationId: number) => {
     const locState = [...locationsState];
     locState.map((location) => {
       if (location.id === locationId) {

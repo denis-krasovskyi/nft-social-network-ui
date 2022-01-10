@@ -77,7 +77,6 @@ const EditAccount: React.FC = () => {
     dirty,
     handleChange,
   } = useFormik({
-    validateOnMount: true,
     initialValues: {
       avatar: {
         preview: user.avatar,
@@ -88,6 +87,8 @@ const EditAccount: React.FC = () => {
       bio: user?.bio || '',
     },
     validationSchema,
+    enableReinitialize: true,
+    validateOnMount: true,
     onSubmit: async (submitValues) => {
       const payload = {
         username: submitValues.username,

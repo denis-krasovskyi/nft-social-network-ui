@@ -35,7 +35,7 @@ const AccountTabs: FC<AccountTabsProps> = ({ onExpand, value }) => {
     toggle(value);
   }, [value]);
 
-  const handleTabChange = (_, newValue: number) => {
+  const handleTabChange = (_: unknown, newValue: number) => {
     setTabValue(newValue);
   };
 

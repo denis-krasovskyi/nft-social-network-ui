@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { useToggle, useWindowScroll } from 'react-use';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ import { ReactComponent as IconWarning } from 'assets/icons/icon-warning.svg';
 
 import styles from './Account.module.scss';
 
-const Account: FC = () => {
+const Account: React.FC = () => {
   const [isListView, setIsListView] = useToggle(true);
   const { y: windowYScroll } = useWindowScroll();
 

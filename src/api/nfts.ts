@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 import api from './index';
-import { DEFAULT_PAGE_LIMIT, Pagination } from './utils';
+import { DEFAULT_PAGE_LIMIT, Pagination, PaginationParams } from './utils';
 import { Comment } from './comments';
 
 export type NFT = {
@@ -19,11 +19,22 @@ export type NFT = {
   comments: Comment[];
 };
 
-export const getPopularNftsRequest = async (params?: {
-  offset?: number;
-  limit?: number;
-}): Promise<AxiosResponse<Pagination & { data: NFT[] }>> => {
+export const getPopularNftsRequest = async (
+  params?: Partial<PaginationParams>,
+): Promise<AxiosResponse<Pagination & { data: NFT[] }>> => {
   return api.get<Pagination & { data: NFT[] }>('/nfts/popular', {
+    params: {
+      ...params,
+      offset: params?.offset || 0,
+      limit: params?.limit || DEFAULT_PAGE_LIMIT,
+    },
+  });
+};
+
+export const getMyNftsRequest = async (
+  params?: Partial<PaginationParams>,
+): Promise<AxiosResponse<Pagination & { data: NFT[] }>> => {
+  return api.get<Pagination & { data: NFT[] }>('/nfts/my', {
     params: {
       ...params,
       offset: params?.offset || 0,

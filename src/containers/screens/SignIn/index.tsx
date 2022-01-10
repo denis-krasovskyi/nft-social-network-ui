@@ -3,13 +3,14 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAsync } from 'react-use';
 
+import Typography from 'components/ui-kit/Typography';
+import Button from 'components/ui-kit/Button';
+import { useSnackbar } from 'components/ui-kit/Snackbar';
+import Spinner from 'components/Spinner';
 import { processSignatureRequest } from 'api/near';
 import { setJWTTokenThunk, authJWTTokenSelector } from 'store/auth';
 import { TOKEN_STORAGE_KEY } from 'utils';
 import NearService from 'services/near';
-import Typography from 'components/ui-kit/Typography';
-import Button from 'components/ui-kit/Button';
-import Spinner from 'components/Spinner';
 
 import OnboardingLogo from 'assets/images/onboarding-logo.png';
 import { ReactComponent as IconNear } from 'assets/icons/icon-near.svg';
@@ -19,6 +20,8 @@ import styles from './SignIn.module.scss';
 const SignInScreen: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const token = useSelector(authJWTTokenSelector);
 
@@ -43,11 +46,33 @@ const SignInScreen: React.FC = () => {
 
       dispatch(setJWTTokenThunk(response.data));
 
-      history.push('/cabinet/edit');
+      history.push('/cabinet/account');
     }
   };
 
   const { loading: isLoading } = useAsync(tryToLogin, []);
+
+  const onLoginClick = () => {
+    if ('cordova' in window) {
+      const loginLink = NearService.buildLoginString(window.location.pathname);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const inAppBrowserRef = (window as any).cordova?.InAppBrowser.open(
+        loginLink,
+        '_blank',
+        'location=yes',
+      );
+
+      inAppBrowserRef.addEventListener('loadStop', (e: { url: string }) => {
+        enqueueSnackbar(e.url, { variant: 'success' });
+        inAppBrowserRef.close();
+      });
+
+      return;
+    }
+
+    NearService.login();
+  };
 
   return (
     <div className={styles.root}>
@@ -69,7 +94,7 @@ const SignInScreen: React.FC = () => {
 
           <Button
             variant="primary"
-            onClick={() => NearService.login(history)}
+            onClick={onLoginClick}
             className={styles.signIn}
           >
             Sign up with
