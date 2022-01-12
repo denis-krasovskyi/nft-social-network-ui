@@ -10,11 +10,15 @@ import Button from 'components/ui-kit/Button';
 import Typography from 'components/ui-kit/Typography';
 import { useSnackbar } from 'components/ui-kit/Snackbar';
 import AvatarUpload from 'components/AvatarUpload';
-import NearService from 'services/near';
+// import NearService from 'services/near';
 import { Wallet } from 'api/types';
 import { updateUserData as updateUserDataRequest } from 'api/users';
 import { updateUserData, userSelector } from 'store/user';
-import { setJWTTokenThunk } from 'store/auth';
+import {
+  setJWTTokenThunk,
+  setAccountTokenThunk,
+  accountIdSelector,
+} from 'store/auth';
 
 import { ReactComponent as IconCheck } from 'assets/icons/icon-check.svg';
 import { ReactComponent as IconCheckActive } from 'assets/icons/icon-check-active.svg';
@@ -63,6 +67,7 @@ const EditAccount: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const user = useSelector(userSelector);
+  const accId = useSelector(accountIdSelector);
 
   const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
   const [openWalletModal, setOpenWalletModal] = useToggle(false);
@@ -241,8 +246,11 @@ const EditAccount: React.FC = () => {
           variant="ghostError"
           className={styles.logout}
           onClick={() => {
-            NearService.logOut();
             dispatch(setJWTTokenThunk(null));
+
+            if (accId) {
+              dispatch(setAccountTokenThunk(accId, null));
+            }
           }}
         >
           Log out

@@ -2,7 +2,12 @@ import axios from 'axios';
 import { AnyAction } from 'redux';
 
 import store from 'store';
-import { authJWTTokenSelector, setJWTTokenThunk } from 'store/auth';
+import {
+  authJWTTokenSelector,
+  accountIdSelector,
+  setJWTTokenThunk,
+  setAccountTokenThunk,
+} from 'store/auth';
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -25,6 +30,14 @@ instance.interceptors.response.use(
   (error) => {
     if (error.response.status === 401) {
       store.dispatch(setJWTTokenThunk(null) as unknown as AnyAction);
+
+      const accId = accountIdSelector(store.getState());
+
+      if (accId) {
+        store.dispatch(
+          setAccountTokenThunk(accId, null) as unknown as AnyAction,
+        );
+      }
     }
 
     return error;

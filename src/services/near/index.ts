@@ -1,18 +1,11 @@
 import buffer from 'buffer';
-import {
-  Near,
-  keyStores,
-  WalletConnection,
-  ConnectedWalletAccount,
-  KeyPair,
-  connect,
-} from 'near-api-js';
+import { Near, keyStores, KeyPair, connect } from 'near-api-js';
 import { NearConfig } from 'near-api-js/lib/near';
 
-const keyStore = new keyStores.BrowserLocalStorageKeyStore();
+export const keyStore = new keyStores.BrowserLocalStorageKeyStore();
 
 const config = {
-  networkId: 'testnet',
+  networkId: process.env.REACT_APP_NETWORK_ID,
   keyStore, // optional if not signing transactions
   nodeUrl: 'https://rpc.testnet.near.org',
   walletUrl: 'https://wallet.testnet.near.org',
@@ -35,45 +28,40 @@ class NearService {
 
   near: Near;
 
-  wallet: WalletConnection;
-
   nearConfig: NearConfig;
 
   async init() {
     this.near = await connect(this.nearConfig);
-    this.wallet = new WalletConnection(this.near, 'my-app');
   }
 
-  getWallet = (): WalletConnection => this.wallet;
-
-  getUserAccount = (): ConnectedWalletAccount => this.wallet.account();
-
-  getUserAccountId = (): string => this.wallet.getAccountId();
-
-  checkIsLoggedIn = () => this.wallet?.isSignedIn();
-
-  getSignature = async (): Promise<NearSignature | null> => {
-    if (this.wallet.isSignedIn()) {
-      const keyPair = await keyStore.getKey(
-        'testnet',
-        this.wallet.getAccountId(),
-      );
-      const signature = await this.sign(keyPair);
-      return { signature, publicKey: keyPair.getPublicKey().toString() };
-    }
-    return null;
+  getUserAccount = (accountId: string) => {
+    return this.near.account(accountId);
   };
 
-  login = () => {
-    this.wallet.requestSignIn(
-      'example-contract.testnet', // contract requesting access
-      'Example App',
-      // 'http://10.1.1.63:3000/#/sign-in',
-      // 'http://10.1.1.63:3000',
+  getUserAccountId = async () => {
+    const accounts = await this.nearConfig.keyStore?.getAccounts(
+      this.nearConfig.networkId,
     );
+
+    return accounts?.[0];
   };
 
-  logOut = () => this.wallet.signOut();
+  getSignature = async (accId: string): Promise<NearSignature | null> => {
+    const keyPair = await keyStore.getKey(this.nearConfig.networkId, accId);
+    const signature = await this.sign(keyPair);
+    return { signature, publicKey: keyPair.getPublicKey().toString() };
+  };
+
+  // login = () => {
+  //   this.wallet.requestSignIn(
+  //     'example-contract.testnet', // contract requesting access
+  //     'Example App',
+  //     // 'http://10.1.1.63:3000/#/sign-in',
+  //     // 'http://10.1.1.63:3000',
+  //   );
+  // };
+
+  // logOut = () => this.wallet.signOut();
 
   getNear = (): Near => this.near;
 
@@ -84,20 +72,27 @@ class NearService {
     return buffer.Buffer.from(signature).toString('base64');
   };
 
-  buildLoginString(successUrl: string, failureUrl?: string): string {
+  async intiLogin(
+    successUrl: string,
+    failureUrl?: string,
+  ): Promise<{ loginUrl: string; accessKey: KeyPair }> {
     const accessKey = KeyPair.fromRandom('ed25519');
+    const publicKey = accessKey.getPublicKey();
 
     const query = new URLSearchParams({
       success_url: successUrl,
       failure_url: failureUrl || successUrl,
       contract_id: 'example-contract.testnet', // TODO replace when the actual contract will be present
-      public_key: accessKey.getPublicKey().toString(),
+      public_key: publicKey.toString(),
       methodNames: ['get_policy'].toString(),
       referrer: 'Singularity',
       title: 'Singularity',
     });
 
-    return `${this.nearConfig.walletUrl}/login?${query.toString()}`;
+    return {
+      loginUrl: `${this.nearConfig.walletUrl}/login?${query.toString()}`,
+      accessKey,
+    };
   }
 }
 

@@ -26,6 +26,7 @@ js/**/*.js.map
 # production
 /build
 /www
+/hello/www
 
 # misc
 .DS_Store

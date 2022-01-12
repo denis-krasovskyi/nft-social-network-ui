@@ -23,12 +23,11 @@
 
 .formRoot {
   width: 100%;
-  max-width: 375px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 100vh;
+  flex-grow: 1;
 }
 
 .title {
@@ -70,5 +69,4 @@
   margin-top: auto;
   margin-bottom: 20px;
   color: var(--color-grey-70);
-
 }

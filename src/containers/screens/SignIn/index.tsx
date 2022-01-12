@@ -5,11 +5,15 @@ import { useAsync } from 'react-use';
 
 import Typography from 'components/ui-kit/Typography';
 import Button from 'components/ui-kit/Button';
-import { useSnackbar } from 'components/ui-kit/Snackbar';
 import Spinner from 'components/Spinner';
 import { processSignatureRequest } from 'api/near';
-import { setJWTTokenThunk, authJWTTokenSelector } from 'store/auth';
-import { TOKEN_STORAGE_KEY } from 'utils';
+import { ACCOUNT_ID_CALLBACK_LOGIN_PARAM_NAME } from 'utils';
+import {
+  setAccountTokenThunk,
+  setJWTTokenThunk,
+  authJWTTokenSelector,
+  accountIdSelector,
+} from 'store/auth';
 import NearService from 'services/near';
 
 import OnboardingLogo from 'assets/images/onboarding-logo.png';
@@ -21,9 +25,8 @@ const SignInScreen: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { enqueueSnackbar } = useSnackbar();
-
   const token = useSelector(authJWTTokenSelector);
+  const accountId = useSelector(accountIdSelector);
 
   const tryToLogin = async () => {
     await NearService.init();
@@ -33,16 +36,15 @@ const SignInScreen: React.FC = () => {
       return;
     }
 
-    if (NearService.checkIsLoggedIn()) {
-      const signature = await NearService.getSignature();
+    if (accountId) {
+      const signature = await NearService.getSignature(accountId);
 
       if (!signature) return;
 
       const response = await processSignatureRequest({
         sign: signature,
-        accId: NearService.getUserAccountId(),
+        accId: accountId,
       });
-      localStorage.setItem(TOKEN_STORAGE_KEY, response.data);
 
       dispatch(setJWTTokenThunk(response.data));
 
@@ -50,28 +52,69 @@ const SignInScreen: React.FC = () => {
     }
   };
 
-  const { loading: isLoading } = useAsync(tryToLogin, []);
+  const { loading: isLoading } = useAsync(tryToLogin, [accountId]);
 
-  const onLoginClick = () => {
-    if ('cordova' in window) {
-      const loginLink = NearService.buildLoginString(window.location.pathname);
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const inAppBrowserRef = (window as any).cordova?.InAppBrowser.open(
-        loginLink,
-        '_blank',
-        'location=yes',
+  useAsync(async () => {
+    const executeCompleteSignIn = () => {
+      const currentUrl = new URL(window.location.href);
+      const accId = currentUrl.searchParams.get(
+        ACCOUNT_ID_CALLBACK_LOGIN_PARAM_NAME,
       );
 
-      inAppBrowserRef.addEventListener('loadStop', (e: { url: string }) => {
-        enqueueSnackbar(e.url, { variant: 'success' });
-        inAppBrowserRef.close();
-      });
+      if (accId) {
+        window?.opener.completeSignIn?.(accId);
+      }
+    };
+
+    if (!window.cordova) {
+      executeCompleteSignIn();
+    }
+  }, []);
+
+  const onLoginClick = async () => {
+    const cbLink = window.cordova
+      ? 'https://dev.app.astrodao.com/callback/auth'
+      : window.location.href; // TODO replace it with own when possible
+    const { loginUrl: loginLink, accessKey } = await NearService.intiLogin(
+      cbLink,
+    );
+
+    if (!window.cordova) {
+      const win = window.open(loginLink);
+
+      window.completeSignIn = (accId: string) => {
+        if (accId) {
+          dispatch(setAccountTokenThunk(accId, accessKey));
+        }
+        win?.close();
+      };
 
       return;
     }
 
-    NearService.login();
+    const inAppBrowserRef = window.cordova?.InAppBrowser.open(
+      loginLink,
+      '_blank',
+      'location=yes,beforeload=yes',
+    );
+
+    inAppBrowserRef?.addEventListener('beforeload', async (e, load) => {
+      if (e.url.startsWith(cbLink)) {
+        const currentUrl = new URL(e.url);
+        const accountIdResponse = currentUrl.searchParams.get(
+          ACCOUNT_ID_CALLBACK_LOGIN_PARAM_NAME,
+        );
+
+        if (accountIdResponse) {
+          dispatch(setAccountTokenThunk(accountIdResponse, accessKey));
+        }
+
+        inAppBrowserRef.close();
+        return;
+      }
+
+      load(e.url);
+    });
   };
 
   return (
