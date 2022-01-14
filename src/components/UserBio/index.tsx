@@ -56,7 +56,7 @@ const UserBio: React.FC<UserBioProps> = ({
           </Typography>
         </Button>
 
-        <Typography variant="label1" className={styles.profileBio}>
+        <Typography variant="body3" className={styles.profileBio}>
           {bio}
         </Typography>
 

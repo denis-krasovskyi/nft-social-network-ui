@@ -1,0 +1,23 @@
+.itemHead {
+  padding: 14px 11px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.authorName {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 26px;
+}
+
+.assetWrap {
+  width: 100%;
+  max-height: 375px;
+}
+
+.asset {
+  width: 100%;
+  max-height: inherit;
+  object-fit: cover;
+}

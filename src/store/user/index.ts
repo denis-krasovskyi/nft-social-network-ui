@@ -2,14 +2,17 @@
 import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit';
 
 import type { Wallet } from 'api/types';
-import type { NFT } from 'api/nfts';
+import type { PersonalNFT } from 'api/nfts';
 import type { User } from 'api/users';
 
 import type { RootState } from 'store';
 
 type UserState = User & {
   socials: string;
-  nfts: NFT[];
+  nfts?: {
+    total: number;
+    list: PersonalNFT[];
+  };
   avatar: string;
   following: number;
   followers: number;
@@ -26,8 +29,19 @@ const userSlice = createSlice({
     setUserData: (state, action: PayloadAction<Partial<UserState>>) => {
       return action.payload;
     },
-    setUserNftsData: (state, action: PayloadAction<NFT[]>) => {
-      state.nfts = [...(state.nfts || []), ...action.payload];
+    setUserNfts: (state, action: PayloadAction<UserState['nfts']>) => {
+      state.nfts = action.payload;
+
+      return state;
+    },
+    appendUserNfts: (
+      state,
+      action: PayloadAction<{ total?: number; list: PersonalNFT[] }>,
+    ) => {
+      state.nfts = {
+        total: action.payload.total || state.nfts?.total || 0,
+        list: [...(state.nfts?.list || []), ...action.payload.list],
+      };
 
       return state;
     },
@@ -36,6 +50,7 @@ const userSlice = createSlice({
 
       return state;
     },
+    resetUserData: () => ({}),
   },
 });
 
@@ -49,7 +64,12 @@ export const defaultUserNearAccSelector = createSelector(
   (user) => user.nearAccounts?.[0],
 );
 
-export const { setUserData, setUserNftsData, updateUserData } =
-  userSlice.actions;
+export const {
+  setUserData,
+  setUserNfts,
+  updateUserData,
+  appendUserNfts,
+  resetUserData,
+} = userSlice.actions;
 
 export default userSlice.reducer;

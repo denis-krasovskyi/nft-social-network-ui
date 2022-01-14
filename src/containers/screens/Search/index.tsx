@@ -69,7 +69,7 @@ const SearchScreen: React.FC = () => {
         <>
           {showTopNFTList ? (
             <div className={styles.listWrapper}>
-              {nfts && <NFTGridView nfts={nfts} />}
+              {nfts && <NFTGridView nfts={[]} />}
             </div>
           ) : (
             <div className={styles.listWrapper}>

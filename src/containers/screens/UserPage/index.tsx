@@ -39,7 +39,7 @@ const UserPage: FC = () => {
         />
       </div>
 
-      {user.nfts && <NFTListView nfts={user.nfts} showOwnerInfo />}
+      {user.nfts && <NFTListView nfts={[]} showOwnerInfo />}
     </div>
   );
 };

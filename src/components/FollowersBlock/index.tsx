@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Link } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import Typography from 'components/ui-kit/Typography';
 
@@ -15,7 +15,7 @@ const FollowersBlock: React.FC<FollowersBlockProps> = ({
 }) => {
   return (
     <div className={classNames(styles.followersBlock, className)}>
-      <Link href={followingLink} className={styles.followersLink}>
+      <Link to={followingLink} className={styles.followersLink}>
         <Typography variant="body3" className={styles.followersLinkTitle}>
           Following
           <Typography variant="title7" className={styles.followersLinkCaption}>
@@ -24,7 +24,7 @@ const FollowersBlock: React.FC<FollowersBlockProps> = ({
         </Typography>
       </Link>
 
-      <Link href={followersLink} className={styles.followersLink}>
+      <Link to={followersLink} className={styles.followersLink}>
         <Typography variant="body3" className={styles.followersLinkTitle}>
           Followers
           <Typography variant="title7" className={styles.followersLinkCaption}>

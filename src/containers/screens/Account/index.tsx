@@ -1,17 +1,22 @@
 import React from 'react';
-import { useToggle, useWindowScroll } from 'react-use';
+import { useWindowScroll, useAsync, useLocalStorage } from 'react-use';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Button from 'components/ui-kit/Button';
 import FollowersBlock from 'components/FollowersBlock';
+import Spinner from 'components/Spinner';
 import UserBio from 'components/UserBio';
-import NFTListView from 'components/NFTListView';
-import NFTGridView from 'components/NFTGridView';
 import Typography from 'components/ui-kit/Typography';
-import { userSelector, defaultUserNearAccSelector } from 'store/user';
+import { getMyNftsRequest } from 'api/nfts';
+import {
+  userSelector,
+  defaultUserNearAccSelector,
+  setUserNfts,
+} from 'store/user';
 
-import { ReactComponent as IconSettings } from 'assets/icons/icon-settings.svg';
+import { ReactComponent as IconSettings } from 'assets/icons/icon-menu-2.svg';
 import { ReactComponent as IconList } from 'assets/icons/icon-list.svg';
 import { ReactComponent as IconListActive } from 'assets/icons/icon-list-active.svg';
 import { ReactComponent as IconGrid } from 'assets/icons/icon-grid.svg';
@@ -19,14 +24,27 @@ import { ReactComponent as IconGridActive } from 'assets/icons/icon-grid-active.
 import { ReactComponent as IconLogo } from 'assets/icons/icon-logo.svg';
 import { ReactComponent as IconWarning } from 'assets/icons/icon-warning.svg';
 
+import NFTList from './NFTList';
+
 import styles from './Account.module.scss';
 
 const Account: React.FC = () => {
-  const [isListView, setIsListView] = useToggle(true);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [isListView, setIsListView] = useLocalStorage('accountListView', true);
   const { y: windowYScroll } = useWindowScroll();
 
   const user = useSelector(userSelector);
   const userNearAcc = useSelector(defaultUserNearAccSelector);
+
+  useAsync(async () => {
+    if (user.nfts?.list) return;
+
+    const { data } = await getMyNftsRequest();
+
+    dispatch(setUserNfts({ total: data.total, list: data.data }));
+  }, [Boolean(user.nfts)]);
 
   return (
     <div className={styles.root}>
@@ -40,7 +58,8 @@ const Account: React.FC = () => {
         <Button
           className={styles.headerButton}
           variant="ghost"
-          href="#/cabinet/edit"
+          component={Link}
+          to="/cabinet/edit"
         >
           <IconSettings />
         </Button>
@@ -66,13 +85,17 @@ const Account: React.FC = () => {
         avatar={user.avatar || ''}
       />
 
-      <div className={styles.viewControl}>
+      <div
+        className={classNames(styles.viewControl, {
+          [styles.viewControlListView]: isListView,
+        })}
+      >
         <FollowersBlock
           className={styles.followers}
           followers={user.followers || 0}
           following={user.following || 0}
-          followersLink={`#/cabinet/followers/${user.id}`}
-          followingLink={`#/cabinet/followers/${user.id}`}
+          followersLink={`/cabinet/followers/${user.id}`}
+          followingLink={`/cabinet/followers/${user.id}`}
         />
 
         <Button
@@ -95,11 +118,25 @@ const Account: React.FC = () => {
           {isListView ? <IconGrid /> : <IconGridActive />}
         </Button>
       </div>
-      {isListView
-        ? user.nfts && (
-            <NFTListView nfts={user.nfts} showExtraControls showOwnerInfo />
-          )
-        : user.nfts && <NFTGridView nfts={user.nfts} />}
+
+      {!user.nfts && <Spinner className={styles.spinner} />}
+
+      {user.nfts && (
+        <NFTList
+          total={user.nfts.total}
+          list={user.nfts.list.map((item) => ({
+            id: item.id,
+            assetUrl: item.media,
+            authorUsername: user.username || '',
+            authorAvatarUrl: user.avatar || '',
+            assetTitle: item.metadata?.title,
+          }))}
+          gridViewEnabled={!isListView}
+          onItemClick={({ id }) => {
+            history.push(`/cabinet/nft/${id}`);
+          }}
+        />
+      )}
     </div>
   );
 };

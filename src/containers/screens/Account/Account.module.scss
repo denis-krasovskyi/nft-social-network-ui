@@ -37,9 +37,17 @@
   justify-content: space-between;
 }
 
+.viewControlListView {
+  margin-bottom: 0;
+}
+
 .followers {
   width: calc(100% - 91px);
   margin: 0;
+}
+
+.spinner {
+  margin: auto;
 }
 
 .control {
