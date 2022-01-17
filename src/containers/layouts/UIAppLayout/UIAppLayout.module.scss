@@ -1,5 +1,5 @@
 .root {
-  padding-bottom: 72px;
+  padding-bottom: calc(72px - env(safe-area-inset-bottom));
   min-height: 100%;
   display: flex;
   flex-direction: column;

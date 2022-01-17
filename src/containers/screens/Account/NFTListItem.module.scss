@@ -1,3 +1,7 @@
+.rootSmall {
+  max-height: 118px;
+}
+
 .itemHead {
   padding: 14px 11px;
   display: flex;
@@ -14,10 +18,38 @@
 .assetWrap {
   width: 100%;
   max-height: 375px;
+  height: 100%;
+  display: grid;
+
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.assetWrapSmall {
+  max-height: 118px;
+}
+
+.assetHiddenOverlay {
+  grid-area: 1/1;
+  background: rgba(255, 255, 255, 0.74);
+  display: flex;
+}
+
+.eyeOffIcon {
+  width: 40%;
+  height: 40%;
+  margin: auto;
+}
+
+.eyeOffLargeIcon {
+  width: 29%;
+  height: 29%;
 }
 
 .asset {
   width: 100%;
+  height: 100%;
   max-height: inherit;
   object-fit: cover;
+  grid-area: 1 / 1;
 }

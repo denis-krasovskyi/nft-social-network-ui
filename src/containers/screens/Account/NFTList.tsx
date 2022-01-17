@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import Button from 'components/ui-kit/Button';
 import Typography from 'components/ui-kit/Typography';
+import Divider from 'components/ui-kit/Divider';
+import { BottomSheet } from 'components/ui-kit/ModalSheet';
 
 import NFTListItem, { TNFTListItem } from './NFTListItem';
 
@@ -14,7 +17,15 @@ const NFTList: React.FC<NFTListProps> = ({
   onMore,
   onItemClick,
   gridViewEnabled,
+  toggleNftVisilibtyBtnDisabled,
+  onCopyNftClick,
+  onShareNftClick,
+  onChangeNftVisibilityClick,
 }) => {
+  const [currentNft, setCurrentNft] = useState<TNFTListItem>();
+
+  const showMoreMenu = Boolean(currentNft);
+
   if (total === 0) {
     return (
       <div className={classNames(styles.emptyListRoot, className)}>
@@ -39,22 +50,98 @@ const NFTList: React.FC<NFTListProps> = ({
             gridViewEnabled
               ? undefined
               : (e) => {
+                  setCurrentNft(item);
                   onMore?.(item, e);
                 }
           }
           onMorePress={
             gridViewEnabled
               ? (e) => {
+                  setCurrentNft(item);
                   onMore?.(item, e);
                 }
               : undefined
           }
           onItemClick={(e) => {
+            if (showMoreMenu) return;
             onItemClick?.(item, e);
           }}
-          hideHead={gridViewEnabled}
+          largeSize={!gridViewEnabled}
         />
       ))}
+
+      <BottomSheet
+        open={showMoreMenu}
+        snapPoints={({ minHeight }) => minHeight}
+        onDismiss={() => {
+          setCurrentNft(undefined);
+        }}
+        initialFocusRef={false}
+        className={styles.moreContent}
+      >
+        <Button
+          variant="ghost"
+          onClick={(e) => {
+            if (currentNft) {
+              onCopyNftClick?.(currentNft, e);
+            }
+          }}
+          fullWidth
+          className={styles.moreButton}
+        >
+          <Typography variant="body2" component="span">
+            Copy Link
+          </Typography>
+        </Button>
+
+        <Button
+          variant="ghost"
+          onClick={(e) => {
+            if (currentNft) {
+              onShareNftClick?.(currentNft, e);
+            }
+          }}
+          fullWidth
+          className={styles.moreButton}
+        >
+          <Typography variant="body2" component="span">
+            Share via...
+          </Typography>
+        </Button>
+
+        <Divider className={styles.moreDivider} />
+
+        <div className={styles.moreBottom}>
+          <div className={styles.moreBottomContent}>
+            <Typography variant="heading6">Hide NFT</Typography>
+            <Typography variant="label1">
+              If you don’t want this NFT to appear in your account switch to
+              HIDE
+            </Typography>
+          </div>
+
+          <Button
+            variant="ghost"
+            size="small"
+            fullWidth
+            onClick={(e) => {
+              if (currentNft) {
+                onChangeNftVisibilityClick?.(currentNft, e);
+                setCurrentNft(undefined);
+              }
+            }}
+            disabled={toggleNftVisilibtyBtnDisabled}
+            className={classNames(styles.moreHideBtn, {
+              [styles.moreHideBtnReverse]: currentNft?.visible === false,
+            })}
+          >
+            <span />{' '}
+            <Typography variant="tagline2">
+              {currentNft?.visible ? 'HIDE' : 'SHOW'}
+            </Typography>
+          </Button>
+        </div>
+      </BottomSheet>
     </div>
   );
 };
@@ -64,8 +151,12 @@ type NFTListProps = {
   total: number;
   list: TNFTListItem[];
   gridViewEnabled?: boolean;
+  toggleNftVisilibtyBtnDisabled?: boolean;
   onMore?: (p: TNFTListItem, e?: React.MouseEvent | React.TouchEvent) => void;
   onItemClick?: (p: TNFTListItem, e: React.MouseEvent) => void;
+  onCopyNftClick?: (p: TNFTListItem, e: React.MouseEvent) => void;
+  onShareNftClick?: (p: TNFTListItem, e: React.MouseEvent) => void;
+  onChangeNftVisibilityClick?: (p: TNFTListItem, e: React.MouseEvent) => void;
 };
 
 export default NFTList;

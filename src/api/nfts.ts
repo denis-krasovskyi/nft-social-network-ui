@@ -30,6 +30,7 @@ export type PersonalNFT = {
   minter: string;
   media: string;
   metadata: NFTMetadata;
+  visible?: boolean;
 };
 
 export type NFT = {
@@ -69,4 +70,11 @@ export const getMyNftsRequest = async (
       limit: params?.limit || DEFAULT_PAGE_LIMIT,
     },
   });
+};
+
+export const setPersonalNftVisibilityRequest = async (params: {
+  id: string;
+  visible: boolean;
+}): Promise<AxiosResponse<PersonalNFT>> => {
+  return api.patch(`/nfts/my/${params.id}/${params.visible ? 'show' : 'hide'}`);
 };

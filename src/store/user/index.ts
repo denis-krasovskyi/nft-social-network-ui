@@ -45,6 +45,25 @@ const userSlice = createSlice({
 
       return state;
     },
+    setUserNftVisibility: (
+      state,
+      action: PayloadAction<{ id: string; visible: boolean }>,
+    ) => {
+      if (state.nfts?.list) {
+        state.nfts.list = state.nfts.list.map((item) => {
+          if (item.id === action.payload.id) {
+            return {
+              ...item,
+              visible: action.payload.visible,
+            };
+          }
+
+          return item;
+        });
+      }
+
+      return state;
+    },
     updateUserData: (state, action: PayloadAction<Partial<UserState>>) => {
       state = { ...state, ...action.payload };
 
@@ -70,6 +89,7 @@ export const {
   updateUserData,
   appendUserNfts,
   resetUserData,
+  setUserNftVisibility,
 } = userSlice.actions;
 
 export default userSlice.reducer;

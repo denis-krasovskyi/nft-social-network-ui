@@ -4,21 +4,24 @@
   align-items: stretch;
   flex-grow: 1;
   position: relative;
+  padding-top: calc(42px + 12px * 2);
 }
 
 .header {
   width: 100%;
   padding: 12px 8px;
-  height: 44px;
+  min-height: 42px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
-  position: sticky;
-  top: -1px;
+  position: fixed;
+  top: 0;
   left: 0;
   margin-bottom: 4px;
   z-index: 3;
+  padding-top: calc(12px + env(safe-area-inset-top));
+  background: var(--color-white);
 }
 
 .headerShadow {

@@ -1,5 +1,10 @@
 import React from 'react';
-import { useWindowScroll, useAsync, useLocalStorage } from 'react-use';
+import {
+  useWindowScroll,
+  useAsync,
+  useLocalStorage,
+  useAsyncFn,
+} from 'react-use';
 import classNames from 'classnames';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,11 +14,12 @@ import FollowersBlock from 'components/FollowersBlock';
 import Spinner from 'components/Spinner';
 import UserBio from 'components/UserBio';
 import Typography from 'components/ui-kit/Typography';
-import { getMyNftsRequest } from 'api/nfts';
+import { getMyNftsRequest, setPersonalNftVisibilityRequest } from 'api/nfts';
 import {
   userSelector,
   defaultUserNearAccSelector,
   setUserNfts,
+  setUserNftVisibility,
 } from 'store/user';
 
 import { ReactComponent as IconSettings } from 'assets/icons/icon-menu-2.svg';
@@ -45,6 +51,18 @@ const Account: React.FC = () => {
 
     dispatch(setUserNfts({ total: data.total, list: data.data }));
   }, [Boolean(user.nfts)]);
+
+  const [{ loading: setUserNftVisibilityLoading }, setPersonalNftVisibility] =
+    useAsyncFn(
+      async (p: Parameters<typeof setPersonalNftVisibilityRequest>[0]) => {
+        const { data } = await setPersonalNftVisibilityRequest(p);
+
+        dispatch(
+          setUserNftVisibility({ id: data.id, visible: Boolean(data.visible) }),
+        );
+      },
+      [],
+    );
 
   return (
     <div className={styles.root}>
@@ -130,11 +148,28 @@ const Account: React.FC = () => {
             authorUsername: user.username || '',
             authorAvatarUrl: user.avatar || '',
             assetTitle: item.metadata?.title,
+            visible: item.visible !== false,
           }))}
           gridViewEnabled={!isListView}
+          onMore={(_, e) => {
+            e?.preventDefault?.();
+            e?.stopPropagation?.();
+          }}
           onItemClick={({ id }) => {
             history.push(`/cabinet/nft/${id}`);
           }}
+          onChangeNftVisibilityClick={({ id, visible }) => {
+            setPersonalNftVisibility({ id, visible: !visible });
+          }}
+          onCopyNftClick={async ({ id }) => {
+            await navigator.clipboard.writeText(`/cabinet/nft/${id}`);
+          }}
+          onShareNftClick={async ({ id }) => {
+            await navigator.share?.(
+              `/cabinet/nft/${id}` as unknown as ShareData,
+            );
+          }}
+          toggleNftVisilibtyBtnDisabled={setUserNftVisibilityLoading}
         />
       )}
     </div>
