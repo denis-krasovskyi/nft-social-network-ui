@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
-import { useLongPress, LongPressDetectEvents } from 'use-long-press';
+import { useToggle } from 'react-use';
 
 import Typography from 'components/ui-kit/Typography';
 import IconButton from 'components/ui-kit/IconButton';
@@ -10,6 +10,42 @@ import { ReactComponent as IconHidden } from 'assets/icons/icon-eye-off.svg';
 
 import styles from './NFTListItem.module.scss';
 
+function useLongPress(callback?: () => void, ms = 800) {
+  const [startLongPress, setStartLongPress] = useToggle(false);
+
+  useEffect(() => {
+    let timerId: ReturnType<typeof setTimeout> | undefined;
+
+    const stopLongPressOnScroll = () => {
+      setStartLongPress(false);
+      window.removeEventListener('scroll', stopLongPressOnScroll);
+    };
+
+    if (startLongPress && callback) {
+      timerId = setTimeout(callback, ms);
+
+      window.addEventListener('scroll', stopLongPressOnScroll);
+    } else if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    return () => {
+      if (timerId) {
+        clearTimeout(timerId);
+        window.removeEventListener('scroll', stopLongPressOnScroll);
+      }
+    };
+  }, [callback, ms, startLongPress]);
+
+  return {
+    onMouseDown: () => setStartLongPress(true),
+    onMouseUp: () => setStartLongPress(false),
+    onMouseLeave: () => setStartLongPress(false),
+    onTouchStart: () => setStartLongPress(true),
+    onTouchEnd: () => setStartLongPress(false),
+  };
+}
+
 const NFTListItem: React.FC<NFTListItemProps> = ({
   data,
   className,
@@ -18,12 +54,7 @@ const NFTListItem: React.FC<NFTListItemProps> = ({
   onItemClick,
   largeSize,
 }) => {
-  const longPressEvent = useLongPress(onMorePress || null, {
-    threshold: 800,
-    captureEvent: true,
-    cancelOnMovement: true,
-    detect: LongPressDetectEvents.TOUCH,
-  });
+  const longPressBind = useLongPress(onMorePress);
 
   return (
     <div className={classNames(className, { [styles.rootSmall]: !largeSize })}>
@@ -52,7 +83,7 @@ const NFTListItem: React.FC<NFTListItemProps> = ({
         className={classNames(styles.assetWrap, {
           [styles.assetWrapSmall]: !largeSize,
         })}
-        {...longPressEvent}
+        {...longPressBind}
         onClick={onItemClick}
         onKeyPress={undefined}
         tabIndex={0}
@@ -91,7 +122,7 @@ type NFTListItemProps = {
   largeSize?: boolean;
   data: TNFTListItem;
   onMoreClick?: React.MouseEventHandler<HTMLButtonElement>;
-  onMorePress?: (e?: React.TouchEvent) => void;
+  onMorePress?: () => void;
   onItemClick?: React.MouseEventHandler;
 };
 

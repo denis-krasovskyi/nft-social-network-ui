@@ -56,9 +56,9 @@ const NFTList: React.FC<NFTListProps> = ({
           }
           onMorePress={
             gridViewEnabled
-              ? (e) => {
+              ? () => {
                   setCurrentNft(item);
-                  onMore?.(item, e);
+                  onMore?.(item);
                 }
               : undefined
           }
@@ -72,7 +72,6 @@ const NFTList: React.FC<NFTListProps> = ({
 
       <BottomSheet
         open={showMoreMenu}
-        snapPoints={({ minHeight }) => minHeight}
         onDismiss={() => {
           setCurrentNft(undefined);
         }}
@@ -137,7 +136,7 @@ const NFTList: React.FC<NFTListProps> = ({
           >
             <span />{' '}
             <Typography variant="tagline2">
-              {currentNft?.visible ? 'HIDE' : 'SHOW'}
+              {currentNft?.visible === false ? 'SHOW' : 'HIDE'}
             </Typography>
           </Button>
         </div>
@@ -152,11 +151,11 @@ type NFTListProps = {
   list: TNFTListItem[];
   gridViewEnabled?: boolean;
   toggleNftVisilibtyBtnDisabled?: boolean;
-  onMore?: (p: TNFTListItem, e?: React.MouseEvent | React.TouchEvent) => void;
+  onMore?: (p: TNFTListItem, e?: React.MouseEvent) => void;
   onItemClick?: (p: TNFTListItem, e: React.MouseEvent) => void;
   onCopyNftClick?: (p: TNFTListItem, e: React.MouseEvent) => void;
   onShareNftClick?: (p: TNFTListItem, e: React.MouseEvent) => void;
   onChangeNftVisibilityClick?: (p: TNFTListItem, e: React.MouseEvent) => void;
 };
 
-export default NFTList;
+export default React.memo(NFTList);
