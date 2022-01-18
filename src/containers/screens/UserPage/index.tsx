@@ -22,8 +22,7 @@ const UserPage: FC = () => {
 
       <UserBio
         showSubscribe
-        walletUrl={user.wallets?.[0].walletUrl || ''}
-        walletName={user.wallets?.[0].walletName || ''}
+        accId=""
         username={user.username || ''}
         bio={user.bio || ''}
         avatar={user.avatar || ''}

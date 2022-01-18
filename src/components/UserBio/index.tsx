@@ -15,8 +15,8 @@ const UserBio: React.FC<UserBioProps> = ({
   className,
   username,
   avatar,
-  walletUrl,
-  walletName,
+  onAccIdClick,
+  accId,
   bio,
   instagramLink,
   isSubscribed,
@@ -47,12 +47,12 @@ const UserBio: React.FC<UserBioProps> = ({
 
         <Button
           variant="ghost"
-          href={walletUrl}
+          onClick={onAccIdClick}
           endIcon={<IconExternal height={14} />}
           className={styles.profileWallet}
         >
           <Typography variant="body3" className={styles.profileWalletLink}>
-            {walletName}
+            {accId}
           </Typography>
         </Button>
 
@@ -80,8 +80,8 @@ type UserBioProps = {
   className?: string;
   username: string;
   avatar: string;
-  walletUrl: string;
-  walletName: string;
+  onAccIdClick?: React.MouseEventHandler<HTMLButtonElement>;
+  accId?: string;
   bio: string;
   instagramLink?: string;
   isSubscribed?: boolean;

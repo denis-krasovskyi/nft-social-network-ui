@@ -96,8 +96,25 @@ const Account: React.FC = () => {
 
       <UserBio
         showSubscribe={false}
-        walletUrl={user.wallets?.[0].walletUrl || ''}
-        walletName={user.wallets?.[0].walletName || ''}
+        accId={userNearAcc?.accountId || ''}
+        onAccIdClick={() => {
+          const accIdUrl = `https://explorer.${
+            process.env.REACT_APP_NETWORK_ID
+          }.near.org/accounts/${userNearAcc?.accountId || ''}`;
+
+          if (accIdUrl && window.cordova) {
+            window.cordova?.InAppBrowser.open(
+              accIdUrl,
+              '_blank',
+              'location=yes',
+            );
+            return;
+          }
+
+          if (accIdUrl) {
+            window.open(accIdUrl, '_blank');
+          }
+        }}
         username={user.username || userNearAcc?.accountId || ''}
         bio={user.bio || ''}
         avatar={user.avatar || ''}
