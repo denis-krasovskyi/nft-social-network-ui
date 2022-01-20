@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { NFT } from 'store/types';
-
+import Typography from 'components/ui-kit/Typography';
 import NFTCard from 'components/NFTCard';
+import { NFT } from 'api/nfts';
 
 import styles from './NFTListView.module.scss';
 
@@ -13,6 +13,17 @@ const NFTListView: React.FC<NFTListViewProps> = ({
   showOwnerInfo = false,
   showExtraControls = false,
 }) => {
+  if (nfts.length === 0) {
+    return (
+      <div
+        className={classNames(styles.listRoot, styles.emptyListRoot, className)}
+      >
+        <Typography variant="subtitle1" component="p">
+          Empty list
+        </Typography>
+      </div>
+    );
+  }
   return (
     <div className={classNames(styles.listRoot, className)}>
       {nfts.map((item) => (

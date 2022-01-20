@@ -14,7 +14,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
 }) => {
   const [searchValue, setSearchValue] = useState('');
 
-  const handleChange = (val) => {
+  const handleChange = (val: string) => {
     setSearchValue(val);
 
     onChange(val);

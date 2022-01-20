@@ -4,21 +4,24 @@
   align-items: stretch;
   flex-grow: 1;
   position: relative;
+  padding-top: calc(42px + 12px * 2);
 }
 
 .header {
   width: 100%;
-  padding: 12px 4px;
-  height: 44px;
+  padding: 12px 8px;
+  min-height: 42px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
-  position: sticky;
-  top: -1px;
+  position: fixed;
+  top: 0;
   left: 0;
   margin-bottom: 4px;
   z-index: 3;
+  padding-top: calc(12px + env(safe-area-inset-top));
+  background: var(--color-white);
 }
 
 .headerShadow {
@@ -37,9 +40,17 @@
   justify-content: space-between;
 }
 
+.viewControlListView {
+  margin-bottom: 0;
+}
+
 .followers {
   width: calc(100% - 91px);
   margin: 0;
+}
+
+.spinner {
+  margin: auto;
 }
 
 .control {
@@ -84,13 +95,14 @@
   flex-flow: row nowrap;
   align-items: center;
   justify-content: flex-start;
-  background: var(--color-yellow-40);
   padding: 10px 12px;
-  margin: 0 8px 18px;
+  margin: 14px 8px 18px;
   border-radius: 4px;
+  border: 1px solid var(--color-brand-orange);
 
   svg {
     min-width: 20px;
+    color: var(--color-brand-orange);
   }
 }
 

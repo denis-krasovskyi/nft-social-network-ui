@@ -30,7 +30,7 @@ Filled.args = {
   selected: false,
   label: 'Available for work',
   clickable: true,
-  onDelete: null,
+  onDelete: undefined,
 } as React.ComponentProps<typeof Chip>;
 
 export const Outlined = Template.bind({});
@@ -39,7 +39,7 @@ Outlined.args = {
   selected: false,
   label: 'Status',
   clickable: true,
-  onDelete: null,
+  onDelete: undefined,
   icon: <CheckIcon />,
 } as React.ComponentProps<typeof Chip>;
 
@@ -48,5 +48,5 @@ Secondary.args = {
   variant: 'filled',
   label: 'menu planning',
   color: 'secondary',
-  onDelete: null,
+  onDelete: undefined,
 } as React.ComponentProps<typeof Chip>;

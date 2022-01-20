@@ -1,63 +1,121 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useToggle } from 'react-use';
-
-import api from 'api';
-
-import { setJWTToken } from 'store/user/actionCreators';
-
-import NearService, { NearSignature } from 'services/near';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAsync } from 'react-use';
 
 import Typography from 'components/ui-kit/Typography';
 import Button from 'components/ui-kit/Button';
 import Spinner from 'components/Spinner';
+import { processSignatureRequest } from 'api/near';
+import { ACCOUNT_ID_CALLBACK_LOGIN_PARAM_NAME } from 'utils';
+import {
+  setAccountTokenThunk,
+  setJWTTokenThunk,
+  authJWTTokenSelector,
+  accountIdSelector,
+} from 'store/auth';
+import NearService from 'services/near';
 
 import OnboardingLogo from 'assets/images/onboarding-logo.png';
 import { ReactComponent as IconNear } from 'assets/icons/icon-near.svg';
 
 import styles from './SignIn.module.scss';
 
-const processSignatureRequest = (data: NearSignature) =>
-  api.post('https://develop.nft-social-network.net/auth/near/login', {
-    accountId: NearService.getUserAccountId(),
-    publicKey: data.publicKey,
-    signature: data.signature,
-  });
-
 const SignInScreen: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useToggle(true);
+  const token = useSelector(authJWTTokenSelector);
+  const accountId = useSelector(accountIdSelector);
 
-  useEffect(() => {
-    const tryToLogin = async () => {
-      const token = localStorage.getItem('singularity-token');
-      await NearService.init();
+  const tryToLogin = async () => {
+    await NearService.init();
 
-      if (token) {
-        dispatch(setJWTToken(token));
+    if (token) {
+      history.push('/cabinet/account');
+      return;
+    }
 
-        history.push('/cabinet/account');
-      } else if (NearService.checkIsLoggedIn()) {
-        const signature: NearSignature | null =
-          await NearService.getSignature();
+    if (accountId) {
+      const signature = await NearService.getSignature(accountId);
 
-        if (signature) {
-          const response = await processSignatureRequest(signature);
-          localStorage.setItem('singularity-token', response.data);
+      if (!signature) return;
 
-          dispatch(setJWTToken(response.data));
+      const response = await processSignatureRequest({
+        sign: signature,
+        accId: accountId,
+      });
 
-          history.push('/cabinet/edit');
-        }
+      dispatch(setJWTTokenThunk(response.data));
+
+      history.push('/cabinet/account');
+    }
+  };
+
+  const { loading: isLoading } = useAsync(tryToLogin, [accountId]);
+
+  useAsync(async () => {
+    const executeCompleteSignIn = () => {
+      const currentUrl = new URL(window.location.href);
+      const accId = currentUrl.searchParams.get(
+        ACCOUNT_ID_CALLBACK_LOGIN_PARAM_NAME,
+      );
+
+      if (accId) {
+        window?.opener.completeSignIn?.(accId);
       }
-      setIsLoading(false);
     };
 
-    tryToLogin();
-  }, [dispatch, history, setIsLoading]);
+    if (!window.cordova) {
+      executeCompleteSignIn();
+    }
+  }, []);
+
+  const onLoginClick = async () => {
+    const cbLink = window.cordova
+      ? 'https://dev.app.astrodao.com/callback/auth'
+      : window.location.href; // TODO replace it with own when possible
+    const { loginUrl: loginLink, accessKey } = await NearService.intiLogin(
+      cbLink,
+    );
+
+    if (!window.cordova) {
+      const win = window.open(loginLink);
+
+      window.completeSignIn = (accId: string) => {
+        if (accId) {
+          dispatch(setAccountTokenThunk(accId, accessKey));
+        }
+        win?.close();
+      };
+
+      return;
+    }
+
+    const inAppBrowserRef = window.cordova?.InAppBrowser.open(
+      loginLink,
+      '_blank',
+      'location=yes,beforeload=yes',
+    );
+
+    inAppBrowserRef?.addEventListener('beforeload', async (e, load) => {
+      if (e.url.startsWith(cbLink)) {
+        const currentUrl = new URL(e.url);
+        const accountIdResponse = currentUrl.searchParams.get(
+          ACCOUNT_ID_CALLBACK_LOGIN_PARAM_NAME,
+        );
+
+        if (accountIdResponse) {
+          dispatch(setAccountTokenThunk(accountIdResponse, accessKey));
+        }
+
+        inAppBrowserRef.close();
+        return;
+      }
+
+      load(e.url);
+    });
+  };
 
   return (
     <div className={styles.root}>
@@ -79,7 +137,7 @@ const SignInScreen: React.FC = () => {
 
           <Button
             variant="primary"
-            onClick={() => NearService.login(history)}
+            onClick={onLoginClick}
             className={styles.signIn}
           >
             Sign up with

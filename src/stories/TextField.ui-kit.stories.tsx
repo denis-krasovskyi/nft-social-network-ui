@@ -14,7 +14,7 @@ export default {
 const Template: ComponentStory<typeof TextField> = () => {
   const [value, setValue] = React.useState('simple text');
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };
 

@@ -6,9 +6,9 @@ import MockAsset5 from 'assets/images/mock-asset-5.png';
 import MockAsset6 from 'assets/images/mock-asset-6.png';
 import MockAvatar from 'assets/images/avatar-mock.png';
 import EmptyAvatar from 'assets/images/empty-avatar.svg';
-import { MockUser } from '../types';
+// import { MockUser } from '../types';
 
-export const mockedUsers: MockUser[] = [
+export const mockedUsers = [
   {
     id: 1,
     avatar: MockAsset1,

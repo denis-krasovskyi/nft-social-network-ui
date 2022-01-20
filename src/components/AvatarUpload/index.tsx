@@ -1,4 +1,5 @@
-import React, { FC, useRef, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
+import { useToggle } from 'react-use';
 
 import Button from 'components/ui-kit/Button';
 import ScreenHeader from 'components/ScreenHeader';
@@ -9,46 +10,28 @@ import { ReactComponent as EditIcon } from 'assets/icons/icon-edit-alternative.s
 
 import styles from './AvatarUpload.module.scss';
 
-const AvatarUpload: FC<AvatarUploadProps> = ({
+const AvatarUpload: React.FC<AvatarUploadProps> = ({
   onChange,
   onError,
-  value,
+  preview,
   fieldName = 'avatar',
   error = false,
+  accept,
 }) => {
-  const [isOpen, setOpen] = useState(false);
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [isOpen, toggleOpen] = useToggle(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!imageFile) return;
-
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(imageFile);
-    fileReader.onloadend = () => {
-      onChange(fileReader.result as string);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageFile]);
-
-  useEffect(() => {
-    if (error && onError) onError();
+    if (error) onError?.();
   }, [error, onError]);
 
-  const openSheet = useCallback(() => setOpen(true), []);
+  const handleImageInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.currentTarget.files?.[0]) return;
+    toggleOpen(false);
+    onChange?.(e.currentTarget.files[0]);
+  };
 
-  const closeSheet = useCallback(() => setOpen(false), []);
-
-  const handleImageInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (!e.currentTarget.files[0]) return;
-      closeSheet();
-      setImageFile(e.currentTarget.files[0]);
-    },
-    [closeSheet],
-  );
-
-  const openFileDialog = useCallback(() => inputRef.current.click(), []);
+  const openFileDialog = () => inputRef.current?.click();
 
   return (
     <>
@@ -56,19 +39,19 @@ const AvatarUpload: FC<AvatarUploadProps> = ({
         <button
           type="button"
           className={styles.imagePlaceholder}
-          onClick={openSheet}
+          onClick={toggleOpen}
         >
           <input
             type="file"
-            className={styles.imageInput}
             ref={inputRef}
-            accept=".jpg, .png, .gif"
+            className={styles.imageInput}
+            accept={accept || '.jpg, .png, .gif'}
             name={fieldName}
             onChange={handleImageInputChange}
           />
 
           <img
-            src={value || EmptyAvatar}
+            src={preview || EmptyAvatar}
             alt="User avatar"
             className={styles.imagePreview}
           />
@@ -80,10 +63,10 @@ const AvatarUpload: FC<AvatarUploadProps> = ({
       <BottomSheet
         open={isOpen}
         snapPoints={({ minHeight }) => minHeight}
-        onDismiss={closeSheet}
+        onDismiss={toggleOpen}
         initialFocusRef={false}
       >
-        <ScreenHeader title="Edit Avatar" onBackButtonClick={closeSheet} />
+        <ScreenHeader title="Edit Avatar" onBackButtonClick={toggleOpen} />
         <div className={styles.sheetContent}>
           <Button variant="outlined" onClick={openFileDialog} fullWidth>
             Take photo
@@ -108,11 +91,12 @@ const AvatarUpload: FC<AvatarUploadProps> = ({
 };
 
 export type AvatarUploadProps = {
-  onChange(img: string): void;
+  onChange?(img: File): void;
   onError?(): void;
-  value?: string;
-  fieldName?: string;
+  preview?: string;
+  fieldName: string;
   error?: boolean;
+  accept?: string;
 };
 
 export default AvatarUpload;

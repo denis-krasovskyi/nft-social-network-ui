@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Notification } from 'store/types';
-
+import { Notification } from 'api/notifications';
 import NotificationItem from 'components/NotificationItem';
 import Typography from 'components/ui-kit/Typography';
 

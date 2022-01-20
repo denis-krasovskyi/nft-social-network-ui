@@ -11,7 +11,7 @@ export default {
 const Template: ComponentStory<typeof Tabs> = (args) => {
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: unknown, newValue: number) => {
     setValue(newValue);
   };
 

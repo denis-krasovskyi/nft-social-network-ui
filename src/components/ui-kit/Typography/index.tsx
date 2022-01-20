@@ -101,8 +101,8 @@ const EXTENDED_VARIANTS_CLASSES_MAP = {
 
 const Typography: React.FC<Props> = ({ variant, component, ...otherProps }) => {
   const extendedVariantComponent = EXTENDED_VARIANTS_MAPPING[
-    variant
-  ] as ValueOf<typeof EXTENDED_VARIANTS_MAPPING>;
+    variant as keyof typeof EXTENDED_VARIANTS_MAPPING
+  ] as ValueOf<typeof EXTENDED_VARIANTS_MAPPING> | undefined;
 
   const isExtendedVariant = Boolean(extendedVariantComponent);
 
@@ -117,10 +117,12 @@ const Typography: React.FC<Props> = ({ variant, component, ...otherProps }) => {
     <MuiTypography
       {...otherProps}
       variant={finalVariant}
-      component={component || extendedVariantComponent}
+      component={component || (extendedVariantComponent as 'p')}
       className={classNames(
         otherProps.className,
-        EXTENDED_VARIANTS_CLASSES_MAP[variant],
+        EXTENDED_VARIANTS_CLASSES_MAP[
+          variant as keyof typeof EXTENDED_VARIANTS_MAPPING
+        ],
       )}
     />
   );

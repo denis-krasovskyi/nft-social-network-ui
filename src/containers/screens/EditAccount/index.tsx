@@ -1,21 +1,24 @@
-import React, { FC, useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { mixed, object, string } from 'yup';
 import { useFormik } from 'formik';
 import { Modal } from '@mui/material';
 import { useToggle } from 'react-use';
 import { useHistory } from 'react-router-dom';
 
-import { Wallet } from 'store/types';
-import { updateUserDataAction } from 'store/user/actionCreators';
-import User from 'store/user';
-
-import NearService from 'services/near';
-
 import Button from 'components/ui-kit/Button';
 import Typography from 'components/ui-kit/Typography';
 import { useSnackbar } from 'components/ui-kit/Snackbar';
 import AvatarUpload from 'components/AvatarUpload';
+// import NearService from 'services/near';
+import { Wallet } from 'api/types';
+import { updateUserData as updateUserDataRequest } from 'api/users';
+import { updateUserData, userSelector } from 'store/user';
+import {
+  setJWTTokenThunk,
+  setAccountTokenThunk,
+  accountIdSelector,
+} from 'store/auth';
 
 import { ReactComponent as IconCheck } from 'assets/icons/icon-check.svg';
 import { ReactComponent as IconCheckActive } from 'assets/icons/icon-check-active.svg';
@@ -34,54 +37,40 @@ const SUPPORTED_FILE_TYPES = [
   'image/png',
 ];
 
-const validationSchema = object().shape({
-  avatar: mixed().test('fileType', 'Unsupported format', (value) => {
-    // null (no photo) can be as initial value, so it's valid
-    if (value === null) return true;
+type AvatarFieldValue = {
+  preview?: string;
+  file?: File | null;
+};
 
-    // get data type from base64
-    const fileType = value.split(';')[0].split(':')[1];
-    return SUPPORTED_FILE_TYPES.includes(fileType);
-  }),
+const validationSchema = object().shape({
+  avatar: mixed().test(
+    'fileType',
+    'Unsupported format',
+    (value: AvatarFieldValue) => {
+      if (value.file?.type) {
+        return SUPPORTED_FILE_TYPES.includes(value.file.type);
+      }
+
+      return true;
+    },
+  ),
   username: string().required('This field is required'),
   socials: string(),
   bio: string(),
 });
 
-type User = {
-  avatar: string | null;
-  username: string;
-  socials: string;
-  bio: string;
-  wallets: Wallet[];
-};
-
-const EditAccount: FC = () => {
-  const [initialData, setInitialData] = useState<User>({
-    avatar: null,
-    username: '',
-    socials: '',
-    bio: '',
-    wallets: [
-      {
-        walletName: 'wallet.near',
-        walletUrl: 'https://google.com',
-        walletType: 'near',
-        id: 1,
-      },
-    ],
-  });
-  console.log(setInitialData);
-
-  const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
-
-  const [openWalletModal, setOpenWalletModal] = useToggle(false);
-
+const EditAccount: React.FC = () => {
   const dispatch = useDispatch();
 
   const history = useHistory();
 
-  console.log('render');
+  const { enqueueSnackbar } = useSnackbar();
+
+  const user = useSelector(userSelector);
+  const accId = useSelector(accountIdSelector);
+
+  const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
+  const [openWalletModal, setOpenWalletModal] = useToggle(false);
 
   const {
     handleSubmit,
@@ -93,52 +82,64 @@ const EditAccount: FC = () => {
     dirty,
     handleChange,
   } = useFormik({
-    validateOnMount: true,
     initialValues: {
-      avatar: initialData?.avatar,
-      username: initialData?.username || '',
-      socials: initialData?.socials || '',
-      bio: initialData?.bio || '',
+      avatar: {
+        preview: user.avatar,
+        file: null as File | null,
+      },
+      username: user?.username || '',
+      socials: user?.socials || '',
+      bio: user?.bio || '',
     },
     validationSchema,
-    onSubmit: () => {
-      console.log(values);
-      dispatch(updateUserDataAction(values));
+    enableReinitialize: true,
+    validateOnMount: true,
+    onSubmit: async (submitValues) => {
+      const payload = {
+        username: submitValues.username,
+        bio: submitValues.bio,
+        instagram: submitValues.socials,
+        profilePicture: await submitValues.avatar.file?.text(),
+      };
+
+      await updateUserDataRequest({ ...payload, profilePicture: undefined });
+
+      dispatch(updateUserData(payload));
 
       history.push('/cabinet/account');
     },
   });
 
-  const handlePopoverClose = useCallback(() => {
+  const handlePopoverClose = () => {
     setOpenWalletModal(false);
-  }, [setOpenWalletModal]);
-
-  const { enqueueSnackbar } = useSnackbar();
+  };
 
   const shouldSave = isValid && dirty;
 
-  const handleAvatarChange = (img: string) => {
-    setFieldValue('avatar', img, true);
+  const handleAvatarChange = (img: File) => {
+    setFieldValue(
+      'avatar',
+      { file: img, preview: URL.createObjectURL(img) },
+      true,
+    );
   };
 
-  const handleAvatarUploadError = useCallback(() => {
+  const handleAvatarUploadError = () => {
     enqueueSnackbar(errors.avatar, { variant: 'error' });
     setFieldValue('avatar', null, true);
-  }, [errors.avatar, setFieldValue, enqueueSnackbar]);
+  };
 
-  const handleBioFieldChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const { value } = e.target;
-      setFieldValue('bio', value.slice(0, BIO_FIELD_MAX_LENGTH));
-    },
-    [setFieldValue],
-  );
+  const handleBioFieldChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+    setFieldValue('bio', value.slice(0, BIO_FIELD_MAX_LENGTH));
+  };
 
   const handleOnSubmitClick = () => {
     if (shouldSave) {
       handleSubmit();
     }
   };
+
   return (
     <div className={styles.root}>
       <div className={styles.header}>
@@ -163,11 +164,12 @@ const EditAccount: FC = () => {
 
       <form className={styles.form} onSubmit={handleSubmit}>
         <AvatarUpload
-          value={values.avatar}
+          preview={values.avatar.preview}
           onChange={handleAvatarChange}
           onError={handleAvatarUploadError}
           error={Boolean(errors.avatar)}
           fieldName="avatar"
+          accept={SUPPORTED_FILE_TYPES.toString()}
         />
 
         {/*  <Button className={styles.addWallet} variant="outlined" fullWidth>
@@ -176,7 +178,7 @@ const EditAccount: FC = () => {
 
         <Typography variant="label2">Wallet</Typography>
 
-        {initialData.wallets.map((wallet) => (
+        {user.wallets?.map((wallet) => (
           <div className={styles.walletWrapper} key={wallet.id}>
             <IconWalletNear />
 
@@ -244,11 +246,11 @@ const EditAccount: FC = () => {
           variant="ghostError"
           className={styles.logout}
           onClick={() => {
-            NearService.logOut();
+            dispatch(setJWTTokenThunk(null));
 
-            localStorage.removeItem('singularity-token');
-
-            history.replace('/sign-in');
+            if (accId) {
+              dispatch(setAccountTokenThunk(accId, null));
+            }
           }}
         >
           Log out

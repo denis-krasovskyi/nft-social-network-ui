@@ -37,7 +37,7 @@ export enum SAVED_ITEM_STATUS {
   SENT = 'sent',
 }
 
-const getRequestStatusContent = (status): ReactElement => {
+const getRequestStatusContent = (status?: string | null): ReactElement => {
   switch (status) {
     case SAVED_ITEM_STATUS.SENT:
       return (
@@ -60,7 +60,7 @@ const getRequestStatusContent = (status): ReactElement => {
         </div>
       );
     default:
-      return null;
+      return <>{null}</>;
   }
 };
 
@@ -281,7 +281,7 @@ type SavedCandidateItemProps = {
   onLongpressCallback: () => void;
   inSelectMode: boolean;
   isSelected: boolean;
-  onSelectCallback: (boolean) => void;
+  onSelectCallback: (id: number) => void;
   onCopyIdClick?: (
     e: React.MouseEvent<HTMLButtonElement>,
     closeMenuCb?: () => void,

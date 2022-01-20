@@ -69,17 +69,19 @@ const SearchScreen: React.FC = () => {
         <>
           {showTopNFTList ? (
             <div className={styles.listWrapper}>
-              <NFTGridView nfts={nfts} />
+              {nfts && <NFTGridView nfts={[]} />}
             </div>
           ) : (
             <div className={styles.listWrapper}>
-              {users.map((user) => (
+              {users?.map((user) => (
                 <UserListItem
                   key={user.id}
                   id={user.id}
-                  username={user.username}
-                  isFollowing={user.isFollowing}
-                  avatar={user.avatar}
+                  username={user.username || ''}
+                  // isFollowing={item.isFollowing}
+                  isFollowing={false}
+                  // avatar={item.avatar}
+                  avatar=""
                 />
               ))}
             </div>

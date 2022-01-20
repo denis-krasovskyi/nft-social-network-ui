@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useToggle, useWindowScroll } from 'react-use';
+import React, { useState } from 'react';
+import { useToggle, useWindowScroll, useAsync } from 'react-use';
 
-import { getPopularNftsRequest } from 'api/nfts';
-
-import { NFT } from 'store/types';
-import { mockNfts } from 'store/user/mocks';
+import { getPopularNftsRequest, NFT } from 'api/nfts';
 
 import Spinner from 'components/Spinner';
 import NFTListView from 'components/NFTListView';
@@ -15,27 +12,19 @@ import { ReactComponent as IconLogo } from 'assets/icons/icon-logo.svg';
 import styles from './Feed.module.scss';
 
 const FeedScreen: React.FC = () => {
-  const [nfts, setNfts] = useState<NFT[]>([]);
-  const [isLoading, setIsLoading] = useToggle(true);
-  const [showRelevantList, setShowRelevantList] = useToggle(true);
+  const [nfts, setNfts] = useState<NFT[]>();
+  const [, setShowRelevantList] = useToggle(true);
 
   const { y: windowYScroll } = useWindowScroll();
 
-  useEffect(() => {
-    const getData = async () => {
-      const response = await getPopularNftsRequest();
+  useAsync(async () => {
+    const response = await getPopularNftsRequest();
 
-      setNfts([...response.data.data, ...mockNfts]);
-
-      setIsLoading(false);
-    };
-
-    getData();
-  }, [setIsLoading]);
+    setNfts(response.data.data);
+  }, []);
 
   const showOptions = true;
 
-  console.log(showRelevantList);
   return (
     <>
       <div className={styles.header}>
@@ -51,7 +40,8 @@ const FeedScreen: React.FC = () => {
           className={windowYScroll > 5 ? styles.controlShadow : ''}
         />
       )}
-      {isLoading ? (
+
+      {!nfts ? (
         <div className={styles.spinnerWrapper}>
           <Spinner className={styles.spinner} />
         </div>

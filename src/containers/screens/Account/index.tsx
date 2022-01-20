@@ -1,17 +1,28 @@
-import React, { FC } from 'react';
-import { useToggle, useWindowScroll } from 'react-use';
+import React from 'react';
+import {
+  useWindowScroll,
+  useAsync,
+  useLocalStorage,
+  useAsyncFn,
+} from 'react-use';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Button from 'components/ui-kit/Button';
 import FollowersBlock from 'components/FollowersBlock';
+import Spinner from 'components/Spinner';
 import UserBio from 'components/UserBio';
-import NFTListView from 'components/NFTListView';
-import NFTGridView from 'components/NFTGridView';
 import Typography from 'components/ui-kit/Typography';
+import { getMyNftsRequest, setPersonalNftVisibilityRequest } from 'api/nfts';
+import {
+  userSelector,
+  defaultUserNearAccSelector,
+  setUserNfts,
+  setUserNftVisibility,
+} from 'store/user';
 
-import { ReactComponent as IconSettings } from 'assets/icons/icon-settings.svg';
+import { ReactComponent as IconSettings } from 'assets/icons/icon-menu-2.svg';
 import { ReactComponent as IconList } from 'assets/icons/icon-list.svg';
 import { ReactComponent as IconListActive } from 'assets/icons/icon-list-active.svg';
 import { ReactComponent as IconGrid } from 'assets/icons/icon-grid.svg';
@@ -19,15 +30,39 @@ import { ReactComponent as IconGridActive } from 'assets/icons/icon-grid-active.
 import { ReactComponent as IconLogo } from 'assets/icons/icon-logo.svg';
 import { ReactComponent as IconWarning } from 'assets/icons/icon-warning.svg';
 
+import NFTList from './NFTList';
+
 import styles from './Account.module.scss';
 
-const Account: FC = () => {
-  const [isListView, setIsListView] = useToggle(true);
+const Account: React.FC = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [isListView, setIsListView] = useLocalStorage('accountListView', true);
   const { y: windowYScroll } = useWindowScroll();
 
-  const { user } = useSelector((state: RootState) => state);
+  const user = useSelector(userSelector);
+  const userNearAcc = useSelector(defaultUserNearAccSelector);
 
-  const showError = false;
+  useAsync(async () => {
+    if (user.nfts?.list) return;
+
+    const { data } = await getMyNftsRequest();
+
+    dispatch(setUserNfts({ total: data.total, list: data.data }));
+  }, [Boolean(user.nfts)]);
+
+  const [{ loading: setUserNftVisibilityLoading }, setPersonalNftVisibility] =
+    useAsyncFn(
+      async (p: Parameters<typeof setPersonalNftVisibilityRequest>[0]) => {
+        const { data } = await setPersonalNftVisibilityRequest(p);
+
+        dispatch(
+          setUserNftVisibility({ id: data.id, visible: Boolean(data.visible) }),
+        );
+      },
+      [],
+    );
 
   return (
     <div className={styles.root}>
@@ -41,13 +76,14 @@ const Account: FC = () => {
         <Button
           className={styles.headerButton}
           variant="ghost"
-          href="#/cabinet/edit"
+          component={Link}
+          to="/cabinet/edit"
         >
           <IconSettings />
         </Button>
       </div>
 
-      {showError && (
+      {userNearAcc?.enabled === false && (
         <div className={styles.errorBlock}>
           <IconWarning />
 
@@ -60,20 +96,41 @@ const Account: FC = () => {
 
       <UserBio
         showSubscribe={false}
-        walletUrl={user.wallets[0].walletUrl}
-        walletName={user.wallets[0].walletName}
-        username={user.username}
-        bio={user.bio}
-        avatar={user.avatar}
+        accId={userNearAcc?.accountId || ''}
+        onAccIdClick={() => {
+          const accIdUrl = `https://explorer.${
+            process.env.REACT_APP_NETWORK_ID
+          }.near.org/accounts/${userNearAcc?.accountId || ''}`;
+
+          if (accIdUrl && window.cordova) {
+            window.cordova?.InAppBrowser.open(
+              accIdUrl,
+              '_blank',
+              'location=yes',
+            );
+            return;
+          }
+
+          if (accIdUrl) {
+            window.open(accIdUrl, '_blank');
+          }
+        }}
+        username={user.username || userNearAcc?.accountId || ''}
+        bio={user.bio || ''}
+        avatar={user.avatar || ''}
       />
 
-      <div className={styles.viewControl}>
+      <div
+        className={classNames(styles.viewControl, {
+          [styles.viewControlListView]: isListView,
+        })}
+      >
         <FollowersBlock
           className={styles.followers}
-          followers={user.followers}
-          following={user.following}
-          followersLink={`#/cabinet/followers/${user.id}`}
-          followingLink={`#/cabinet/followers/${user.id}`}
+          followers={user.followers || 0}
+          following={user.following || 0}
+          followersLink={`/cabinet/followers/${user.id}`}
+          followingLink={`/cabinet/followers/${user.id}`}
         />
 
         <Button
@@ -96,10 +153,41 @@ const Account: FC = () => {
           {isListView ? <IconGrid /> : <IconGridActive />}
         </Button>
       </div>
-      {isListView ? (
-        <NFTListView nfts={user.nfts} showExtraControls showOwnerInfo />
-      ) : (
-        <NFTGridView nfts={user.nfts} />
+
+      {!user.nfts && <Spinner className={styles.spinner} />}
+
+      {user.nfts && (
+        <NFTList
+          total={user.nfts.total}
+          list={user.nfts.list.map((item) => ({
+            id: item.id,
+            assetUrl: item.media,
+            authorUsername: user.username || '',
+            authorAvatarUrl: user.avatar || '',
+            assetTitle: item.metadata?.title,
+            visible: item.visible !== false,
+          }))}
+          gridViewEnabled={!isListView}
+          onMore={(_, e) => {
+            e?.preventDefault?.();
+            e?.stopPropagation?.();
+          }}
+          onItemClick={({ id }) => {
+            history.push(`/cabinet/nft/${id}`);
+          }}
+          onChangeNftVisibilityClick={({ id, visible }) => {
+            setPersonalNftVisibility({ id, visible: !visible });
+          }}
+          onCopyNftClick={async ({ id }) => {
+            await navigator.clipboard.writeText(`/cabinet/nft/${id}`);
+          }}
+          onShareNftClick={async ({ id }) => {
+            await navigator.share?.(
+              `/cabinet/nft/${id}` as unknown as ShareData,
+            );
+          }}
+          toggleNftVisilibtyBtnDisabled={setUserNftVisibilityLoading}
+        />
       )}
     </div>
   );
